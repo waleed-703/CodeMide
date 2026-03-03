@@ -11,6 +11,24 @@
 		378FB7562F5754CD0076F85B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7552F5754CD0076F85B /* ContentView.swift */; };
 		378FB7582F5754D10076F85B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 378FB7572F5754D10076F85B /* Assets.xcassets */; };
 		378FB75B2F5754D10076F85B /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 378FB75A2F5754D10076F85B /* Preview Assets.xcassets */; };
+		378FB7672F57563C0076F85B /* FirstScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7662F57563C0076F85B /* FirstScreen.swift */; };
+		378FB76A2F57569B0076F85B /* LoginScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7692F57569B0076F85B /* LoginScreen.swift */; };
+		378FB76C2F57574E0076F85B /* RegisterScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB76B2F57574E0076F85B /* RegisterScreen.swift */; };
+		378FB76E2F5757700076F85B /* AdminScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB76D2F5757700076F85B /* AdminScreen.swift */; };
+		378FB7702F5757860076F85B /* LoginManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB76F2F5757860076F85B /* LoginManager.swift */; };
+		378FB7722F5757A60076F85B /* RegisterManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7712F5757A60076F85B /* RegisterManager.swift */; };
+		378FB7742F5757C40076F85B /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7732F5757C40076F85B /* NetworkManager.swift */; };
+		378FB7762F57587B0076F85B /* StudentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7752F57587B0076F85B /* StudentViewModel.swift */; };
+		378FB7782F5758870076F85B /* QuestionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7772F5758870076F85B /* QuestionViewModel.swift */; };
+		378FB77A2F5758990076F85B /* ReportViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7792F5758990076F85B /* ReportViewModel.swift */; };
+		378FB77C2F5758D00076F85B /* StudentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB77B2F5758D00076F85B /* StudentManager.swift */; };
+		378FB77E2F5759040076F85B /* QuestionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB77D2F5759040076F85B /* QuestionManager.swift */; };
+		378FB7802F5759320076F85B /* ReportManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB77F2F5759320076F85B /* ReportManager.swift */; };
+		378FB7822F57598B0076F85B /* QuestionPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7812F57598B0076F85B /* QuestionPanel.swift */; };
+		378FB7842F57599E0076F85B /* StudentPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7832F57599E0076F85B /* StudentPanel.swift */; };
+		378FB7862F5759CA0076F85B /* ReportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7852F5759CA0076F85B /* ReportScreen.swift */; };
+		378FB7882F5759D50076F85B /* AdminReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7872F5759D50076F85B /* AdminReport.swift */; };
+		378FB78A2F575A230076F85B /* QuestionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7892F575A230076F85B /* QuestionReport.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,6 +37,24 @@
 		378FB7552F5754CD0076F85B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		378FB7572F5754D10076F85B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		378FB75A2F5754D10076F85B /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		378FB7662F57563C0076F85B /* FirstScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirstScreen.swift; sourceTree = "<group>"; };
+		378FB7692F57569B0076F85B /* LoginScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginScreen.swift; sourceTree = "<group>"; };
+		378FB76B2F57574E0076F85B /* RegisterScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterScreen.swift; sourceTree = "<group>"; };
+		378FB76D2F5757700076F85B /* AdminScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminScreen.swift; sourceTree = "<group>"; };
+		378FB76F2F5757860076F85B /* LoginManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginManager.swift; sourceTree = "<group>"; };
+		378FB7712F5757A60076F85B /* RegisterManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterManager.swift; sourceTree = "<group>"; };
+		378FB7732F5757C40076F85B /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
+		378FB7752F57587B0076F85B /* StudentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentViewModel.swift; sourceTree = "<group>"; };
+		378FB7772F5758870076F85B /* QuestionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionViewModel.swift; sourceTree = "<group>"; };
+		378FB7792F5758990076F85B /* ReportViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportViewModel.swift; sourceTree = "<group>"; };
+		378FB77B2F5758D00076F85B /* StudentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentManager.swift; sourceTree = "<group>"; };
+		378FB77D2F5759040076F85B /* QuestionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionManager.swift; sourceTree = "<group>"; };
+		378FB77F2F5759320076F85B /* ReportManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportManager.swift; sourceTree = "<group>"; };
+		378FB7812F57598B0076F85B /* QuestionPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPanel.swift; sourceTree = "<group>"; };
+		378FB7832F57599E0076F85B /* StudentPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentPanel.swift; sourceTree = "<group>"; };
+		378FB7852F5759CA0076F85B /* ReportScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreen.swift; sourceTree = "<group>"; };
+		378FB7872F5759D50076F85B /* AdminReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminReport.swift; sourceTree = "<group>"; };
+		378FB7892F575A230076F85B /* QuestionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionReport.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,6 +89,14 @@
 			children = (
 				378FB7532F5754CD0076F85B /* CodeMideApp.swift */,
 				378FB7552F5754CD0076F85B /* ContentView.swift */,
+				378FB7662F57563C0076F85B /* FirstScreen.swift */,
+				378FB7732F5757C40076F85B /* NetworkManager.swift */,
+				378FB7612F57553F0076F85B /* Model */,
+				378FB7622F5755600076F85B /* ViewModel */,
+				378FB7632F57557C0076F85B /* Admin */,
+				378FB7682F5756850076F85B /* Student */,
+				378FB7652F5755AB0076F85B /* Home */,
+				378FB7642F5755970076F85B /* Reports */,
 				378FB7572F5754D10076F85B /* Assets.xcassets */,
 				378FB7592F5754D10076F85B /* Preview Content */,
 			);
@@ -65,6 +109,64 @@
 				378FB75A2F5754D10076F85B /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		378FB7612F57553F0076F85B /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				378FB77B2F5758D00076F85B /* StudentManager.swift */,
+				378FB77F2F5759320076F85B /* ReportManager.swift */,
+				378FB77D2F5759040076F85B /* QuestionManager.swift */,
+				378FB7712F5757A60076F85B /* RegisterManager.swift */,
+				378FB76F2F5757860076F85B /* LoginManager.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		378FB7622F5755600076F85B /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				378FB7752F57587B0076F85B /* StudentViewModel.swift */,
+				378FB7772F5758870076F85B /* QuestionViewModel.swift */,
+				378FB7792F5758990076F85B /* ReportViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		378FB7632F57557C0076F85B /* Admin */ = {
+			isa = PBXGroup;
+			children = (
+				378FB76D2F5757700076F85B /* AdminScreen.swift */,
+				378FB7812F57598B0076F85B /* QuestionPanel.swift */,
+				378FB7832F57599E0076F85B /* StudentPanel.swift */,
+			);
+			path = Admin;
+			sourceTree = "<group>";
+		};
+		378FB7642F5755970076F85B /* Reports */ = {
+			isa = PBXGroup;
+			children = (
+				378FB7852F5759CA0076F85B /* ReportScreen.swift */,
+				378FB7872F5759D50076F85B /* AdminReport.swift */,
+				378FB7892F575A230076F85B /* QuestionReport.swift */,
+			);
+			path = Reports;
+			sourceTree = "<group>";
+		};
+		378FB7652F5755AB0076F85B /* Home */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		378FB7682F5756850076F85B /* Student */ = {
+			isa = PBXGroup;
+			children = (
+				378FB7692F57569B0076F85B /* LoginScreen.swift */,
+				378FB76B2F57574E0076F85B /* RegisterScreen.swift */,
+			);
+			path = Student;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -137,8 +239,26 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				378FB77A2F5758990076F85B /* ReportViewModel.swift in Sources */,
+				378FB77E2F5759040076F85B /* QuestionManager.swift in Sources */,
+				378FB7882F5759D50076F85B /* AdminReport.swift in Sources */,
+				378FB7742F5757C40076F85B /* NetworkManager.swift in Sources */,
+				378FB7802F5759320076F85B /* ReportManager.swift in Sources */,
+				378FB7842F57599E0076F85B /* StudentPanel.swift in Sources */,
+				378FB7722F5757A60076F85B /* RegisterManager.swift in Sources */,
+				378FB7762F57587B0076F85B /* StudentViewModel.swift in Sources */,
+				378FB7822F57598B0076F85B /* QuestionPanel.swift in Sources */,
+				378FB76C2F57574E0076F85B /* RegisterScreen.swift in Sources */,
+				378FB7862F5759CA0076F85B /* ReportScreen.swift in Sources */,
+				378FB78A2F575A230076F85B /* QuestionReport.swift in Sources */,
+				378FB77C2F5758D00076F85B /* StudentManager.swift in Sources */,
+				378FB76E2F5757700076F85B /* AdminScreen.swift in Sources */,
+				378FB7702F5757860076F85B /* LoginManager.swift in Sources */,
 				378FB7562F5754CD0076F85B /* ContentView.swift in Sources */,
+				378FB76A2F57569B0076F85B /* LoginScreen.swift in Sources */,
 				378FB7542F5754CD0076F85B /* CodeMideApp.swift in Sources */,
+				378FB7672F57563C0076F85B /* FirstScreen.swift in Sources */,
+				378FB7782F5758870076F85B /* QuestionViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -280,6 +400,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -309,6 +430,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
