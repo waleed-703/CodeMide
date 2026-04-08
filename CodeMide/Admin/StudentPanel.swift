@@ -3,6 +3,7 @@ struct StudentPanel: View {
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
 //    @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = StudentViewModel()
+    @StateObject private var reportModel = ReportViewModel()
     @State private var editstudent = false
     @State private var addstudent = false
     @State private var selectedStudentId : Int?
@@ -23,6 +24,7 @@ struct StudentPanel: View {
     @State private var successalert = false
     @State private var passalert = false
     @State private var deletealert = false
+    let studentId : Int
     var body: some View {
         ScrollView{
             VStack(spacing: 12){
@@ -48,14 +50,14 @@ struct StudentPanel: View {
                         VStack{
                             
                             HStack{
-                                NavigationLink(destination: ReportScreen(),
+                                NavigationLink(destination: AllReportsScreen(studentId : student.sid),
                                                label: {
                                     Image(systemName: "doc.on.clipboard.fill")
                                         .font(.caption)
                                     Text("View Report")
                                         .font(.caption)
                                 })
-                                .padding(.horizontal)
+                                .padding(.horizontal,10)
                                 .padding(.vertical, 10)
                                 .foregroundStyle(teal)
                                 .background(Color.white)
@@ -71,8 +73,9 @@ struct StudentPanel: View {
                                 }label: {
                                     Label("Edit", systemImage: "pencil")
                                         .font(.subheadline)
+                                        .fontWeight(.semibold)
                                 }
-                                .padding(.horizontal,36)
+                                .padding(.horizontal,30)
                                 .padding(.vertical,8)
                                 .foregroundStyle(teal)
                                 .background(Color.white)
@@ -86,7 +89,8 @@ struct StudentPanel: View {
                                 }label: {
                                     Image(systemName: "trash")
                                     Text("Delete")
-                                        .font(.subheadline)
+                                        .font(.caption)
+                                        .fontWeight(.semibold)
 
                                 }
                                 .padding(.horizontal,22)
@@ -111,8 +115,6 @@ struct StudentPanel: View {
                     
                     
                 }
-                
-                
                 //            .navigationBarBackButtonHidden(true)
             }
 
@@ -239,7 +241,7 @@ struct StudentPanel: View {
                         Button{
                             if let originalstudent = viewModel.selectedStudent{
                                 let cgpa: Double = Double(cgpa) ?? 0
-                                let updatedStudent = Student(sid: originalstudent.sid, regno: regno, name: stname, gender: selectedopt, password: password, cgpa: Double(cgpa) ?? 0, semester: Int(semester) ?? 0)
+                                let updatedStudent = Student(sid: originalstudent.sid, regno: regno, name: stname, gender: selectedopt, password: password, cgpa: Double(cgpa), semester: Int(semester) ?? 0)
                                 
                                 viewModel.updateStudent(updatedStudent: updatedStudent){
                                     editstudent = false
@@ -440,7 +442,7 @@ struct StudentPanel: View {
         
         
         .navigationDestination(isPresented: $report,
-                               destination: {ReportScreen()})
+                               destination: {ReportScreen(sid: 1000,sessionid :3012)})
     }
     
     func addnewstudent(){
@@ -471,6 +473,6 @@ struct StudentPanel: View {
 
 #Preview {
     NavigationStack{
-        StudentPanel()
+        StudentPanel(studentId: UserDefaults.standard.integer(forKey: "studentId"))
     }
 }

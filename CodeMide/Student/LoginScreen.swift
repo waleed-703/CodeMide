@@ -13,6 +13,9 @@ struct LoginScreen: View {
     @State var passvisible = true
     @State var studentname = ""
     @State var semester = ""
+//    @State private var authenticateSid : Int = 0
+    
+
     
     
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
@@ -74,6 +77,8 @@ struct LoginScreen: View {
                                  
                                 }
                                 
+                                Text("Remeber Me")
+                                
                                 Button(action: {passvisible.toggle()})
                                 {
                                     Image(systemName: passvisible ? "eye.slash" : "eye")
@@ -90,6 +95,7 @@ struct LoginScreen: View {
                                 result in DispatchQueue.main.async(){
                                     switch result{
                                         case.success(let responce):
+//                                        self.authenticateSid = responce.sId ?? 0
                                         if responce.role == "admin"{
                                             userRole = .admin
                                         }else{
@@ -102,7 +108,9 @@ struct LoginScreen: View {
 //                                            UserDefaults.standard.set(responce.password ?? "",forKey:"password")
 //                                            UserDefaults.standard.set(responce.cgpa ?? "",forKey:"cgpa")
                                             
-                                            UserDefaults.standard.set(responce.sid,forKey: "studentId")
+                                            UserDefaults.standard.set(responce.sId,forKey: "studentId")
+                                            
+                                            UserDefaults.standard.synchronize()
                                             
 
                                         }
@@ -157,9 +165,10 @@ struct LoginScreen: View {
             .navigationDestination(isPresented: $login){
                 switch userRole {
                 case .admin:
-                    AdminScreen()
+                    AdminScreen(studentId: UserDefaults.standard.integer(forKey: "studentId"))
                 case .student:
-                    AdminScreen()
+                    MainContainerView(studentId: UserDefaults.standard.integer(forKey: "studentId"))
+//                    MainContainerView(studentId: authenticateSid)
                 case nil:
                     LoginScreen()
                 }

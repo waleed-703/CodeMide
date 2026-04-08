@@ -49,41 +49,49 @@ struct Student: Identifiable, Decodable, Encodable,Equatable {
 struct UpdateResponce : Decodable{
     let message : String
 }
+
+
+
+//struct Session : Codable{
+//    let session_id : Int
+//    let date : String?
+//    let final_stress_level : String?
+//}
 class StudentManager{
     static func fetchall(completion: @escaping (Result<[StudentList],Error>)->Void){
         NetworkManager.shared.request(endpoint: "/api/student/getall", method: "GET")
         {
             result in
-                switch result{
-                case .success(let data):
-                    do{
-                        let decoded = try JSONDecoder().decode([StudentList].self,from: data)
-                        completion(.success(decoded))
-                    } catch{
-                        completion(.failure(error))
-                    }
-                case .failure(let error):
+            switch result{
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode([StudentList].self,from: data)
+                    completion(.success(decoded))
+                } catch{
                     completion(.failure(error))
-                    
                 }
+            case .failure(let error):
+                completion(.failure(error))
+                
             }
         }
-
+    }
+    
     static func getbyid(id: Int, completion: @escaping (Result<Student,Error>)->Void){
         NetworkManager.shared.request(endpoint: "/api/student/getbyid/\(id)", method: "GET"){
             result in
-                switch result{
-                case .success(let data):
-                    do{
-                        let decoded = try JSONDecoder().decode(Student.self, from: data)
-                        completion(.success(decoded))
-                    }catch{
-                        completion(.failure(error))
-                    }
-                    
-                case .failure(let error):
+            switch result{
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode(Student.self, from: data)
+                    completion(.success(decoded))
+                }catch{
                     completion(.failure(error))
                 }
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
     
@@ -123,7 +131,12 @@ class StudentManager{
             
         }
     }
+    
+
+    
 }
+
+
     
 
 

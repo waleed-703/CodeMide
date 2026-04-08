@@ -29,6 +29,24 @@
 		378FB7862F5759CA0076F85B /* ReportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7852F5759CA0076F85B /* ReportScreen.swift */; };
 		378FB7882F5759D50076F85B /* AdminReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7872F5759D50076F85B /* AdminReport.swift */; };
 		378FB78A2F575A230076F85B /* QuestionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7892F575A230076F85B /* QuestionReport.swift */; };
+		68B2D32A2F861EAB0097A55E /* StudentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3292F861EAB0097A55E /* StudentProfile.swift */; };
+		68B2D3352F861F740097A55E /* AnswerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3342F861F740097A55E /* AnswerScreen.swift */; };
+		68B2D3372F861FA80097A55E /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3362F861FA80097A55E /* HomeScreen.swift */; };
+		68B2D3392F861FB90097A55E /* QuizScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3382F861FB90097A55E /* QuizScreen.swift */; };
+		68B2D33B2F861FDC0097A55E /* StartTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D33A2F861FDC0097A55E /* StartTest.swift */; };
+		68B2D33D2F861FF60097A55E /* ReadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D33C2F861FF60097A55E /* ReadingScreen.swift */; };
+		68B2D33F2F8620080097A55E /* EndReadingScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D33E2F8620080097A55E /* EndReadingScreen.swift */; };
+		68B2D3412F8620290097A55E /* AllReportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3402F8620290097A55E /* AllReportScreen.swift */; };
+		68B2D3432F8620AD0097A55E /* SelfReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3422F8620AD0097A55E /* SelfReport.swift */; };
+		68B2D3462F8620F40097A55E /* MainContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3452F8620F40097A55E /* MainContainerView.swift */; };
+		68B2D3482F8621080097A55E /* TabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3472F8621080097A55E /* TabBar.swift */; };
+		68B2D34A2F8621200097A55E /* QuestionTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3492F8621200097A55E /* QuestionTabView.swift */; };
+		68B2D34E2F8621C90097A55E /* BPViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D34D2F8621C90097A55E /* BPViewModel.swift */; };
+		68B2D3502F8621E50097A55E /* EEGViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D34F2F8621E50097A55E /* EEGViewModel.swift */; };
+		68B2D3522F8621F60097A55E /* GraphViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3512F8621F60097A55E /* GraphViewModel.swift */; };
+		68B2D3542F8622370097A55E /* BPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3532F8622370097A55E /* BPManager.swift */; };
+		68B2D3562F86224D0097A55E /* EEGManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3552F86224D0097A55E /* EEGManager.swift */; };
+		68B2D3582F8622620097A55E /* GraphModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3572F8622620097A55E /* GraphModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +73,24 @@
 		378FB7852F5759CA0076F85B /* ReportScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreen.swift; sourceTree = "<group>"; };
 		378FB7872F5759D50076F85B /* AdminReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminReport.swift; sourceTree = "<group>"; };
 		378FB7892F575A230076F85B /* QuestionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionReport.swift; sourceTree = "<group>"; };
+		68B2D3292F861EAB0097A55E /* StudentProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentProfile.swift; sourceTree = "<group>"; };
+		68B2D3342F861F740097A55E /* AnswerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerScreen.swift; sourceTree = "<group>"; };
+		68B2D3362F861FA80097A55E /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
+		68B2D3382F861FB90097A55E /* QuizScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizScreen.swift; sourceTree = "<group>"; };
+		68B2D33A2F861FDC0097A55E /* StartTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartTest.swift; sourceTree = "<group>"; };
+		68B2D33C2F861FF60097A55E /* ReadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingScreen.swift; sourceTree = "<group>"; };
+		68B2D33E2F8620080097A55E /* EndReadingScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndReadingScreen.swift; sourceTree = "<group>"; };
+		68B2D3402F8620290097A55E /* AllReportScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllReportScreen.swift; sourceTree = "<group>"; };
+		68B2D3422F8620AD0097A55E /* SelfReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfReport.swift; sourceTree = "<group>"; };
+		68B2D3452F8620F40097A55E /* MainContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainContainerView.swift; sourceTree = "<group>"; };
+		68B2D3472F8621080097A55E /* TabBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBar.swift; sourceTree = "<group>"; };
+		68B2D3492F8621200097A55E /* QuestionTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionTabView.swift; sourceTree = "<group>"; };
+		68B2D34D2F8621C90097A55E /* BPViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPViewModel.swift; sourceTree = "<group>"; };
+		68B2D34F2F8621E50097A55E /* EEGViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EEGViewModel.swift; sourceTree = "<group>"; };
+		68B2D3512F8621F60097A55E /* GraphViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphViewModel.swift; sourceTree = "<group>"; };
+		68B2D3532F8622370097A55E /* BPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BPManager.swift; sourceTree = "<group>"; };
+		68B2D3552F86224D0097A55E /* EEGManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EEGManager.swift; sourceTree = "<group>"; };
+		68B2D3572F8622620097A55E /* GraphModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GraphModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,9 +129,10 @@
 				378FB7732F5757C40076F85B /* NetworkManager.swift */,
 				378FB7612F57553F0076F85B /* Model */,
 				378FB7622F5755600076F85B /* ViewModel */,
+				68B2D3442F8620D20097A55E /* TabBar */,
 				378FB7632F57557C0076F85B /* Admin */,
 				378FB7682F5756850076F85B /* Student */,
-				378FB7652F5755AB0076F85B /* Home */,
+				68B2D3332F861F540097A55E /* Home */,
 				378FB7642F5755970076F85B /* Reports */,
 				378FB7572F5754D10076F85B /* Assets.xcassets */,
 				378FB7592F5754D10076F85B /* Preview Content */,
@@ -119,6 +156,9 @@
 				378FB77D2F5759040076F85B /* QuestionManager.swift */,
 				378FB7712F5757A60076F85B /* RegisterManager.swift */,
 				378FB76F2F5757860076F85B /* LoginManager.swift */,
+				68B2D3532F8622370097A55E /* BPManager.swift */,
+				68B2D3552F86224D0097A55E /* EEGManager.swift */,
+				68B2D3572F8622620097A55E /* GraphModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -129,6 +169,9 @@
 				378FB7752F57587B0076F85B /* StudentViewModel.swift */,
 				378FB7772F5758870076F85B /* QuestionViewModel.swift */,
 				378FB7792F5758990076F85B /* ReportViewModel.swift */,
+				68B2D34D2F8621C90097A55E /* BPViewModel.swift */,
+				68B2D34F2F8621E50097A55E /* EEGViewModel.swift */,
+				68B2D3512F8621F60097A55E /* GraphViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -146,18 +189,13 @@
 		378FB7642F5755970076F85B /* Reports */ = {
 			isa = PBXGroup;
 			children = (
+				68B2D3402F8620290097A55E /* AllReportScreen.swift */,
 				378FB7852F5759CA0076F85B /* ReportScreen.swift */,
 				378FB7872F5759D50076F85B /* AdminReport.swift */,
+				68B2D3422F8620AD0097A55E /* SelfReport.swift */,
 				378FB7892F575A230076F85B /* QuestionReport.swift */,
 			);
 			path = Reports;
-			sourceTree = "<group>";
-		};
-		378FB7652F5755AB0076F85B /* Home */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Home;
 			sourceTree = "<group>";
 		};
 		378FB7682F5756850076F85B /* Student */ = {
@@ -165,8 +203,32 @@
 			children = (
 				378FB7692F57569B0076F85B /* LoginScreen.swift */,
 				378FB76B2F57574E0076F85B /* RegisterScreen.swift */,
+				68B2D3292F861EAB0097A55E /* StudentProfile.swift */,
 			);
 			path = Student;
+			sourceTree = "<group>";
+		};
+		68B2D3332F861F540097A55E /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				68B2D3342F861F740097A55E /* AnswerScreen.swift */,
+				68B2D3362F861FA80097A55E /* HomeScreen.swift */,
+				68B2D3382F861FB90097A55E /* QuizScreen.swift */,
+				68B2D33A2F861FDC0097A55E /* StartTest.swift */,
+				68B2D33C2F861FF60097A55E /* ReadingScreen.swift */,
+				68B2D33E2F8620080097A55E /* EndReadingScreen.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		68B2D3442F8620D20097A55E /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				68B2D3452F8620F40097A55E /* MainContainerView.swift */,
+				68B2D3472F8621080097A55E /* TabBar.swift */,
+				68B2D3492F8621200097A55E /* QuestionTabView.swift */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -239,26 +301,44 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				68B2D3502F8621E50097A55E /* EEGViewModel.swift in Sources */,
+				68B2D3432F8620AD0097A55E /* SelfReport.swift in Sources */,
 				378FB77A2F5758990076F85B /* ReportViewModel.swift in Sources */,
 				378FB77E2F5759040076F85B /* QuestionManager.swift in Sources */,
 				378FB7882F5759D50076F85B /* AdminReport.swift in Sources */,
 				378FB7742F5757C40076F85B /* NetworkManager.swift in Sources */,
 				378FB7802F5759320076F85B /* ReportManager.swift in Sources */,
 				378FB7842F57599E0076F85B /* StudentPanel.swift in Sources */,
+				68B2D3462F8620F40097A55E /* MainContainerView.swift in Sources */,
+				68B2D33B2F861FDC0097A55E /* StartTest.swift in Sources */,
 				378FB7722F5757A60076F85B /* RegisterManager.swift in Sources */,
 				378FB7762F57587B0076F85B /* StudentViewModel.swift in Sources */,
+				68B2D34E2F8621C90097A55E /* BPViewModel.swift in Sources */,
 				378FB7822F57598B0076F85B /* QuestionPanel.swift in Sources */,
+				68B2D3352F861F740097A55E /* AnswerScreen.swift in Sources */,
 				378FB76C2F57574E0076F85B /* RegisterScreen.swift in Sources */,
+				68B2D33F2F8620080097A55E /* EndReadingScreen.swift in Sources */,
 				378FB7862F5759CA0076F85B /* ReportScreen.swift in Sources */,
 				378FB78A2F575A230076F85B /* QuestionReport.swift in Sources */,
 				378FB77C2F5758D00076F85B /* StudentManager.swift in Sources */,
+				68B2D3582F8622620097A55E /* GraphModel.swift in Sources */,
 				378FB76E2F5757700076F85B /* AdminScreen.swift in Sources */,
 				378FB7702F5757860076F85B /* LoginManager.swift in Sources */,
 				378FB7562F5754CD0076F85B /* ContentView.swift in Sources */,
 				378FB76A2F57569B0076F85B /* LoginScreen.swift in Sources */,
+				68B2D3562F86224D0097A55E /* EEGManager.swift in Sources */,
+				68B2D32A2F861EAB0097A55E /* StudentProfile.swift in Sources */,
 				378FB7542F5754CD0076F85B /* CodeMideApp.swift in Sources */,
+				68B2D3392F861FB90097A55E /* QuizScreen.swift in Sources */,
+				68B2D33D2F861FF60097A55E /* ReadingScreen.swift in Sources */,
+				68B2D34A2F8621200097A55E /* QuestionTabView.swift in Sources */,
+				68B2D3372F861FA80097A55E /* HomeScreen.swift in Sources */,
+				68B2D3522F8621F60097A55E /* GraphViewModel.swift in Sources */,
+				68B2D3542F8622370097A55E /* BPManager.swift in Sources */,
+				68B2D3412F8620290097A55E /* AllReportScreen.swift in Sources */,
 				378FB7672F57563C0076F85B /* FirstScreen.swift in Sources */,
 				378FB7782F5758870076F85B /* QuestionViewModel.swift in Sources */,
+				68B2D3482F8621080097A55E /* TabBar.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

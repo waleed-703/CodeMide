@@ -10,6 +10,7 @@ struct Question : Decodable, Identifiable, Equatable{
     var id: Int{qid}
 }
 
+
 struct QUpdateResponce : Decodable{
     let message : String
 }
@@ -20,18 +21,18 @@ class QuestionManager{
         
         NetworkManager.shared.request(endpoint: endpoint, method: "GET"){
             result in
-                switch result{
-                case .success(let data):
-                    do{
-                        let decoded = try JSONDecoder().decode(Question.self, from: data)
-                        completion(.success(decoded))
-                    }catch{
-                        completion(.failure(error))
-                    }
-                    
-                case .failure(let error):
+            switch result{
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode(Question.self, from: data)
+                    completion(.success(decoded))
+                }catch{
                     completion(.failure(error))
                 }
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
     
@@ -57,7 +58,8 @@ class QuestionManager{
     static func updatequestion(id: Int, question: Question, completion: @escaping (Result<QUpdateResponce,Error>)->Void){
         let body: [String:Any] = [
             "description": question.description,
-            "duration": question.duration
+            "duration": question.duration,
+            "questionlevel" : question.questionlevel ?? ""
         ]
         NetworkManager.shared.request(endpoint: "/api/question/update/\(id)", method: "PUT",body: body){
             result in
@@ -107,5 +109,58 @@ class QuestionManager{
         }
     }
     
+    static func geteasyquestion(studentId : Int, completion: @escaping(Result<Question,Error>)->Void){
+        NetworkManager.shared.request(endpoint: "/api/report/unattemptedeasy/\(studentId)", method: "GET"){result in
+            switch result{
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode(Question.self, from: data)
+                    completion(.success(decoded))
+                }catch{
+                    completion(.failure(error))
+                }
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+    }
+    
+    static func getmediumquestion(studentId : Int, completion: @escaping(Result<Question,Error>)->Void){
+        NetworkManager.shared.request(endpoint: "/api/report/unattemptedmedium/\(studentId)", method: "GET"){result in
+            switch result{
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode(Question.self, from: data)
+                    completion(.success(decoded))
+                }catch{
+                    completion(.failure(error))
+                }
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+    }
+    
+    static func gethardquestion(studentId : Int, completion: @escaping(Result<Question,Error>)->Void){
+        NetworkManager.shared.request(endpoint: "/api/report/unattemptedhard/\(studentId)", method: "GET"){result in
+            switch result{
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode(Question.self, from: data)
+                    completion(.success(decoded))
+                }catch{
+                    completion(.failure(error))
+                }
+                
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+        
+    }
     
 }

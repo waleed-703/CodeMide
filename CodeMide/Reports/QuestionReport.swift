@@ -9,6 +9,12 @@ struct graphdata : Identifiable{
 }
 struct QuestionReport: View {
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
+    @StateObject private var viewModel = ReportViewModel()
+    @StateObject private var graphModel = GraphViewModel()
+    let question : SQuestion
+    let sessionid : Int
+    let sid : Int
+    let qid : Int
     var body: some View {
         let eeg : [graphdata] = [
             .init(x: 6, y: 6.5, band: "Alpha"),
@@ -46,7 +52,7 @@ struct QuestionReport: View {
                         
                         Text("QuestionStatement:")
                             .foregroundStyle(teal)
-                        Text("Write a C/C++ Program That performs and displays arithmetic operations using both integer and floating point numbers.")
+                        Text(question.description)
                         
                     }
                     .padding(20)
@@ -71,7 +77,8 @@ struct QuestionReport: View {
                         HStack {
                             Text("Complete Time:")
                                 .foregroundStyle(teal)
-                            Text("8min, 08 sec")
+                            Text(viewModel.squestionReport?.time_taken ??
+                            "")
                         }
                         
                         Divider()
@@ -85,7 +92,7 @@ struct QuestionReport: View {
                         HStack{
                             Text("Systolic / Diastolic :")
                             
-                            Text("130/80 mmHg")
+                            Text(viewModel.squestionReport?.bp ?? "")
                                 .foregroundStyle(teal)
                         }
                         
@@ -99,17 +106,17 @@ struct QuestionReport: View {
                         
                         HStack{
                             Text("Average Heart Rate :")
-                            Text("58.6 bpm")
+                            Text("\(viewModel.squestionReport?.HR ?? 0) bpm")
                                 .foregroundStyle(teal)
                         }
                         HStack{
                             Text("SDNN :")
-                            Text("18 ms")
+                            Text("\(viewModel.squestionReport?.SDNN ?? 0) ms")
                                 .foregroundStyle(teal)
                         }
                         HStack{
                             Text("RMSSD:")
-                            Text("15.8 ms")
+                            Text("\(viewModel.squestionReport?.RMSSD ?? 0) ms")
                                 .foregroundStyle(teal)
                         }
                         
@@ -138,41 +145,46 @@ struct QuestionReport: View {
                             Text("Alpha")
     //                            .foregroundStyle(teal)
                                 .fontWeight(.semibold)
-                            Chart(eeg){
-                                LineMark(x: .value("Magnitude", $0.x), y: .value("Time", $0.y))
+                            Chart(graphModel.alphapoints){point in
+                                LineMark(x: .value("Time", point.x), y: .value("Alpha", point.y))
                             }
+                            .foregroundStyle(.orange)
                             
                             Divider()
                             
                             Text("Beta")
     //                            .foregroundStyle(teal)
                                 .fontWeight(.semibold)
-                            Chart(eeg){
-                                LineMark(x: .value("Magnitude", $0.x), y: .value("Time", $0.y))
+                            Chart(graphModel.betapoints){point in
+                                LineMark(x: .value("Time", point.x), y: .value("Beta", point.y))
                             }
+                            .foregroundStyle(.purple)
                             
                             Text("Theta")
     //                            .foregroundStyle(teal)
                                 .fontWeight(.semibold)
-                            Chart(eeg){
-                                LineMark(x: .value("Magnitude", $0.x), y: .value("Time", $0.y))
+                            Chart(graphModel.thetapoints){point in
+                                LineMark(x: .value("Time", point.x), y: .value("Theta", point.y))
                             }
+                            .foregroundStyle(.green)
                             
                             Divider()
                             
                             Text("Delta")
     //                            .foregroundStyle(teal)
                                 .fontWeight(.semibold)
-                            Chart(eeg){
-                                LineMark(x: .value("Magnitude", $0.x), y: .value("Time", $0.y))
+                            Chart(graphModel.deltapoints){point in
+                                LineMark(x: .value("Time", point.x), y: .value("Delta", point.y))
                             }
+                            .foregroundStyle(.blue)
                             
                             Text("Gamma")
     //                            .foregroundStyle(teal)
                                 .fontWeight(.semibold)
-                            Chart(eeg){
-                                LineMark(x: .value("Magnitude", $0.x), y: .value("Time", $0.y))
+                            Chart(graphModel.gammapoints){point in
+                                LineMark(x: .value("Time", point.x), y: .value("Gamma", point.y))
                             }
+                            .foregroundStyle(.red)
                         }
                         .padding(20)
                         .background(.gray.opacity(0.1))
@@ -188,13 +200,23 @@ struct QuestionReport: View {
                     
                     Spacer()
                 }
+                
+                .onAppear{
+                    viewModel.getqstudentreport(sid : sid, qid :qid)
+                    graphModel.gethetadata(sessionid: String(sessionid), sid: String(sid), qid: String(qid))
+                    graphModel.getbetadata(sessionid: String(sessionid), sid: String(sid), qid: String(qid))
+                    graphModel.getalphadata(sessionid: String(sessionid), sid: String(sid), qid: String(qid))
+                    graphModel.getdeltadata(sessionid: String(sessionid), sid: String(sid), qid: String(qid))
+                    graphModel.getgammadata(sessionid: String(sessionid), sid: String(sid), qid: String(qid))
+                }
             }
+
         }
     }
 }
 
 #Preview {
-    QuestionReport()
+    QuestionReport(question: SQuestion(qid: 0, description: ""),sessionid: 0,sid :1000, qid: 2004)
 }
 
 

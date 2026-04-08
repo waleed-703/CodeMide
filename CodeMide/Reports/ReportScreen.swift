@@ -11,45 +11,50 @@ struct eegdata : Identifiable{
 struct ReportScreen: View {
     @Environment(\.dismiss) var dismiss
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
+    @StateObject private var viewModel = ReportViewModel()
+    @StateObject private var eegviewModel = GraphViewModel()
+    let sid : Int
+    let sessionid : Int
+//    let qid : Int
 //    var stressvalue : Double
-    let eeg : [eegdata] = [
-        // Alpha (reduced & unstable in stress)
-            .init(x: 0.1, y: 0.65, bandtype: "Alpha"),
-            .init(x: 0.3, y: 0.30, bandtype: "Alpha"),
-            .init(x: 0.5, y: 0.55, bandtype: "Alpha"),
-            .init(x: 0.7, y: 0.25, bandtype: "Alpha"),
-            .init(x: 0.9, y: 0.45, bandtype: "Alpha"),
-
-            // Beta (high & spiky in stress)
-            .init(x: 0.1, y: 0.40, bandtype: "Beta"),
-            .init(x: 0.3, y: 0.85, bandtype: "Beta"),
-            .init(x: 0.5, y: 0.35, bandtype: "Beta"),
-            .init(x: 0.7, y: 0.90, bandtype: "Beta"),
-            .init(x: 0.9, y: 0.50, bandtype: "Beta"),
-
-            // Theta (moderate but fluctuating)
-            .init(x: 0.1, y: 0.30, bandtype: "Theta"),
-            .init(x: 0.3, y: 0.55, bandtype: "Theta"),
-            .init(x: 0.5, y: 0.25, bandtype: "Theta"),
-            .init(x: 0.7, y: 0.60, bandtype: "Theta"),
-            .init(x: 0.9, y: 0.35, bandtype: "Theta"),
-
-            // Gamma (sharp spikes → anxiety / cognitive overload)
-            .init(x: 0.1, y: 0.20, bandtype: "Gamma"),
-            .init(x: 0.3, y: 0.75, bandtype: "Gamma"),
-            .init(x: 0.5, y: 0.30, bandtype: "Gamma"),
-            .init(x: 0.7, y: 0.85, bandtype: "Gamma"),
-            .init(x: 0.9, y: 0.40, bandtype: "Gamma"),
-
-            // Delta (low in awake stressed state)
-            .init(x: 0.1, y: 0.15, bandtype: "Delta"),
-            .init(x: 0.3, y: 0.10, bandtype: "Delta"),
-            .init(x: 0.5, y: 0.20, bandtype: "Delta"),
-            .init(x: 0.7, y: 0.12, bandtype: "Delta"),
-            .init(x: 0.9, y: 0.18, bandtype: "Delta")
-
-        
-    ]
+//    let eeg : [eegdata] = [
+//        // Alpha (reduced & unstable in stress)
+//            .init(x: 0.1, y: 0.65, bandtype: "Alpha"),
+//            .init(x: 0.3, y: 0.30, bandtype: "Alpha"),
+//            .init(x: 0.5, y: 0.55, bandtype: "Alpha"),
+//            .init(x: 0.7, y: 0.25, bandtype: "Alpha"),
+//            .init(x: 0.9, y: 0.45, bandtype: "Alpha"),
+//
+//            // Beta (high & spiky in stress)
+//            .init(x: 0.1, y: 0.40, bandtype: "Beta"),
+//            .init(x: 0.3, y: 0.85, bandtype: "Beta"),
+//            .init(x: 0.5, y: 0.35, bandtype: "Beta"),
+//            .init(x: 0.7, y: 0.90, bandtype: "Beta"),
+//            .init(x: 0.9, y: 0.50, bandtype: "Beta"),
+//
+//            // Theta (moderate but fluctuating)
+//            .init(x: 0.1, y: 0.30, bandtype: "Theta"),
+//            .init(x: 0.3, y: 0.55, bandtype: "Theta"),
+//            .init(x: 0.5, y: 0.25, bandtype: "Theta"),
+//            .init(x: 0.7, y: 0.60, bandtype: "Theta"),
+//            .init(x: 0.9, y: 0.35, bandtype: "Theta"),
+//
+//            // Gamma (sharp spikes → anxiety / cognitive overload)
+//            .init(x: 0.1, y: 0.20, bandtype: "Gamma"),
+//            .init(x: 0.3, y: 0.75, bandtype: "Gamma"),
+//            .init(x: 0.5, y: 0.30, bandtype: "Gamma"),
+//            .init(x: 0.7, y: 0.85, bandtype: "Gamma"),
+//            .init(x: 0.9, y: 0.40, bandtype: "Gamma"),
+//
+//            // Delta (low in awake stressed state)
+//            .init(x: 0.1, y: 0.15, bandtype: "Delta"),
+//            .init(x: 0.3, y: 0.10, bandtype: "Delta"),
+//            .init(x: 0.5, y: 0.20, bandtype: "Delta"),
+//            .init(x: 0.7, y: 0.12, bandtype: "Delta"),
+//            .init(x: 0.9, y: 0.18, bandtype: "Delta")
+//
+//
+//    ]
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -65,14 +70,14 @@ struct ReportScreen: View {
                                 Spacer()
                             }
                             
-                            Text("Waleed Ahmed!")
+                            Text("\(viewModel.sessionReport?.student_name ?? "")!")
                                 .font(.largeTitle)
                                 .fontWeight(.semibold)
                                 .foregroundStyle(.white)
-                            Text("8th Semester")
-                                .font(.title2)
+//                            Text("8th Semester")
+//                                .font(.title2)
 //                                .fontWeight(.semibold)
-                                .foregroundStyle(.white)
+//                                .foregroundStyle(.white)
 
                             VStack(alignment:.leading,spacing: 6){
                                 Text("Over All Stress & Performance Summary")
@@ -83,7 +88,7 @@ struct ReportScreen: View {
                                 HStack {
                                     Text("Final Stress Level")
                                         .foregroundStyle(teal)
-                                    Text("High")
+                                    Text("\(viewModel.sessionReport?.final_stress_level ?? "")")
                                 }
                                 
                                 HStack{
@@ -94,13 +99,13 @@ struct ReportScreen: View {
                                 HStack{
                                     Text("Date:")
                                         .foregroundStyle(.teal)
-                                    Text("Dec 23, 2025")
+                                    Text("\(viewModel.sessionReport?.date ?? "")")
                                     
                                 }
                                 HStack{
                                     Text("Complete Time:")
                                         .foregroundStyle(.teal)
-                                    Text("8min, 07 sec")
+                                    Text("\(viewModel.sessionReport?.total_minutes ?? 0) sec")
                                 }
                                 
                                 Divider()
@@ -114,7 +119,7 @@ struct ReportScreen: View {
                                     HStack{
                                         Text("Systolic / Diastolic :")
                                         
-                                        Text("130/80 mmHg")
+                                        Text("\(viewModel.sessionReport?.average_bp ?? "") mmHg")
                                             .foregroundStyle(teal)
                                     }
                                     
@@ -128,17 +133,17 @@ struct ReportScreen: View {
                                     
                                     HStack{
                                         Text("Average Heart Rate :")
-                                        Text("58.6 bpm")
+                                        Text("\(viewModel.sessionReport?.HR ?? 0)bpm")
                                             .foregroundStyle(teal)
                                     }
                                     HStack{
                                         Text("SDNN :")
-                                        Text("18 ms")
+                                        Text("\(viewModel.sessionReport?.SDNN ?? 0) ms")
                                             .foregroundStyle(teal)
                                     }
                                     HStack{
                                         Text("RMSSD :")
-                                        Text("15.6 ms")
+                                        Text("\(viewModel.sessionReport?.RMSSD ?? 0) ms")
                                             .foregroundStyle(teal)
                                     }
                                     
@@ -173,11 +178,11 @@ struct ReportScreen: View {
                                 VStack{
                                     Text("EEG Bands Power Across Time")
                                         .font(.caption)
-                                    Chart(eeg){
-                                        LineMark(x: .value("Time",$0.x),
-                                                 y: .value("Band",$0.y)
+                                    Chart(eegviewModel.points){point in
+                                        LineMark(x: .value("Time",point.x),
+                                                 y: .value("Value",point.y)
                                         )
-                                        .foregroundStyle(by: .value("Band", $0.bandtype))
+                                        .foregroundStyle(by: .value("Band", point.bandtype))
                                     }
                                     .chartYAxis {
                                         AxisMarks(position: .leading)
@@ -217,39 +222,54 @@ struct ReportScreen: View {
                                     .foregroundStyle(teal)
                                     .fontWeight(.bold)
 //                                    .font(.title2)
-                                
-                                ForEach(0...2,id: \.self){index in
-                                    VStack(){
-                                        VStack(alignment: .leading) {
-                                        Text("Q01:")
-                                            .foregroundStyle(.white)
-                                            .fontWeight(.semibold)
+                                if let questions = viewModel.sessionReport?.attempted_questions, !questions.isEmpty {
+                                    ForEach(questions ,id: \.qid){question in
+                                        VStack(alignment: .leading){
+                                            VStack(alignment: .leading) {
+                                                Text("Q:\(String(question.qid))")
+                                                .foregroundStyle(.white)
+                                                .fontWeight(.semibold)
+                                            
+                                                Text(question.description)
+                                                .foregroundStyle(.white)
+                                        }
                                         
-                                        Text("Write A C++ Program That Performs And Display Arithmetic Operations\nUsing Both Integers and Floating-Point Data Types ")
-                                            .foregroundStyle(.white)
+                                        
+                                        
+                                        NavigationLink{
+                                            QuestionReport(question : question,sessionid : sessionid,sid : sid, qid: 2005)
+                                        }label: {
+                                            Image(systemName: "doc.on.clipboard.fill")
+                                            Text("Report")
+                                                .font(.subheadline)
+                                        }
+                                        .padding(.horizontal,10)
+                                        .padding(.vertical, 10)
+                                        .foregroundStyle(teal)
+                                        .background(Color.white)
+                                        .clipShape(Capsule())
+                                        .frame(maxWidth: .infinity)
+                                        
+                                        
                                     }
-                                    
-                                    
-                                    
-                                    NavigationLink{
-                                        QuestionReport()
-                                    }label: {
-                                        Image(systemName: "doc.on.clipboard.fill")
-                                        Text("Report")
-                                            .font(.subheadline)
-                                    }
-                                    .padding(.horizontal,12)
-                                    .padding(.vertical,6)
-                                    //                    .frame(maxWidth: .infinity)
-                                    .foregroundStyle(teal)
-                                    .background(Color.white)
-                                    .clipShape(Capsule())
+                                        .padding(20)
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .background(teal)
+                                        .cornerRadius(12)
+                                }
+
                                     
                                 }
+                                else{
+                                    VStack{
+                                        Spacer()
+                                        Text("No Question Record Found!")
+                                            .foregroundStyle(.gray)
                                     }
-                                    .padding(20)
-                                    .background(teal)
-                                    .cornerRadius(12)
+                                    .padding(.horizontal,70)
+                                    
+                                }
+
 //                                    .padding(.vertical,20)
 //                                    .padding(.horizontal,12)
                                 
@@ -258,13 +278,19 @@ struct ReportScreen: View {
                             }
                             .padding(20)
 //                            .padding(.vertical,20)
+                            .frame(maxWidth: .infinity,alignment: .leading)
                             .background(.white)
                             .cornerRadius(12)
-                            .padding(.horizontal,1)
+//                            .padding(.horizontal,1)
                         }
                         .padding()
                         
+                        .onAppear{
+                            viewModel.getstudentreport(sid: sid, sessionid: sessionid)
+                            eegviewModel.getgraphdata(sessionid: String(sessionid), sid: String(sid))
+                        }
                     }
+
                 }
              
             }
@@ -275,6 +301,6 @@ struct ReportScreen: View {
 
 #Preview {
     NavigationStack{
-        ReportScreen()
+        ReportScreen(sid :0, sessionid: 0)
     }
 }

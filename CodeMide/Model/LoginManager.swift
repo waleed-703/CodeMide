@@ -9,7 +9,7 @@ struct LoginRequest : Codable{
 struct LoginResponse: Decodable {
     let role: String
 //    let message: String?
-    let sid: Int?
+    let sId: Int?
     let regno: String?
     let name: String?
     let semester: Int?

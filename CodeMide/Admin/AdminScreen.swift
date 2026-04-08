@@ -6,6 +6,7 @@ import SwiftUI
 struct AdminScreen: View {
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
     @State private var selectedTab: TabType = .students
+    let studentId : Int
     var body: some View {
             ZStack(alignment: .top){
                 teal.ignoresSafeArea()
@@ -89,13 +90,14 @@ struct AdminScreen: View {
                                 ScrollView{
                                     VStack{
                                         if selectedTab == .students{
-                                            StudentPanel()
+                                            StudentPanel(studentId : studentId)
                                         }else{
                                             QuestionPanel()
                                         }
                                     }
                                 }
                                 .padding(20)
+                                .frame(maxWidth: .infinity)
                                 .background(.white)
                                 .cornerRadius(20)
                                 
@@ -106,8 +108,9 @@ struct AdminScreen: View {
                             }
                             .padding()
                             .background(.white.opacity(0.6))
+                            .frame(maxWidth: .infinity)
                             .cornerRadius(30)
-                            .padding(.horizontal,12)
+                            .padding(.horizontal,16)
                             
                             
                             
@@ -121,6 +124,6 @@ struct AdminScreen: View {
 
 #Preview {
     NavigationStack{
-        AdminScreen()
+        AdminScreen(studentId: UserDefaults.standard.integer(forKey: "studentId"))
     }
 }

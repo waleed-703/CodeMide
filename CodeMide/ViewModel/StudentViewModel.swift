@@ -6,6 +6,7 @@ class StudentViewModel: ObservableObject{
     @Published var isLoading = false
     @Published var errorMessage : String?
     
+    
     func fetchStudents(){
         isLoading = true
         errorMessage = nil
@@ -95,5 +96,7 @@ class StudentViewModel: ObservableObject{
         }
         
     }
+    
+
 
 }

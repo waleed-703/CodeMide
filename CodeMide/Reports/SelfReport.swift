@@ -1,0 +1,233 @@
+
+import SwiftUI
+
+struct SelfReport: View {
+    private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
+    @StateObject private var viewModel = EEGViewModel()
+    @State private var mental :Double    = 0.5
+    @State private var effort :Double = 0.5
+    @State private var frustration  :Double = 0.5
+    @State private var userresponce = ""
+    @State private var responcealert = false
+//    @Binding var selectedtab : Int
+    @Environment(\.dismiss) var dismiss
+    @State private var mainscreen = false
+    let studentid : Int
+    var body: some View {
+        ZStack{
+            teal.ignoresSafeArea()
+            VStack{
+                VStack(alignment: .leading){
+                    HStack{
+                        Image("codemide")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 80,height: 80)
+                    }
+                    .padding(.horizontal,190)
+                    
+                    ScrollView{
+                        VStack{
+                            VStack(alignment:.leading){
+                                Text("Coding Work Load & Stress\nAssessment")
+                                    .foregroundStyle(.white)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                                
+                                Text("Please Rate Your Experience During This Coding Task.")
+                                    .foregroundStyle(.white)
+                                    .font(.body)
+                                    .fontWeight(.semibold)
+                                
+                                Text("There are no right or wrong answers.")
+                                    .foregroundStyle(.white)
+                                    .font(.body)
+                                    .fontWeight(.semibold)
+                            }
+                            .padding(15)
+                            .frame(maxWidth: .infinity,alignment: .leading)
+                            .background(teal)
+                            .cornerRadius(12)
+                            .padding(.horizontal,10)
+                            
+                            
+                            
+//                            VStack{
+//                                Text("Please Rate How Much Stress You Experienced During This Session:")
+//                                    .font(.caption)
+//                            }
+                            
+                            VStack(alignment:.leading,spacing: 6){
+                                  Text("Mental Demand:")
+                                        .foregroundStyle(teal)
+                                        .font(.title2)
+                                        .fontWeight(.semibold)
+                                    
+                                    Text("Question:")
+                                        .foregroundStyle(teal)
+                                    
+                                    Text("How Mentally Demanding Was This Coding Task?")
+                                    
+                                    Text("Helper Text:")
+                                        .foregroundStyle(teal)
+                                    Text("Did The Task Required a lot of thinking note,concentration, or problem-solving?")
+                                    
+                                Text("\(Int(mental))")
+                                    .font(.headline)
+                                    .foregroundColor(.green)
+                                    .padding(.bottom, 5)
+                                Slider(value: $mental,in: 0...5)
+                                    .tint(.green)
+                            }
+                            .padding(20)
+                            .frame(maxWidth: .infinity,alignment: .leading)
+                            .background(.white)
+                            .cornerRadius(12)
+                            .padding(.horizontal,10)
+                            
+                            VStack(alignment:.leading,spacing : 6){
+                              Text("Effort:")
+                                    .foregroundStyle(teal)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                             
+                             Text("Question:")
+                                 .foregroundStyle(teal)
+                             Text("How Much Effort did you put into completing this task?")
+                             
+                             Text("Helper Text:")
+                                 .foregroundStyle(teal)
+                             Text("How Hard You Have To Work To Achieve Your Performance?")
+                             
+                                Text("\(Int(effort))")
+                                    .font(.headline)
+                                    .foregroundColor(.yellow)
+                                    .padding(.bottom, 5)
+                                Slider(value: $effort,in: 0...5)
+                                    .tint(.yellow)
+                        }
+                            .padding(20)
+                            .frame(maxWidth: .infinity,alignment: .leading)
+                            .background(.white)
+                            .cornerRadius(12)
+                            .padding(.horizontal,10)
+                            
+                            VStack(alignment:.leading, spacing: 6){
+                              Text("Frustration:")
+                                    .foregroundStyle(teal)
+                                    .font(.title2)
+                                    .fontWeight(.semibold)
+                            
+                            Text("Question:")
+                                .foregroundStyle(teal)
+                            Text("How Frustated or Stressed did you feel during task?")
+                            
+                            Text("Helper Text:")
+                                .foregroundStyle(teal)
+                            Text("Did You Fell Irritated, Anxious, or Discouraged While Coding?")
+                                
+                                Text("\(Int(frustration))")
+                                    .font(.headline)
+                                    .foregroundColor(.blue)
+                                    .padding(.bottom, 5)
+                                Slider(value: $frustration,in: 0...5)
+                        }
+                        .padding(20)
+                        .frame(maxWidth: .infinity,alignment: .leading)
+                        .background(.white)
+                        .cornerRadius(12)
+                        .padding(.horizontal,10)
+                        
+                            
+                        VStack(alignment: .leading){
+                                if userresponce.isEmpty{
+                                    VStack(alignment:.leading) {
+                                        Text("Type Your Coding Experience\nYour Responce Help Us Understand\nYour Coding Experience.")
+                                    }
+                                    .foregroundColor(.gray)
+                                }
+                                TextEditor(text:$userresponce)
+                                    .frame(width: 340,height: 70)
+                                    .autocapitalization(.none)
+                            }
+                            .padding(10)
+//                            .padding(.horizontal,10)
+                            .background(.white)
+                            .cornerRadius(12)
+                            .frame(maxWidth: .infinity)
+                            
+                            
+                            Button {
+                                viewModel.sumbitselfreport(mental: Int(mental), effort: Int(effort), frustration: Int(frustration), comments: userresponce)
+//                                responcealert = true
+//                                mainscreen = true
+                                dismiss()
+                            } label: {
+                                Text("Sumbits")
+                                    .fontWeight(.semibold)
+                            }
+                            .padding(.vertical,10)
+                            .padding(.horizontal,25)
+                            .background(teal)
+                            .foregroundStyle(.white)
+                            .cornerRadius(12)
+                            
+
+                            
+//                            NavigationLink(destination: MainContainerView(),
+//
+//                                           label:{
+//                                Text("Submits")
+//                            })
+//                            .padding(.vertical,10)
+//                            .padding(.horizontal,25)
+//                            .background(teal)
+//                            .foregroundStyle(.white)
+//                            .cornerRadius(12)
+
+
+                            
+                        }
+                        
+                    }
+                    .padding(12)
+                    .frame(maxWidth: .infinity)
+                    .background(Color(.systemGray6))
+                    .cornerRadius(12)
+                    .padding(.horizontal,30)
+                    
+                }
+                .alert("Sumbitted!",isPresented: $responcealert){
+                    Button("OK",role: .cancel){}
+                }message:{
+                    Text("Your Responce Was Sumbitted Successfully")
+                }
+                
+                
+
+            }
+//            .navigationDestination(isPresented: $mainscreen, destination: {
+//                MainContainerView(studentId: 0)})
+            
+            
+        }
+        .navigationBarBackButtonHidden(true)
+    }
+}
+
+struct NumberScale: View{
+    @Binding var currentvalue : Double
+    var body: some View{
+        HStack{
+            ForEach(0...10,id: \.self){number in
+                Text("\(number)")
+                    .font(.system(size: 15,weight: .bold))
+                    .frame(maxWidth:.infinity)
+            }
+        }
+    }
+}
+
+#Preview {
+    SelfReport(studentid: 0)
+}

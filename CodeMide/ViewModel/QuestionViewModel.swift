@@ -5,6 +5,9 @@ class QuestionViewModel: ObservableObject{
     @Published var selectedQuestion : Question?
     @Published var isLoading = false
     @Published var errorMessage : String?
+    @Published var question: Question = .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0)
+//    @Published var mediumquestion: MediumQuestion?
+//    @Published var hardquestion: HardQuestion?
     
     func fetchQuestion(){
         QuestionManager.fetchAllQuestions{result in
@@ -44,9 +47,11 @@ class QuestionViewModel: ObservableObject{
         )
 
         QuestionManager.updatequestion(id: id, question: updatedquestion){result in
+            
             DispatchQueue.main.async{
                 switch result{
                 case .success:
+                    
                     self.fetchQuestion()
 //                    completion()
                 case .failure(let error):
@@ -84,6 +89,45 @@ class QuestionViewModel: ObservableObject{
                 
             }
             
+        }
+    }
+    
+    func geteasyquestion(studentId : Int){
+        QuestionManager.geteasyquestion(studentId: studentId){result in
+            DispatchQueue.main.async{
+                switch result{
+                case .success(let fetchedQuestion):
+                    self.question = fetchedQuestion
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    func getmediumquestion(studentId : Int){
+        QuestionManager.getmediumquestion(studentId: studentId){result in
+            DispatchQueue.main.async{
+                switch result{
+                case .success(let fetchedQuestion):
+                    self.question = fetchedQuestion
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    func gethardquestion(studentId : Int){
+        QuestionManager.gethardquestion(studentId: studentId){result in
+            DispatchQueue.main.async{
+                switch result{
+                case .success(let fetchedQuestion):
+                    self.question = fetchedQuestion
+                case .failure(let error):
+                    print(error.localizedDescription)
+                }
+            }
         }
     }
 }

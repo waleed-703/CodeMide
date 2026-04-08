@@ -12,6 +12,9 @@ struct QuestionPanel: View {
     @State var queslevel = ""
     @State private var selectedQuestion : Question?
     @State var deletealert = false
+    @State var showalert = false
+    @State var success = false
+    @State var updatealert = false
     var body: some View {
         ScrollView{
             VStack(spacing: 12){
@@ -43,7 +46,7 @@ struct QuestionPanel: View {
                             HStack{
                                 Spacer()
                                 NavigationLink{
-                                    AdminReport()
+                                    AdminReport(questionId : question.id)
                                 }label: {
                                     Image(systemName: "doc.on.clipboard.fill")
                                     Text("Report")
@@ -67,7 +70,7 @@ struct QuestionPanel: View {
                                         .font(.subheadline)
                                 }
                                 .padding(.horizontal,12)
-                                .padding(.vertical,6)
+                                .padding(.vertical,8)
                                 .foregroundStyle(teal)
                                 .background(Color.white)
                                 .clipShape(Capsule())
@@ -169,13 +172,13 @@ struct QuestionPanel: View {
                                 .background(Color(.systemGray6))
                                 .cornerRadius(8)
                             
-                            Text("Question Text:")
-                                .foregroundStyle(.white)
-                            TextField("",text: $questionst)
-                                .frame(maxWidth: 300)
-                                .padding(12)
+                            TextEditor(text:$questionst)
+                                .scrollContentBackground(.hidden)
                                 .background(Color(.systemGray6))
                                 .cornerRadius(8)
+    //                            .padding(12)
+                                .frame(maxWidth: .infinity)
+                                .frame(maxHeight: .infinity)
                             
                             Text("Duration:")
                                 .foregroundStyle(.white)
@@ -204,9 +207,8 @@ struct QuestionPanel: View {
                                             duration : Int(questionduration) ?? 0,
                                             questionlevel : queslevel
                                             
-                                        ){
-                                            editquestion = false
-                                        }
+                                        ){}
+                                        updatealert = true
                                     }
                                     
                                 }label:{
@@ -217,6 +219,14 @@ struct QuestionPanel: View {
                                 .padding()
                                 .background(.white)
                                 .cornerRadius(12)
+                                
+                                .alert("Success!",isPresented: $updatealert){
+                                     Button("OK",role: .cancel){
+                                         editquestion = false
+                                     }
+                                 }message:{
+                                     Text("Question Updated.")
+                                 }
                                 
     //                            Spacer()
                                 
@@ -233,18 +243,18 @@ struct QuestionPanel: View {
                             }
                             
 //                            .presentationDetents([.medium])
-                            .presentationDetents([.fraction(0.7)])
+                            .presentationDetents([.fraction(0.8)])
                                 
                         }
-                        .padding(.horizontal,36)
-                        .padding(.vertical,12)
+                        .padding(30)
+                        .frame(maxWidth: .infinity)
                         .background(teal)
-                        .cornerRadius(8)
-    //                    .padding()
+                        .cornerRadius(12)
+                        .padding(.horizontal,20)
+                
+
                 
             }
-            
-                
         }
         
         
@@ -271,23 +281,28 @@ struct QuestionPanel: View {
                         Text("Question ID:")
                             .foregroundStyle(.white)
                         TextField("",text: $questionid)
-                            .frame(maxWidth: 300)
+                            .frame(maxWidth: .infinity)
                             .padding(12)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
                         
                         Text("Question Text:")
                             .foregroundStyle(.white)
-                        TextField("",text: $questionst)
-                            .frame(maxWidth: 300)
-                            .padding(12)
+                        TextEditor(text:$questionst)
+                            .scrollContentBackground(.hidden)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
+//                            .padding(12)
+                            .frame(maxWidth: .infinity)
+                            .frame(maxHeight: .infinity)
+                            
+                            
+                            
                         
                         Text("Duration:")
                             .foregroundStyle(.white)
                         TextField("",text: $questionduration)
-                            .frame(maxWidth: 300)
+                            .frame(maxWidth: .infinity)
                             .padding(12)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
@@ -295,7 +310,7 @@ struct QuestionPanel: View {
                         Text("Question Level:")
                             .foregroundStyle(.white)
                         TextField("",text: $queslevel)
-                            .frame(maxWidth: 300)
+                            .frame(maxWidth: .infinity)
                             .padding(12)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
@@ -304,12 +319,17 @@ struct QuestionPanel: View {
                         HStack{
                          
                             Button {
+                                if questionid.isEmpty || questionst.isEmpty || questionduration.isEmpty || queslevel.isEmpty{
+                                    showalert = true
+                                    return
+                                }
                                 viewModel.addquestion(
                                     description: questionst,
                                     duration: Int(questionduration) ?? 0,
                                     questionlevel : queslevel
                                 ) {
-                                    addquestion = false
+
+                                    success = true
                                     questionid = ""
                                     questionst = ""
                                     questionduration = ""
@@ -339,14 +359,31 @@ struct QuestionPanel: View {
                         }
                             
                     }
-                    .padding(.horizontal,36)
-                    .padding(.vertical,12)
+                    
+//                    .padding(.vertical,12)
+                    .padding(30)
+                    .frame(maxWidth: .infinity)
                     .background(teal)
-                    .cornerRadius(8)
+                    .cornerRadius(12)
+                    .padding(.horizontal,20)
+            
+                    .alert("Error!",isPresented: $showalert){
+                        Button("OK",role: .cancel){}
+                    }message:{
+                        Text("Fill All Fields")
+                    }
+                    .alert("Success!",isPresented: $success){
+                        Button("OK",role: .cancel){
+                            addquestion = false
+                        }
+                    }message:{
+                        Text("Question Added Successfully.")
+                    }
+
 //                    .padding()
                     
 //                .presentationDetents([.medium])
-                  .presentationDetents([.fraction(0.7)])
+                  .presentationDetents([.fraction(0.8)])
         }
     }
 }
