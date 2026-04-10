@@ -96,7 +96,7 @@ struct AdminScreen: View {
                                         }
                                     }
                                 }
-                                .padding(20)
+                                .padding(12)
                                 .frame(maxWidth: .infinity)
                                 .background(.white)
                                 .cornerRadius(20)
@@ -106,9 +106,9 @@ struct AdminScreen: View {
                                 
                                 
                             }
-                            .padding()
-                            .background(.white.opacity(0.6))
+                            .padding(14)
                             .frame(maxWidth: .infinity)
+                            .background(.white.opacity(0.6))
                             .cornerRadius(30)
                             .padding(.horizontal,16)
                             

@@ -123,11 +123,10 @@ struct AllReportsScreen: View {
 
         }
         .padding(10)
-        
         .frame(maxWidth: .infinity)
         .background(teal.opacity(0.28))
-        
         .cornerRadius(12)
+//        .padding(.horizontal,8)
         
     }
 

@@ -15,46 +15,6 @@ struct ReportScreen: View {
     @StateObject private var eegviewModel = GraphViewModel()
     let sid : Int
     let sessionid : Int
-//    let qid : Int
-//    var stressvalue : Double
-//    let eeg : [eegdata] = [
-//        // Alpha (reduced & unstable in stress)
-//            .init(x: 0.1, y: 0.65, bandtype: "Alpha"),
-//            .init(x: 0.3, y: 0.30, bandtype: "Alpha"),
-//            .init(x: 0.5, y: 0.55, bandtype: "Alpha"),
-//            .init(x: 0.7, y: 0.25, bandtype: "Alpha"),
-//            .init(x: 0.9, y: 0.45, bandtype: "Alpha"),
-//
-//            // Beta (high & spiky in stress)
-//            .init(x: 0.1, y: 0.40, bandtype: "Beta"),
-//            .init(x: 0.3, y: 0.85, bandtype: "Beta"),
-//            .init(x: 0.5, y: 0.35, bandtype: "Beta"),
-//            .init(x: 0.7, y: 0.90, bandtype: "Beta"),
-//            .init(x: 0.9, y: 0.50, bandtype: "Beta"),
-//
-//            // Theta (moderate but fluctuating)
-//            .init(x: 0.1, y: 0.30, bandtype: "Theta"),
-//            .init(x: 0.3, y: 0.55, bandtype: "Theta"),
-//            .init(x: 0.5, y: 0.25, bandtype: "Theta"),
-//            .init(x: 0.7, y: 0.60, bandtype: "Theta"),
-//            .init(x: 0.9, y: 0.35, bandtype: "Theta"),
-//
-//            // Gamma (sharp spikes → anxiety / cognitive overload)
-//            .init(x: 0.1, y: 0.20, bandtype: "Gamma"),
-//            .init(x: 0.3, y: 0.75, bandtype: "Gamma"),
-//            .init(x: 0.5, y: 0.30, bandtype: "Gamma"),
-//            .init(x: 0.7, y: 0.85, bandtype: "Gamma"),
-//            .init(x: 0.9, y: 0.40, bandtype: "Gamma"),
-//
-//            // Delta (low in awake stressed state)
-//            .init(x: 0.1, y: 0.15, bandtype: "Delta"),
-//            .init(x: 0.3, y: 0.10, bandtype: "Delta"),
-//            .init(x: 0.5, y: 0.20, bandtype: "Delta"),
-//            .init(x: 0.7, y: 0.12, bandtype: "Delta"),
-//            .init(x: 0.9, y: 0.18, bandtype: "Delta")
-//
-//
-//    ]
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()

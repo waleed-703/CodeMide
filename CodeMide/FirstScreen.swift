@@ -18,13 +18,6 @@ struct FirstScreen: View {
                             .font(.largeTitle)
                             .foregroundStyle(Color.white)
                             .frame(width: 350, height: 350)
-//                            .background(Color.brown)
-//                            .cornerRadius(500)
-//                            .padding()
-                        //                    Text("Code Mide")
-                        //                        .font(.largeTitle)
-                        //                        .fontWeight(.semibold)
-                        //                        .foregroundStyle(Color.white)
                     }
 //                    Spacer()
                     
@@ -42,32 +35,11 @@ struct FirstScreen: View {
                     }
 //                    .padding()
                         Spacer()
-                        
-//                        NavigationLink(destination: LoginScreen(),
-//                                       label:{
-//                            Text("Continue")
-//                        })
-//                        .frame(maxWidth: 120)
-//                        .padding()
-//                        .background(Color.white)
-//                        .foregroundStyle(teal)
-//                        .cornerRadius(8)
+
                         .navigationDestination(isPresented: $login){
                             LoginScreen()
                         }
-                    
-//                    Button{
-//                        onContinue()
-//                    }label: {
-//                        Text("Continue")
-//                    }
-//                    .frame(maxWidth: 120)
-//                    .padding()
-//                    .background(Color.white)
-//                    .foregroundStyle(teal)
-//                    .cornerRadius(8)
-                    
-                        
+
                     Spacer()
                     
                 }

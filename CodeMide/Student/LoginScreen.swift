@@ -77,7 +77,7 @@ struct LoginScreen: View {
                                  
                                 }
                                 
-                                Text("Remeber Me")
+//                                Text("Remeber Me")
                                 
                                 Button(action: {passvisible.toggle()})
                                 {
