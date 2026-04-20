@@ -14,6 +14,7 @@ struct LoginScreen: View {
     @State var studentname = ""
     @State var semester = ""
 //    @State private var authenticateSid : Int = 0
+    @State private var rememberme = false
     
 
     
@@ -77,7 +78,7 @@ struct LoginScreen: View {
                                  
                                 }
                                 
-//                                Text("Remeber Me")
+                                
                                 
                                 Button(action: {passvisible.toggle()})
                                 {
@@ -89,6 +90,13 @@ struct LoginScreen: View {
                             .padding(12)
                             .background(Color(.systemGray6))
                             .cornerRadius(8)
+                            
+                            HStack{
+                                Toggle(isOn: $rememberme){
+                                    Text("Remember Me")
+                                }
+                                
+                            }
                         }
                         Button(action: {
                             LoginManager.login(username: regno, password: password){
@@ -115,6 +123,15 @@ struct LoginScreen: View {
 
                                         }
                                         login = true
+                                        if rememberme {
+                                            UserDefaults.standard.set(regno, forKey: "savedUsername")
+                                            UserDefaults.standard.set(password, forKey: "savedPassword")
+                                            UserDefaults.standard.set(true, forKey: "rememberMe")
+                                        } else {
+                                            UserDefaults.standard.removeObject(forKey: "savedUsername")
+                                            UserDefaults.standard.removeObject(forKey: "savedPassword")
+                                            UserDefaults.standard.set(false, forKey: "rememberMe")
+                                        }
                                         
                                     case.failure(let error):
                                         print("Login Failed",error.localizedDescription)
@@ -158,6 +175,15 @@ struct LoginScreen: View {
                     
                     
                     Spacer()
+                }
+                .onAppear {
+                    let isRemembered = UserDefaults.standard.bool(forKey: "rememberMe")
+                    
+                    if isRemembered {
+                        regno = UserDefaults.standard.string(forKey: "savedUsername") ?? ""
+                        password = UserDefaults.standard.string(forKey: "savedPassword") ?? ""
+                        rememberme = true
+                    }
                 }
                 
             }
