@@ -86,7 +86,7 @@ struct AllReportsScreen: View {
 
                                 Spacer()
                 HStack{
-                    NavigationLink(destination: ReportScreen(sid: studentId, sessionid: 3001),
+                    NavigationLink(destination: ReportScreen(sid: studentId, sessionid: report.sessionId),
                         label:{
                           Image(systemName: "ellipsis")
                             .font(.title)

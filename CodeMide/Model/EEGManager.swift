@@ -30,7 +30,7 @@ class EEGManager{
             "session_id" : sessionID,
             "name" : name
         ]
-        NetworkManager.shared.request(endpoint: "/api/devices/eeg/start_stream", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/start_stream", method: "POST"){result in
             switch result{
             case .success(let data):
                 do{
@@ -47,7 +47,7 @@ class EEGManager{
     }
     
     static func stopmuse(completion: @escaping(Result<StartStream,Error>)->Void){
-        NetworkManager.shared.request(endpoint: "/api/devices/eeg/stop_stream", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/stop_stream", method: "POST"){result in
             switch result{
             case .success(let data):
                 do{
@@ -67,7 +67,7 @@ class EEGManager{
             "sid": sessionID,
             "qid": questionID
         ]
-        NetworkManager.shared.request(endpoint: "/api/devices/eeg/start_recording", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/start_recording", method: "POST"){result in
             switch result{
             case .success(let data):
                 do{
@@ -87,7 +87,7 @@ class EEGManager{
             "answers" : answers,
             "gptindex" : gptIndex
         ]
-        NetworkManager.shared.request(endpoint: "/api/devices/eeg/stop_recording", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/stop_recording", method: "POST"){result in
             switch result{
             case .success(let data):
                 do{
@@ -104,7 +104,7 @@ class EEGManager{
     
     static func selfresponcereport(mental: Int, effort: Int, frustration: Int,comments: String, completion: @escaping(Result<SelfResponce,Error>)->Void){
         let body = SelfResponceReport(mental: mental, effort: effort, frustration: frustration, comments: comments)
-        NetworkManager.shared.request(endpoint: "/api/devices/eeg/selfreport", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/selfreport", method: "POST"){result in
             switch result{
             case .success(let data):
                 do{

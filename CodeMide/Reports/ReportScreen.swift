@@ -197,7 +197,7 @@ struct ReportScreen: View {
                                         
                                         
                                         NavigationLink{
-                                            QuestionReport(question : question,sessionid : sessionid,sid : sid, qid: 2005)
+                                            QuestionReport(question : question,sessionid : sessionid,sid : sid, qid: question.qid)
                                         }label: {
                                             Image(systemName: "doc.on.clipboard.fill")
                                             Text("Report")

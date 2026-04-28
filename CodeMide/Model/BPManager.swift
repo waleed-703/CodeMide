@@ -21,7 +21,7 @@ struct EndBP : Decodable {
 class BPManager{
     
     static func measurebaseline(completion: @escaping (Result<BPData,Error>)->Void){
-        NetworkManager.shared.request(endpoint: "/api/devices/eeg/start_session_bp", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/start_session_bp", method: "POST"){result in
             switch result{
             case .success(let data):
                 do{
@@ -37,7 +37,7 @@ class BPManager{
     }
     
     static func measurepostbp(completion: @escaping (Result<(EndBP),Error>)->Void){
-        NetworkManager.shared.request(endpoint: "/api/devices/eeg/after_question_bp", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/after_question_bp", method: "POST"){result in
             switch result{
             case .success(let data):
                 do{
