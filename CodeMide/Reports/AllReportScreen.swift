@@ -113,7 +113,7 @@ struct AllReportsScreen: View {
                 Text("Stress Level :")
                     .font(.subheadline)
                     .foregroundStyle(Color.black)
-                Text(report.stressLevel)
+                Text(stressLevelText(report.stressLevel))
                     .font(.subheadline)
                     .foregroundStyle(teal)
 
@@ -148,6 +148,14 @@ struct AllReportsScreen: View {
         .clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
         .overlay(RoundedRectangle(cornerRadius: 10)
             .stroke(Color.gray.opacity(0.2),lineWidth: 1))
+    }
+    func stressLevelText(_ value: String?) -> String {
+        switch Int(value ?? "") {
+        case 0: return "Low"
+        case 1: return "Medium"
+        case 2: return "High"
+        default: return "--"
+        }
     }
 }
 #Preview {

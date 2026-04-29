@@ -40,7 +40,8 @@ struct SReport : Codable  {
     let date : String?
     let final_stress_level : String?
     let total_minutes : Int?
-    let average_bp : String?
+    let average_bpa : String?
+    let average_bpb : String?
     let HR : Double?
     let SDNN : Double?
     let RMSSD : Double?
@@ -58,7 +59,8 @@ struct SQReport : Codable {
     let question_id : Int
     let description : String
     let time_taken : String
-    let bp : String?
+    let bpb : String?
+    let bpa : String?
     let HR : Double?
     let SDNN : Double?
     let RMSSD : Double?

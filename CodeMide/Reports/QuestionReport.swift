@@ -16,18 +16,18 @@ struct QuestionReport: View {
     let sid : Int
     let qid : Int
     var body: some View {
-        let eeg : [graphdata] = [
-            .init(x: 6, y: 6.5, band: "Alpha"),
-            
-            .init(x: 0.1, y: 0.40, band: "Beta"),
-            
-            .init(x: 0.1, y: 0.30, band: "Theta"),
-            
-            .init(x: 0.1, y: 0.20, band: "Gamma"),
-            
-            .init(x: 0.1, y: 0.15, band: "Delta")
-            
-        ]
+//        let eeg : [graphdata] = [
+//            .init(x: 6, y: 6.5, band: "Alpha"),
+//            
+//            .init(x: 0.1, y: 0.40, band: "Beta"),
+//            
+//            .init(x: 0.1, y: 0.30, band: "Theta"),
+//            
+//            .init(x: 0.1, y: 0.20, band: "Gamma"),
+//            
+//            .init(x: 0.1, y: 0.15, band: "Delta")
+//            
+//        ]
         ZStack{
             teal.ignoresSafeArea()
             
@@ -81,10 +81,17 @@ struct QuestionReport: View {
                             "")
                         }
                         
+                        HStack {
+                            Text("Stress Index:")
+                                .foregroundStyle(teal)
+                            Text("\(viewModel.squestionReport?.SI ?? 0, specifier: "%.3f")")
+                        }
+                        
+                        
                         Divider()
                             .frame(width: 250)
                         
-                        Text("Blood Pressure (BP) Analysis:")
+                        Text("Before Question Blood Pressure:")
                             .foregroundStyle(teal)
                             .fontWeight(.semibold)
                             .font(.title3)
@@ -92,7 +99,19 @@ struct QuestionReport: View {
                         HStack{
                             Text("Systolic / Diastolic :")
                             
-                            Text(viewModel.squestionReport?.bp ?? "")
+                            Text(viewModel.squestionReport?.bpb ?? "")
+                                .foregroundStyle(teal)
+                        }
+                        
+                        Text("After Question Blood Pressure:")
+                            .foregroundStyle(teal)
+                            .fontWeight(.semibold)
+                            .font(.title3)
+                        
+                        HStack{
+                            Text("Systolic / Diastolic :")
+                            
+                            Text(viewModel.squestionReport?.bpa ?? "")
                                 .foregroundStyle(teal)
                         }
                         
@@ -106,17 +125,17 @@ struct QuestionReport: View {
                         
                         HStack{
                             Text("Average Heart Rate :")
-                            Text("\(viewModel.squestionReport?.HR ?? 0) bpm")
+                            Text("\(viewModel.squestionReport?.HR ?? 0, specifier: "%.3f") bpm")
                                 .foregroundStyle(teal)
                         }
                         HStack{
                             Text("SDNN :")
-                            Text("\(viewModel.squestionReport?.SDNN ?? 0) ms")
+                            Text("\(viewModel.squestionReport?.SDNN ?? 0, specifier: "%.3f") ms")
                                 .foregroundStyle(teal)
                         }
                         HStack{
                             Text("RMSSD:")
-                            Text("\(viewModel.squestionReport?.RMSSD ?? 0) ms")
+                            Text("\(viewModel.squestionReport?.RMSSD ?? 0, specifier: "%.3f") ms")
                                 .foregroundStyle(teal)
                         }
                         

@@ -48,14 +48,15 @@ struct ReportScreen: View {
                                 HStack {
                                     Text("Final Stress Level")
                                         .foregroundStyle(teal)
-                                    Text("\(viewModel.sessionReport?.final_stress_level ?? "")")
+//                                    Text("\(viewModel.sessionReport?.final_stress_level ?? "")")
+                                    Text(stressLevelText(viewModel.sessionReport?.final_stress_level))
                                 }
                                 
-                                HStack{
-                                    Text("Cognitive Load:")
-                                        .foregroundStyle(teal)
-                                    Text("High")
-                                }
+//                                HStack{
+//                                    Text("Cognitive Load:")
+//                                        .foregroundStyle(teal)
+//                                    Text("High")
+//                                }
                                 HStack{
                                     Text("Date:")
                                         .foregroundStyle(.teal)
@@ -67,11 +68,16 @@ struct ReportScreen: View {
                                         .foregroundStyle(.teal)
                                     Text("\(viewModel.sessionReport?.total_minutes ?? 0) sec")
                                 }
+                                HStack{
+                                    Text("Stress Index:")
+                                        .foregroundStyle(.teal)
+                                    Text("\(viewModel.sessionReport?.SI ?? 0, specifier: "%.3f")")
+                                }
                                 
                                 Divider()
                                     .frame(width: 250)
                                 VStack(alignment: .leading,spacing: 6){
-                                    Text("Blood Pressure (BP) Analysis:")
+                                    Text("Before Question Blood Pressure:")
                                         .foregroundStyle(teal)
                                         .fontWeight(.semibold)
                                         .font(.title3)
@@ -79,7 +85,19 @@ struct ReportScreen: View {
                                     HStack{
                                         Text("Systolic / Diastolic :")
                                         
-                                        Text("\(viewModel.sessionReport?.average_bp ?? "") mmHg")
+                                        Text("\(viewModel.sessionReport?.average_bpb ?? "") mmHg")
+                                            .foregroundStyle(teal)
+                                    }
+                                    
+                                    Text("After Question Blood Pressure:")
+                                        .foregroundStyle(teal)
+                                        .fontWeight(.semibold)
+                                        .font(.title3)
+                                    
+                                    HStack{
+                                        Text("Systolic / Diastolic :")
+                                        
+                                        Text("\(viewModel.sessionReport?.average_bpa ?? "") mmHg")
                                             .foregroundStyle(teal)
                                     }
                                     
@@ -93,17 +111,17 @@ struct ReportScreen: View {
                                     
                                     HStack{
                                         Text("Average Heart Rate :")
-                                        Text("\(viewModel.sessionReport?.HR ?? 0)bpm")
+                                        Text("\(viewModel.sessionReport?.HR ?? 0, specifier: "%.3f")bpm")
                                             .foregroundStyle(teal)
                                     }
                                     HStack{
                                         Text("SDNN :")
-                                        Text("\(viewModel.sessionReport?.SDNN ?? 0) ms")
+                                        Text("\(viewModel.sessionReport?.SDNN ?? 0, specifier: "%.3f") ms")
                                             .foregroundStyle(teal)
                                     }
                                     HStack{
                                         Text("RMSSD :")
-                                        Text("\(viewModel.sessionReport?.RMSSD ?? 0) ms")
+                                        Text("\(viewModel.sessionReport?.RMSSD ?? 0, specifier: "%.3f") ms")
                                             .foregroundStyle(teal)
                                     }
                                     
@@ -254,6 +272,14 @@ struct ReportScreen: View {
                 }
              
             }
+        }
+    }
+    func stressLevelText(_ value: String?) -> String {
+        switch Int(value ?? "") {
+        case 0: return "Low"
+        case 1: return "Medium"
+        case 2: return "High"
+        default: return "--"
         }
     }
 
