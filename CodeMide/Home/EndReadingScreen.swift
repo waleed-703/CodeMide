@@ -9,6 +9,7 @@ struct EndReadingScreen: View {
     @Binding var openreport : Bool
     @Binding var answer : String
     @Binding var chatgpt : Bool
+    @State private var takeendbp = false
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -40,10 +41,20 @@ struct EndReadingScreen: View {
                         .fontWeight(.semibold)
                     
                     Button{
-                        viewModel.measureendbp()
+//                        viewModel.measureendbp()
+                        endbp()
                     }label: {
-                        Text("Measure Blood Pressure")
-                            .foregroundStyle(.white)
+                        if takeendbp{
+                            ProgressView()
+                                .tint(.white)
+                        }
+                        else{
+                            Text("Measure Blood Pressure")
+                                .foregroundStyle(.white)
+                                .fontWeight(.semibold)
+                        }
+//                        Text("Measure Blood Pressure")
+//                            .foregroundStyle(.white)
                     }
                     .frame(width: 200)
                     .padding()
@@ -151,6 +162,12 @@ struct EndReadingScreen: View {
             
             
         }
+    }
+    func endbp(){
+        takeendbp = true
+        viewModel.measureendbp()
+//        streamModel.startstream(sessionID: sessionID, name: studentName )
+        
     }
 }
 

@@ -5,6 +5,7 @@ struct ReadingScreen: View {
     @StateObject private var viewModel = BPViewModel()
     @StateObject private var streammodel = EEGViewModel()
     @Binding var selectedtab : Int
+    @State private var takebp = false
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -34,11 +35,17 @@ struct ReadingScreen: View {
                     
                     
                     Button{
-                        viewModel.measurebaselinebp()
+                        startbp()
                     }label: {
-                        Text("Measure Blood Pressure")
-                            .foregroundStyle(.white)
-                            .fontWeight(.semibold)
+                        if takebp{
+                            ProgressView()
+                                .tint(.white)
+                        }
+                        else{
+                            Text("Measure Blood Pressure")
+                                .foregroundStyle(.white)
+                                .fontWeight(.semibold)
+                        }
                     }
                     .frame(maxWidth: 200)
                     .padding()
@@ -111,6 +118,12 @@ struct ReadingScreen: View {
             
             
         }
+        
+    }
+    func startbp(){
+        takebp = true
+        viewModel.measurebaselinebp()
+//        streamModel.startstream(sessionID: sessionID, name: studentName )
         
     }
 }

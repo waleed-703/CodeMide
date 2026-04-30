@@ -7,6 +7,8 @@ struct StartTest: View {
     @Binding var selectedtab : Int
     @State private var sessionID : String = UUID().uuidString
     let studentName : String
+    let studentId : Int
+    @State private var isloading = false
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -70,11 +72,17 @@ struct StartTest: View {
 //                    .cornerRadius(12)
 //                    .frame(maxWidth: .infinity)
                     Button{
-                        streamModel.startstream(sessionID: sessionID, name: studentName )
-                        selectedtab += 1
+                        streamconnection()
+//                        selectedtab += 1
                     }label: {
-                        Text("StartTest")
-                            .foregroundStyle(.white)
+                        if isloading{
+                            ProgressView()
+                                .tint(.white)
+                        }
+                        else{
+                            Text("StartTest")
+                                .foregroundStyle(.white)
+                        }
                     }
                     .frame(maxWidth: 120)
                     .padding()
@@ -92,16 +100,30 @@ struct StartTest: View {
 //                .padding(.vertical,60)
                 
                 .onAppear(){
-                    viewModel.loadbyid(id: 2000)
+                    viewModel.geteasyquestion(studentId: studentId)
                 }
                 Spacer()
                 
                 
             }
         }
+        .onChange(of: streamModel.isstreamconnected){connected in
+            if connected{
+                isloading = false
+                selectedtab += 1
+            }
+            
+        }
+    }
+    
+    func streamconnection(){
+        isloading = true
+        
+        streamModel.startstream(sessionID: sessionID, name: studentName )
+        
     }
 }
 
 #Preview {
-    StartTest(selectedtab: .constant(0),studentName: "")
+    StartTest(selectedtab: .constant(0),studentName: "",studentId: 0)
 }

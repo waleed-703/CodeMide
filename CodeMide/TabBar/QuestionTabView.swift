@@ -18,7 +18,7 @@ struct QuestionTabView: View {
                 TabView(selection: $selectedtab){
                     Group{
                         let studentName = UserDefaults.standard.string(forKey: "studentName") ?? "Unknown"
-                        StartTest(selectedtab: $selectedtab,studentName: studentName)
+                        StartTest(selectedtab: $selectedtab,studentName: studentName,studentId: studentId)
     //                        .scrollDisabled(true)
                             .tag(0)
                         ReadingScreen(selectedtab: $selectedtab)

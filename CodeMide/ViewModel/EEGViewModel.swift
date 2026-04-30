@@ -7,6 +7,7 @@ class EEGViewModel : ObservableObject{
     @Published var errorMessage : String?
     @Published var SelfReport : String = ""
     @Published var selfReportSessionID : Int?
+    @Published var isstreamconnected : Bool = false
     
     func startstream(sessionID: String, name: String){
         EEGManager.startmuse(sessionID: sessionID, name: name){result in

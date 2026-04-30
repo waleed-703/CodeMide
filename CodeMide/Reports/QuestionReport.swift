@@ -179,6 +179,8 @@ struct QuestionReport: View {
                             }
                             .foregroundStyle(.purple)
                             
+                            Divider()
+                            
                             Text("Theta")
     //                            .foregroundStyle(teal)
                                 .fontWeight(.semibold)
@@ -196,6 +198,8 @@ struct QuestionReport: View {
                                 LineMark(x: .value("Time", point.x), y: .value("Delta", point.y))
                             }
                             .foregroundStyle(.blue)
+                            
+                            Divider()
                             
                             Text("Gamma")
     //                            .foregroundStyle(teal)

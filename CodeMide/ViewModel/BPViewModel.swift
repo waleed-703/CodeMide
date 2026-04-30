@@ -8,6 +8,8 @@ class BPViewModel : ObservableObject{
     @Published var endBP : EndBP?
 //    @Published var postBP : EndBP?
     @Published var history : [(BPData,EndBP)] = []
+    @Published var takebp : Bool = false
+    @Published var takeendbp : Bool = false
     
     
     func measurebaselinebp(){
