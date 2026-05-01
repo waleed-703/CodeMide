@@ -9,6 +9,8 @@ struct StartTest: View {
     let studentName : String
     let studentId : Int
     @State private var isloading = false
+    @State private var showalert = false
+    @State private var alertmessage = ""
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -89,6 +91,7 @@ struct StartTest: View {
                     .background(teal)
                     .cornerRadius(12)
                     .frame(maxWidth: .infinity)
+                    .disabled(isloading)
                     
                     
                 }
@@ -112,7 +115,21 @@ struct StartTest: View {
                 isloading = false
                 selectedtab += 1
             }
-            
+        }
+        
+        .onChange(of: streamModel.errorMessage){error in
+            if let error = error{
+                isloading = false
+                alertmessage = error
+                showalert = true
+            }
+        }
+        
+        .alert("Connection Error!",isPresented: $showalert){
+            Button("OK",role: .cancel){
+            }
+        }message:{
+            Text(alertmessage)
         }
     }
     

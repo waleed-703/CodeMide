@@ -3,6 +3,7 @@ import SwiftUI
 struct AnswerScreen: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = QuestionViewModel()
+    @StateObject private var streammodel = EEGViewModel()
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
     @Binding var selectedtab : Int
     let question : Question
@@ -11,6 +12,9 @@ struct AnswerScreen: View {
     @Binding var chatgpt : Bool
 //    let question : String
 //    let duration : Int
+    @State private var stoprecording = false
+    @State private var showalert = false
+    @State private var alertmessage = ""
     
     
     var body: some View {
@@ -121,15 +125,24 @@ struct AnswerScreen: View {
 //                            .foregroundColor(.white)
 //                            .cornerRadius(12)
                             Button{
+                                recordingstop()
+//                                streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
                                 selectedtab += 1
                             }label:{
-                                Text("Next")
+                                if stoprecording{
+                                    ProgressView()
+                                        .tint(.white)
+                                }else {
+                                    Text("Next")
+                                }
+                                
                             }
                             .frame(maxWidth: 150)
                             .padding()
                             .background(teal)
                             .foregroundColor(.white)
                             .cornerRadius(12)
+                            .disabled(stoprecording)
                         }
                         .padding(20)
                         
@@ -148,6 +161,28 @@ struct AnswerScreen: View {
                 
             }
         }
+        
+        .alert("Connection Error!",isPresented: $showalert){
+            Button("OK",role: .cancel){
+            }
+        }message:{
+            Text(alertmessage)
+        }
+        
+        .onChange(of: streammodel.isRecording){ recording in
+            if !recording && stoprecording {
+                stoprecording = false
+                selectedtab += 1
+                
+            }
+        }
+        .onChange(of: streammodel.errorMessage){error in
+            if let error = error{
+                stoprecording = false
+                alertmessage = error
+                showalert = true
+            }
+        }
 //        .toolbar{
 //            ToolbarItem(placement : .topBarLeading){
 //                Button(action : {
@@ -162,6 +197,10 @@ struct AnswerScreen: View {
 //        }
 
         .navigationBarBackButtonHidden(true)
+    }
+    func recordingstop(){
+        stoprecording = true
+        streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
     }
 }
 

@@ -7,8 +7,8 @@ class NetworkManager: ObservableObject{
     
 //    private let baseURL = "http://192.168.1.11:5000"
 //    private let baseURL = "http://127.0.0.1:5000"
-//    private let baseURL = "http://172.16.14.84:5000"
-      private let baseURL = "http://192.168.32.86:5000"
+    private let baseURL = "http://172.16.14.84:5000"
+//      private let baseURL = "http://192.168.32.86:5000"
     
     func request(
         endpoint: String,

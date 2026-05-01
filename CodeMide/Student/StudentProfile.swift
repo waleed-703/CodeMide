@@ -13,6 +13,7 @@ struct StudentProfile: View {
     @State var passvisible = true
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
     @StateObject private var viewModel = StudentViewModel()
+    @State private var showalert = false
     var body: some View {
             ZStack{
                 teal.ignoresSafeArea()
@@ -141,6 +142,7 @@ struct StudentProfile: View {
                                                 viewModel.selectedStudent = nil
                                             }
                                         }
+                                        showalert = true
 
                                     }label: {
                                         Text("Update")
@@ -198,6 +200,12 @@ struct StudentProfile: View {
                         }
                 
         }
+            .alert("Updated!",isPresented: $showalert){
+                Button("OK",role: .cancel){
+                }
+            }message:{
+                Text("Record Updated Successfully.")
+            }
     }
 }
 

@@ -21,7 +21,7 @@ struct QuestionTabView: View {
                         StartTest(selectedtab: $selectedtab,studentName: studentName,studentId: studentId)
     //                        .scrollDisabled(true)
                             .tag(0)
-                        ReadingScreen(selectedtab: $selectedtab)
+                        ReadingScreen(selectedtab: $selectedtab,sessionid: sessionid, questionid: questionid)
 //                            .scrollDisabled(true)
                             .tag(1)
                         QuizScreen(selectedtab: $selectedtab,question: viewModel.question,sessionid: $sessionid,questionid: $questionid)

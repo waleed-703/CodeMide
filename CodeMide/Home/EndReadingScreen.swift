@@ -10,6 +10,11 @@ struct EndReadingScreen: View {
     @Binding var answer : String
     @Binding var chatgpt : Bool
     @State private var takeendbp = false
+    @State private var bpalert = false
+    @State private var alertmessage = ""
+    @State private var showalert = false
+    @State private var recordingstop = false
+//    @State private var
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -61,6 +66,7 @@ struct EndReadingScreen: View {
                     .background(teal)
                     .cornerRadius(12)
                     .frame(maxWidth: .infinity)
+                    .disabled(takeendbp)
                 }
                 .padding(15)
 //                .padding(.vertical,20)
@@ -110,18 +116,26 @@ struct EndReadingScreen: View {
                             .fontWeight(.semibold)
    
                         Button{
-                            streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
-                            streammodel.stopstream()
-                            openreport.toggle()
+                            stopqrecording()
+//                            streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
+//                            streammodel.stopstream()
+//                            openreport.toggle()
                         }label: {
-                            Text("End")
-                                .foregroundStyle(.white)
+                            if recordingstop{
+                                ProgressView()
+                                    .tint(.white)
+                            }else {
+                                Text("End")
+                                    .foregroundStyle(.white)
+                            }
+
                         }
                         .frame(width: 120)
                         .padding()
                         .background(teal)
                         .cornerRadius(12)
                         .frame(maxWidth: .infinity)
+                        .disabled(recordingstop)
 //                        .disabled(viewModel.endBP == nil)
 //                        .opacity(viewModel.endBP == nil ? 0.5 : 1)
                     }
@@ -133,14 +147,20 @@ struct EndReadingScreen: View {
                     
                 }else{
                     Button{
-                        streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
-                        answer = ""
-                        chatgpt = false
-                        selectedtab = 1
+                        stopqrecording()
+//                        streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
+//                        answer = ""
+//                        chatgpt = false
+//                        selectedtab = 1
                     }label: {
-                        Text("Next - Question")
-                            .foregroundStyle(teal)
-                            .fontWeight(.semibold)
+                        if recordingstop {
+                            ProgressView()
+                                .tint(.white)
+                        }else {
+                            Text("Next - Question")
+                                .foregroundStyle(teal)
+                                .fontWeight(.semibold)
+                        }
                     }
                     .frame(width:150)
                     .padding()
@@ -149,6 +169,7 @@ struct EndReadingScreen: View {
                     .frame(maxWidth: .infinity)
 //                    .disabled(viewModel.endBP == nil)
 //                    .opacity(viewModel.endBP == nil ? 0.5 : 1)
+                    .disabled(recordingstop)
                 }
 
                 
@@ -162,12 +183,62 @@ struct EndReadingScreen: View {
             
             
         }
+        .alert("Connection Error!",isPresented: $showalert){
+            Button("OK",role: .cancel){
+            }
+        }message:{
+            Text(alertmessage)
+        }
+        .alert("BP Error!",isPresented: $bpalert){
+            Button("OK",role: .cancel){
+            }
+        }message:{
+            Text(alertmessage)
+        }
+        
+        .onChange(of: streammodel.isRecording){recording in
+            if recording{
+                recordingstop = false
+                selectedtab = 1
+            }
+        }
+        .onChange(of: streammodel.errorMessage){error in
+            if let error = error {
+                recordingstop = false
+                alertmessage = error
+                showalert = true
+            }
+        }
+//        .onChange(of: viewModel.baselineBP){baselinebp in
+//            if baselinebp{
+//                takebp = false
+//            }
+//        }
+        .onChange(of: viewModel.errorMessage){error in
+            if let error = error{
+                takeendbp = false
+                alertmessage = error
+                bpalert = true
+            }
+        }
     }
     func endbp(){
         takeendbp = true
         viewModel.measureendbp()
 //        streamModel.startstream(sessionID: sessionID, name: studentName )
         
+    }
+    func stopqrecording(){
+        recordingstop = true
+        streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
+        answer = ""
+        chatgpt = false
+    }
+    func endrecording(){
+        recordingstop = true
+        streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
+        streammodel.stopstream()
+        openreport.toggle()
     }
 }
 

@@ -15,9 +15,17 @@ class EEGViewModel : ObservableObject{
                 switch result{
                 case .success(let responce):
                     self.statusmessage = responce.status
-                    self.isStreaming = responce.status.lowercased().contains("started")
+                    if responce.status.lowercased().contains("started") || responce.status.lowercased().contains("already"){
+                        self.isStreaming = true
+                        self.isstreamconnected = true
+                    }
+                    else {
+                        self.isstreamconnected = false
+                        self.errorMessage = "Failed To Connect Device"
+                    }
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
+                    self.isstreamconnected = false
                 }
             }
             

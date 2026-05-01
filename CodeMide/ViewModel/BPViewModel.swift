@@ -25,7 +25,6 @@ class BPViewModel : ObservableObject{
                     self.isbaselinesaved = false
                 }
             }
-            
         }
     }
     

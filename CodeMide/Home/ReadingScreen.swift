@@ -6,6 +6,13 @@ struct ReadingScreen: View {
     @StateObject private var streammodel = EEGViewModel()
     @Binding var selectedtab : Int
     @State private var takebp = false
+    @State private var showerror = false
+    let sessionid: Int
+    let questionid : Int
+    @State private var recordingstart = false
+    @State private var showalert = false
+    @State private var alertmessage = ""
+    @State private var bpalert = false
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -28,10 +35,10 @@ struct ReadingScreen: View {
                 }
                 VStack(alignment: .leading){
                     
-                        Text("Please Turn On RossMax Monitoring Device And Wear The Cuff Properly On Your Arm Before Taking the Reading.")
-                            .foregroundStyle(teal)
-                            .fontWeight(.semibold)
-//                            .multilineTextAlignment(.center)
+                    Text("Please Turn On RossMax Monitoring Device And Wear The Cuff Properly On Your Arm Before Taking the Reading.")
+                        .foregroundStyle(teal)
+                        .fontWeight(.semibold)
+                    //                            .multilineTextAlignment(.center)
                     
                     
                     Button{
@@ -52,6 +59,7 @@ struct ReadingScreen: View {
                     .background(teal)
                     .cornerRadius(12)
                     .frame(maxWidth: .infinity)
+                    .disabled(takebp)
                     
                     
                 }
@@ -60,7 +68,7 @@ struct ReadingScreen: View {
                 .background(.white)
                 .cornerRadius(12)
                 .padding(.horizontal,20)
-//                .padding(.bottom,5)
+                //                .padding(.bottom,5)
                 
                 VStack(alignment:.leading){
                     Text("Your Blood Pressure Reading:")
@@ -84,39 +92,85 @@ struct ReadingScreen: View {
                 .padding(.horizontal,20)
                 
                 
-//                NavigationLink(destination: AnswerScreen(question: "", duration: 0),
-//                               label: {
-//                    Text("Next")
-//                })
-//                .frame(maxWidth: 100)
-//                .padding()
-//                .background(.white)
-//                .foregroundStyle(teal)
-//                .cornerRadius(14)
+                //                NavigationLink(destination: AnswerScreen(question: "", duration: 0),
+                //                               label: {
+                //                    Text("Next")
+                //                })
+                //                .frame(maxWidth: 100)
+                //                .padding()
+                //                .background(.white)
+                //                .foregroundStyle(teal)
+                //                .cornerRadius(14)
                 
-                    Button{
-//                        streammodel.startrecording()
-                        selectedtab += 1
-                    }label: {
+                Button{
+                    //                        streammodel.startrecording(sessionID: "sessionid", questionID: "questionid")
+                    startreading()
+                    //                        selectedtab += 1
+                }label: {
+                    if recordingstart{
+                        ProgressView()
+                            .tint(teal)
+                    }else {
                         Text("Next")
                     }
-                    .frame(maxWidth: 100)
-                    .padding()
-                    .background(.white)
-                    .foregroundStyle(teal)
-                    .cornerRadius(14)
-//                    .disabled(viewModel.bpData == nil)
-//                    .opacity(viewModel.bpData == nil ? 0.5 : 1)
+                    
+                }
+                .frame(maxWidth: 100)
+                .padding()
+                .background(.white)
+                .foregroundStyle(teal)
+                .cornerRadius(14)
+                .disabled(recordingstart)
+                //                    .disabled(viewModel.bpData == nil)
+                //                    .opacity(viewModel.bpData == nil ? 0.5 : 1)
                 
                 
                 
-
-
+                
+                
                 
                 Spacer()
             }
             
             
+        }
+        .alert("Connection Error!",isPresented: $showalert){
+            Button("OK",role: .cancel){
+            }
+        }message:{
+            Text(alertmessage)
+        }
+        .alert("BP Error!",isPresented: $bpalert){
+            Button("OK",role: .cancel){
+            }
+        }message:{
+            Text(alertmessage)
+        }
+        
+        .onChange(of: streammodel.isRecording){recording in
+            if recording{
+                recordingstart = false
+                selectedtab += 1
+            }
+        }
+        .onChange(of: streammodel.errorMessage){error in
+            if let error = error {
+                recordingstart = false
+                alertmessage = error
+                showalert = true
+            }
+        }
+//        .onChange(of: viewModel.baselineBP){baselinebp in
+//            if baselinebp{
+//                takebp = false
+//            }
+//        }
+        .onChange(of: viewModel.errorMessage){error in
+            if let error = error{
+                takebp = false
+                alertmessage = error
+                bpalert = true
+            }
         }
         
     }
@@ -126,8 +180,12 @@ struct ReadingScreen: View {
 //        streamModel.startstream(sessionID: sessionID, name: studentName )
         
     }
+    func startreading(){
+        recordingstart = true
+        streammodel.startrecording(sessionID: "sessionid", questionID: "questionid")
+    }
 }
 
 #Preview {
-    ReadingScreen(selectedtab: .constant(0))
+    ReadingScreen(selectedtab: .constant(0),sessionid: 0, questionid: 0)
 }
