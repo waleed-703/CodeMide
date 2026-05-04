@@ -23,6 +23,16 @@ struct SelfResponceReport : Encodable{
     let comments : String
 }
 
+struct ResetAllResponce : Decodable{
+    let status : String?
+    let error : String?
+}
+
+struct DeleteSessionResponce : Decodable{
+    let message : String?
+    let error : String?
+}
+
 class EEGManager{
     
     static func startmuse(sessionID: String, name: String , completion : @escaping(Result<StartStream, Error>)->Void){
@@ -118,4 +128,48 @@ class EEGManager{
             }
         }
     }
+    
+    static func resetall(completion: @escaping(Result<ResetAllResponce,Error>)->Void){
+        NetworkManager.shared.request(endpoint: "/api/devices/reset_all", method: "POST"){result in
+            switch result {
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode(ResetAllResponce.self, from: data)
+                    completion(.success(decoded))
+                }catch{
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    static func deleteSession(
+            sessionID: Int,
+            completion: @escaping (Result<DeleteSessionResponce, Error>) -> Void
+        ) {
+
+            let endpoint = "/api/report/delete_session/\(sessionID)"
+
+            NetworkManager.shared.request(
+                endpoint: endpoint,
+                method: "DELETE"
+            ) { result in
+
+                switch result {
+
+                case .success(let data):
+                    do {
+                        let decoded = try JSONDecoder().decode(DeleteSessionResponce.self, from: data)
+                        completion(.success(decoded))
+                    } catch {
+                        completion(.failure(error))
+                    }
+
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
 }

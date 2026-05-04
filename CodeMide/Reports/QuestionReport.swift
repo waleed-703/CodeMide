@@ -11,23 +11,12 @@ struct QuestionReport: View {
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
     @StateObject private var viewModel = ReportViewModel()
     @StateObject private var graphModel = GraphViewModel()
+    @StateObject private var ppgViewModel = PPGViewModel()
     let question : SQuestion
     let sessionid : Int
     let sid : Int
     let qid : Int
     var body: some View {
-//        let eeg : [graphdata] = [
-//            .init(x: 6, y: 6.5, band: "Alpha"),
-//            
-//            .init(x: 0.1, y: 0.40, band: "Beta"),
-//            
-//            .init(x: 0.1, y: 0.30, band: "Theta"),
-//            
-//            .init(x: 0.1, y: 0.20, band: "Gamma"),
-//            
-//            .init(x: 0.1, y: 0.15, band: "Delta")
-//            
-//        ]
         ZStack{
             teal.ignoresSafeArea()
             
@@ -221,6 +210,58 @@ struct QuestionReport: View {
 //                    .padding(.vertical,5)
                     .padding(.horizontal,25)
                     
+                    VStack(alignment: .leading) {
+
+                        Text("PPG (Heart Rate Variability)")
+                            .foregroundStyle(teal)
+                            .font(.title2)
+                            .fontWeight(.semibold)
+
+                        Chart(ppgViewModel.questionPPGPoints) { point in
+                            LineMark(
+                                x: .value("Time", point.x),
+                                y: .value("Value", point.y)
+                            )
+                            .foregroundStyle(by: .value("Type", point.type))
+                        }
+                        .chartYAxis {
+                            AxisMarks(position: .leading)
+                        }
+                        .overlay(alignment: .leading) {
+                            Text("Value")
+                                .font(.caption)
+                                .rotationEffect(.degrees(-90))
+                                .offset(x: -35)
+                        }
+                        .frame(height: 200)
+                        .padding(.leading)
+
+                        Text("Time (index)")
+                            .font(.caption)
+
+                        VStack(alignment: .leading, spacing: 5) {
+                            Text("PPG Metrics:")
+                                .foregroundStyle(teal)
+                                .fontWeight(.semibold)
+
+                            Text("HR -> Heart Rate")
+                                .foregroundStyle(.gray)
+
+                            Text("SDNN -> Variability")
+                                .foregroundStyle(.gray)
+
+                            Text("RMSSD -> Recovery")
+                                .foregroundStyle(.gray)
+
+                            Text("pNN50 -> Parasympathetic")
+                                .foregroundStyle(.gray)
+                        }
+                    }
+                    .padding(20)
+                    .background(.white)
+                    .cornerRadius(12)
+                    .padding(.horizontal,25)
+                    
                     Spacer()
                 }
                 
@@ -231,6 +272,11 @@ struct QuestionReport: View {
                     graphModel.getalphadata(sessionid: String(sessionid), sid: String(sid), qid: String(qid))
                     graphModel.getdeltadata(sessionid: String(sessionid), sid: String(sid), qid: String(qid))
                     graphModel.getgammadata(sessionid: String(sessionid), sid: String(sid), qid: String(qid))
+                    ppgViewModel.getSinglePPG(
+                        sessionID: String(sessionid),
+                        sid: String(sid),
+                        qid: String(qid)
+                    )
                 }
             }
 

@@ -89,4 +89,50 @@ class EEGViewModel : ObservableObject{
         }
     }
     
+    func ResetAll(){
+        EEGManager.resetall{result in
+            DispatchQueue.main.async {
+                switch result{
+                case .success(let response):
+                    if let status = response.status {
+                        self.statusmessage = status
+                    } else if let error = response.error {
+                        self.errorMessage = error
+                    }
+                    
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+    
+    func deleteSession(sessionID: Int) {
+
+//            isDeleting = true
+            errorMessage = nil
+//            deleteMessage = ""
+
+            EEGManager.deleteSession(sessionID: sessionID) { result in
+                DispatchQueue.main.async {
+
+//                    guard let self = self else { return }
+//                    self.isDeleting = false
+
+                    switch result {
+
+                    case .success(let response):
+
+                        if let msg = response.message {
+//                            self.deleteMessage = msg
+                        } else if let err = response.error {
+                            self.errorMessage = err
+                        }
+
+                    case .failure(let error):
+                        self.errorMessage = error.localizedDescription
+                    }
+                }
+            }
+        }
 }

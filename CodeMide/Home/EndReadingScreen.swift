@@ -14,18 +14,32 @@ struct EndReadingScreen: View {
     @State private var alertmessage = ""
     @State private var showalert = false
     @State private var recordingstop = false
+    let sessionid : Int
 //    @State private var
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
             VStack{
-                VStack{
+                HStack{
+                    Button(action: {
+                        streammodel.ResetAll()
+                        streammodel.deleteSession(sessionID: sessionid)
+                        selectedtab = max(0, selectedtab - 1)
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                    }
+
+                    Spacer()
+                    
                     Image("codemide")
                         .resizable()
                         .scaledToFit()
                         .frame(width: 100,height: 100)
-                    
+                    Spacer()
                 }
+                .padding(.horizontal)
                 
                 Spacer()
                 
@@ -243,5 +257,5 @@ struct EndReadingScreen: View {
 }
 
 #Preview {
-    EndReadingScreen(selectedtab: .constant(0), questioncount: 3,openreport: .constant(false),answer: .constant(""),chatgpt: .constant(false))
+    EndReadingScreen(selectedtab: .constant(0), questioncount: 3,openreport: .constant(false),answer: .constant(""),chatgpt: .constant(false),sessionid: 0)
 }

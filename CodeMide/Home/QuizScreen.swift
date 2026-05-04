@@ -20,12 +20,28 @@ struct QuizScreen: View {
             teal.ignoresSafeArea()
             VStack{
                 HStack{
+//                    Spacer()
+                    Button(action: {
+                        streammodel.ResetAll()
+                        streammodel.deleteSession(sessionID: sessionid)
+                        selectedtab = max(0, selectedtab - 1)
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                    }
+
+                    Spacer()
+                    
                     Image("codemide")
                         .resizable()
-                        .frame(width:100, height: 100)
+                        .frame(width:100, height: 90)
                     //                        .padding(.top)
                     
+                    Spacer()
+                    
                 }
+                .padding(.horizontal)
                 
                 VStack(){
                     Text("Programming Test")

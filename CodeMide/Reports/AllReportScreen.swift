@@ -98,14 +98,18 @@ struct AllReportsScreen: View {
             }
             HStack(spacing: 10){
                 metrichip(title: "\(report.afterQuestionBP)\nmmHg", icon: "cuff")
-                    .frame(width: 125, height: 120)
-                metrichip(title: "\(report.heartRate)\nbpm", icon: "ppg")
-                    .frame(width: 110, height: 150)
+//                    .frame(width: 125, height: 120)
+                metrichip(
+                    title: String(format: "%.2f\nbpm", report.heartRate),
+                    icon: "ppg")
+//                .frame(width: 110, height: 150)
                 metrichip(title: "\(Int(report.sdnn))\nms", icon: "heart")
                     .frame(width: 100, height: 90)
 
 
             }
+            .frame(maxWidth: .infinity)
+//            .fixedSize(horizontal: false, vertical: true)
 
 
             HStack{
@@ -138,10 +142,12 @@ struct AllReportsScreen: View {
                 .scaledToFit()
 //                .font(.footnote)
                 .foregroundStyle(Color.white)
+//                .frame(width: 30, height: 28)
             Text(title)
                 .font(.footnote)
                 .foregroundStyle(Color.white)
         }
+        .frame(maxWidth: .infinity,minHeight: 60)
         .padding(.vertical,8)
         .padding(.horizontal,8)
         .background(teal)
@@ -149,6 +155,8 @@ struct AllReportsScreen: View {
         .overlay(RoundedRectangle(cornerRadius: 10)
             .stroke(Color.gray.opacity(0.2),lineWidth: 1))
     }
+    
+    
     func stressLevelText(_ value: String?) -> String {
         switch Int(value ?? "") {
         case 0: return "Low"

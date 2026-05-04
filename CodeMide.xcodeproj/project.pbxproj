@@ -29,6 +29,8 @@
 		378FB7862F5759CA0076F85B /* ReportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7852F5759CA0076F85B /* ReportScreen.swift */; };
 		378FB7882F5759D50076F85B /* AdminReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7872F5759D50076F85B /* AdminReport.swift */; };
 		378FB78A2F575A230076F85B /* QuestionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7892F575A230076F85B /* QuestionReport.swift */; };
+		37A0953B2FA607FD0085682F /* PPGManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A0953A2FA607FD0085682F /* PPGManager.swift */; };
+		37A0953D2FA60A6F0085682F /* PPGViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A0953C2FA60A6F0085682F /* PPGViewModel.swift */; };
 		68B2D32A2F861EAB0097A55E /* StudentProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3292F861EAB0097A55E /* StudentProfile.swift */; };
 		68B2D3352F861F740097A55E /* AnswerScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3342F861F740097A55E /* AnswerScreen.swift */; };
 		68B2D3372F861FA80097A55E /* HomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68B2D3362F861FA80097A55E /* HomeScreen.swift */; };
@@ -73,6 +75,8 @@
 		378FB7852F5759CA0076F85B /* ReportScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreen.swift; sourceTree = "<group>"; };
 		378FB7872F5759D50076F85B /* AdminReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminReport.swift; sourceTree = "<group>"; };
 		378FB7892F575A230076F85B /* QuestionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionReport.swift; sourceTree = "<group>"; };
+		37A0953A2FA607FD0085682F /* PPGManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPGManager.swift; sourceTree = "<group>"; };
+		37A0953C2FA60A6F0085682F /* PPGViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPGViewModel.swift; sourceTree = "<group>"; };
 		68B2D3292F861EAB0097A55E /* StudentProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudentProfile.swift; sourceTree = "<group>"; };
 		68B2D3342F861F740097A55E /* AnswerScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnswerScreen.swift; sourceTree = "<group>"; };
 		68B2D3362F861FA80097A55E /* HomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeScreen.swift; sourceTree = "<group>"; };
@@ -159,6 +163,7 @@
 				68B2D3532F8622370097A55E /* BPManager.swift */,
 				68B2D3552F86224D0097A55E /* EEGManager.swift */,
 				68B2D3572F8622620097A55E /* GraphModel.swift */,
+				37A0953A2FA607FD0085682F /* PPGManager.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -172,6 +177,7 @@
 				68B2D34D2F8621C90097A55E /* BPViewModel.swift */,
 				68B2D34F2F8621E50097A55E /* EEGViewModel.swift */,
 				68B2D3512F8621F60097A55E /* GraphViewModel.swift */,
+				37A0953C2FA60A6F0085682F /* PPGViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -308,6 +314,7 @@
 				378FB7882F5759D50076F85B /* AdminReport.swift in Sources */,
 				378FB7742F5757C40076F85B /* NetworkManager.swift in Sources */,
 				378FB7802F5759320076F85B /* ReportManager.swift in Sources */,
+				37A0953B2FA607FD0085682F /* PPGManager.swift in Sources */,
 				378FB7842F57599E0076F85B /* StudentPanel.swift in Sources */,
 				68B2D3462F8620F40097A55E /* MainContainerView.swift in Sources */,
 				68B2D33B2F861FDC0097A55E /* StartTest.swift in Sources */,
@@ -316,6 +323,7 @@
 				68B2D34E2F8621C90097A55E /* BPViewModel.swift in Sources */,
 				378FB7822F57598B0076F85B /* QuestionPanel.swift in Sources */,
 				68B2D3352F861F740097A55E /* AnswerScreen.swift in Sources */,
+				37A0953D2FA60A6F0085682F /* PPGViewModel.swift in Sources */,
 				378FB76C2F57574E0076F85B /* RegisterScreen.swift in Sources */,
 				68B2D33F2F8620080097A55E /* EndReadingScreen.swift in Sources */,
 				378FB7862F5759CA0076F85B /* ReportScreen.swift in Sources */,

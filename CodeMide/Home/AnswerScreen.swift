@@ -15,6 +15,7 @@ struct AnswerScreen: View {
     @State private var stoprecording = false
     @State private var showalert = false
     @State private var alertmessage = ""
+    let sessionid: Int
     
     
     var body: some View {
@@ -22,10 +23,25 @@ struct AnswerScreen: View {
             teal.ignoresSafeArea()
             VStack{
                 HStack{
+                    
+                    Button(action: {
+                        streammodel.ResetAll()
+                        streammodel.deleteSession(sessionID: sessionid)
+                        selectedtab = max(0, selectedtab - 1)
+                    }) {
+                        Image(systemName: "chevron.left")
+                            .font(.title2)
+                            .foregroundColor(.white)
+                    }
+
+                    Spacer()
+                    
                     Image("codemide")
                         .resizable()
                         .frame(width:100, height: 100)
+                    Spacer()
                 }
+                .padding(.horizontal)
                 
                 VStack(alignment:.leading){
                     
@@ -205,5 +221,5 @@ struct AnswerScreen: View {
 }
 
 #Preview {
-    AnswerScreen(selectedtab: .constant(0),question: .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0),answer: .constant(""), chatgpt: .constant(false))
+    AnswerScreen(selectedtab: .constant(0),question: .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0),answer: .constant(""), chatgpt: .constant(false),sessionid: 0)
 }

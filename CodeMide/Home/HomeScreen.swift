@@ -207,7 +207,6 @@ struct HomeScreen: View {
                     .font(.footnote)
                     .foregroundStyle(Color.white)
             }
-            .frame(maxWidth: .infinity)
             .padding(12)
             .background(teal)
             .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
@@ -238,14 +237,17 @@ struct HomeScreen: View {
                 
                 HStack(spacing: 10){
                     metrichip(title: "\(report.afterQuestionBP)\nmmHg", icon: "cuff")
-                        .frame(width: 125, height: 120)
-                    metrichip(title: "\(report.heartRate)\nbpm", icon: "ppg")
-                        .frame(width: 110, height: 150)
+//                        .frame(width: 125, height: 120)
+                    metrichip(
+                        title: String(format: "%.2f\nbpm", report.heartRate),
+                        icon: "ppg")
+//                        .frame(width: 110, height: 150)
                     metrichip(title: "\(Int(report.sdnn))\nms", icon: "heart")
                         .frame(width: 100, height: 90)
 
 
                 }
+                .frame(maxWidth: .infinity)
                 
                 
                 HStack{
@@ -253,7 +255,7 @@ struct HomeScreen: View {
                     Text("Stress Level :")
                         .font(.subheadline)
                         .foregroundStyle(Color.black)
-                    Text(report.stressLevel)
+                    Text(stressLevelText(report.stressLevel))
                         .font(.subheadline)
                         .foregroundStyle(teal)
                     
@@ -285,6 +287,7 @@ struct HomeScreen: View {
                 Text(title)
                     .font(.footnote)
             }
+            .frame(maxWidth: .infinity,minHeight: 60)
             .padding(.vertical,8)
             .padding(.horizontal,10)
             .background(teal)
@@ -292,6 +295,16 @@ struct HomeScreen: View {
             .overlay(RoundedRectangle(cornerRadius: 10)
                 .stroke(Color.gray.opacity(0.2),lineWidth: 1))
         }
+    
+    func stressLevelText(_ value: String?) -> String {
+        switch Int(value ?? "") {
+        case 0: return "Low"
+        case 1: return "Medium"
+        case 2: return "High"
+        default: return "--"
+        }
+    }
+
         
 }
 

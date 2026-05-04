@@ -8,11 +8,19 @@ struct eegdata : Identifiable{
     let bandtype : String
 }
 
+struct ppgdata: Identifiable {
+    let id = UUID()
+    let x: Double
+    let y: Double
+    let type: String
+}
+
 struct ReportScreen: View {
     @Environment(\.dismiss) var dismiss
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
     @StateObject private var viewModel = ReportViewModel()
     @StateObject private var eegviewModel = GraphViewModel()
+    @StateObject private var ppgViewModel = PPGViewModel()
     let sid : Int
     let sessionid : Int
     var body: some View {
@@ -194,6 +202,54 @@ struct ReportScreen: View {
                             .background(.white)
                             .cornerRadius(12)
                             
+                            VStack {
+                                Text("PPG (Heart Rate Variability) Over Time")
+                                    .font(.caption)
+
+                                Chart(ppgViewModel.ppgPoints) { point in
+                                    LineMark(
+                                        x: .value("Time", point.x),
+                                        y: .value("Value", point.y)
+                                    )
+                                    .foregroundStyle(by: .value("Type", point.type))
+                                }
+                                .chartYAxis {
+                                    AxisMarks(position: .leading)
+                                }
+                                .overlay(alignment: .leading) {
+                                    Text("Value")
+                                        .font(.caption)
+                                        .rotationEffect(.degrees(-90))
+                                        .offset(x: -35)
+                                }
+                                .frame(height: 200)
+                                .padding(.leading)
+
+                                Text("Time(seconds)")
+                                    .font(.caption)
+
+                                VStack(alignment: .leading, spacing: 5) {
+                                    Text("PPG Metrics:")
+                                        .foregroundStyle(teal)
+                                        .fontWeight(.semibold)
+
+                                    Text("HR -> Heart Rate")
+                                        .foregroundStyle(.gray)
+
+                                    Text("SDNN -> HR Variability")
+                                        .foregroundStyle(.gray)
+
+                                    Text("RMSSD -> Parasympathetic Activity")
+                                        .foregroundStyle(.gray)
+                                    Text("pNN50 -> Parasympathetic Balance")
+                                        .foregroundStyle(.gray)
+                                }
+                            }
+                            .padding(20)
+                            .background(.white)
+                            .cornerRadius(12)
+
+                            
                             
                             VStack(alignment: .leading){
                                 Text("Reports Of Each Question")
@@ -266,6 +322,7 @@ struct ReportScreen: View {
                         .onAppear{
                             viewModel.getstudentreport(sid: sid, sessionid: sessionid)
                             eegviewModel.getgraphdata(sessionid: String(sessionid), sid: String(sid))
+                            ppgViewModel.getAllPPG(sessionID: String(sessionid), sid: String(sid))
                         }
                     }
 
