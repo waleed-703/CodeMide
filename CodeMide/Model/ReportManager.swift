@@ -68,6 +68,14 @@ struct SQReport : Codable {
     let stress_level : String?
 }
 
+struct selfreport : Decodable{
+    let sessionid : Int
+    let mentalLoad : Int
+    let frustration : Int
+    let effort : Int
+    let comment : String
+}
+
 
 class ReportManager{
     static func fetchtopreports(
@@ -161,6 +169,22 @@ class ReportManager{
             case .success(let data):
                 do{
                     let decoded = try JSONDecoder().decode(SQReport.self, from: data)
+                    completion(.success(decoded))
+                }catch{
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    static func SelfReport(sessionid: Int,completion:@escaping(Result<selfreport,Error>)->Void){
+        NetworkManager.shared.request(endpoint: "/api/report/selfreport/\(sessionid)", method: "GET"){result in
+            switch result{
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode(selfreport.self, from: data)
                     completion(.success(decoded))
                 }catch{
                     completion(.failure(error))

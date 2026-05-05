@@ -119,8 +119,8 @@ struct ReadingScreen: View {
                 
                 Button{
                     //                        streammodel.startrecording(sessionID: "sessionid", questionID: "questionid")
-                    startreading()
-                    //                        selectedtab += 1
+//                    startreading()
+                                            selectedtab += 1
                 }label: {
                     if recordingstart{
                         ProgressView()

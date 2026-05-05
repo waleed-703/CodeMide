@@ -92,7 +92,7 @@ struct QuizScreen: View {
 //                            .cornerRadius(12)
                             
                             Button{
-                                streammodel.startrecording(sessionID: String(sessionid), questionID: String(questionid))
+//                                streammodel.startrecording(sessionID: String(sessionid), questionID: String(questionid))
                                 selectedtab += 1
                             }label:{
                                 Text("Start Test")

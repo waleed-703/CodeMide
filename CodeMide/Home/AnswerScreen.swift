@@ -141,7 +141,7 @@ struct AnswerScreen: View {
 //                            .foregroundColor(.white)
 //                            .cornerRadius(12)
                             Button{
-                                recordingstop()
+//                                recordingstop()
 //                                streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
                                 selectedtab += 1
                             }label:{

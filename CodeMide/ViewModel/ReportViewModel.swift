@@ -7,7 +7,7 @@ class ReportViewModel : ObservableObject{
     @Published var sessionlist : [Report] = []
     @Published var sessionReport : SReport?
     @Published var squestionReport : SQReport?
-    
+    @Published var selfReport: selfreport?
     
     func getreports(studentId : Int){
 //        let studentId = UserDefaults.standard.integer(forKey: "studentId")
@@ -71,6 +71,19 @@ class ReportViewModel : ObservableObject{
                 switch result{
                 case .success(let sqreport):
                     self.squestionReport = sqreport
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+    
+    func getselfreport(sessionid : Int){
+        ReportManager.SelfReport(sessionid: sessionid){result in
+            DispatchQueue.main.async{
+                switch result{
+                case.success(let data):
+                    self.selfReport = data
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }
