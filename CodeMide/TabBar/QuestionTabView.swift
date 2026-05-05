@@ -27,7 +27,7 @@ struct QuestionTabView: View {
                         QuizScreen(selectedtab: $selectedtab,question: viewModel.question,sessionid: $sessionid,questionid: $questionid)
 //                            .scrollDisabled(true)
                             .tag(2)
-                        AnswerScreen(selectedtab: $selectedtab,question: viewModel.question,answer: $answer,chatgpt:$chatgpt,sessionid: sessionid)
+                        AnswerScreen(selectedtab: $selectedtab,question: viewModel.question,answer: $answer,chatgpt:$chatgpt,sessionid: sessionid,questioncount: questioncount)
                             .tag(3)
                         EndReadingScreen(selectedtab: $selectedtab,questioncount: questioncount,openreport: $openreport,answer: $answer ,chatgpt: $chatgpt,sessionid: sessionid)
                             .tag(4)

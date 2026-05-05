@@ -47,4 +47,20 @@ class BPViewModel : ObservableObject{
             }
         }
     }
+    
+    func midbp(){
+        BPManager.measuremidbp(){result in
+            DispatchQueue.main.async{
+                switch result{
+                case .success(let data):
+                    guard let baselineBP = self.baselineBP else{
+                        return
+                    }
+                    self.history.append((baselineBP,data))
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
 }

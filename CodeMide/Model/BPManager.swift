@@ -53,5 +53,21 @@ class BPManager{
             }
         }
     }
+    
+    static func measuremidbp(completion: @escaping(Result<EndBP,Error>)->Void){
+        NetworkManager.shared.request(endpoint: "/api/devices/mid_question_bp", method: "POST"){result in
+            switch result{
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode(EndBP.self, from: data)
+                    completion(.success(decoded))
+                }catch{
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
 }
 

@@ -4,6 +4,7 @@ struct AnswerScreen: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel = QuestionViewModel()
     @StateObject private var streammodel = EEGViewModel()
+    @StateObject private var bpviewmodel = BPViewModel()
     private let teal = Color(red: 0.36, green: 0.85, blue: 0.93)
     @Binding var selectedtab : Int
     let question : Question
@@ -15,7 +16,9 @@ struct AnswerScreen: View {
     @State private var stoprecording = false
     @State private var showalert = false
     @State private var alertmessage = ""
+    @State private var showmidbpalert = false
     let sessionid: Int
+    let questioncount : Int
     
     
     var body: some View {
@@ -93,7 +96,10 @@ struct AnswerScreen: View {
                         .cornerRadius(12)
                         
                         .onAppear(){
-                            viewModel.loadbyid(id: 2000)
+//                            viewModel.loadbyid(id: 2000)
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 300){
+                                showmidbpalert = true
+                            }
 
                         }
 //                                        padding()
@@ -199,6 +205,18 @@ struct AnswerScreen: View {
                 showalert = true
             }
         }
+        .alert("Mid Question Blodd Pressure",isPresented: $showmidbpalert){
+            Button("Take Mid BP"){
+                bpviewmodel.midbp()}
+            
+            Button("Cancel",role: .cancel){
+                
+            }
+            .foregroundStyle(.red)
+        }message:{
+                Text("Turn On The Device To Take Mid Question BP.")
+            }
+        
 //        .toolbar{
 //            ToolbarItem(placement : .topBarLeading){
 //                Button(action : {
@@ -221,5 +239,5 @@ struct AnswerScreen: View {
 }
 
 #Preview {
-    AnswerScreen(selectedtab: .constant(0),question: .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0),answer: .constant(""), chatgpt: .constant(false),sessionid: 0)
+    AnswerScreen(selectedtab: .constant(0),question: .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0),answer: .constant(""), chatgpt: .constant(false),sessionid: 0,questioncount: 0)
 }

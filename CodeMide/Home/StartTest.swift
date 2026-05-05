@@ -41,7 +41,8 @@ struct StartTest: View {
                         Text("Question Statement:")
                             .foregroundStyle(teal)
                             .fontWeight(.semibold)
-                    Text(viewModel.selectedQuestion?.description ?? "")
+//                    Text(viewModel.selectedQuestion?.description ?? "")
+                    Text(viewModel.question.description)
                         .padding(.bottom,1)
                     
                     

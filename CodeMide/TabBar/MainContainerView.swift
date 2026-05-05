@@ -5,6 +5,7 @@ struct MainContainerView: View {
     @State private var selectedTab : Tabs = .Home
     let studentId : Int
     @State var openreport = false
+    let sessionid : Int
     var body: some View {
 //        NavigationStack{
             VStack{
@@ -16,7 +17,7 @@ struct MainContainerView: View {
                     case .Quiz:
                         QuestionTabView(studentId : 1000,openreport : $openreport,sessionid: 0,questionid: 0,answer: "",chatgpt: false)
                             .navigationDestination(isPresented: $openreport, destination: {
-                            SelfReport(studentid: 0)
+                                SelfReport(studentid: 0,sessionid: sessionid)
                         })                    case .Report:
                         AllReportsScreen(studentId: studentId)
                     case .Profile:
@@ -40,5 +41,5 @@ struct MainContainerView: View {
 }
 
 #Preview {
-    MainContainerView(studentId: 0)
+    MainContainerView(studentId: 0,sessionid: 0)
 }

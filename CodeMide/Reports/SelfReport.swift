@@ -13,18 +13,33 @@ struct SelfReport: View {
     @Environment(\.dismiss) var dismiss
     @State private var mainscreen = false
     let studentid : Int
+    let sessionid : Int
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
             VStack{
                 VStack(alignment: .leading){
                     HStack{
+                        Button(action: {
+                            viewModel.ResetAll()
+                            viewModel.deleteSession(sessionID: sessionid)
+                            dismiss()
+//                            selectedtab = max(0, selectedtab - 1)
+                        }) {
+                            Image(systemName: "chevron.left")
+                                .font(.title2)
+                                .foregroundColor(.white)
+                        }
+
+                        Spacer()
+                        
                         Image("codemide")
                             .resizable()
                             .scaledToFit()
-                            .frame(width: 80,height: 80)
+                            .frame(width: 100,height: 100)
+                        Spacer()
                     }
-                    .padding(.horizontal,190)
+                    .padding(.horizontal)
                     
                     ScrollView{
                         VStack{
@@ -229,5 +244,5 @@ struct NumberScale: View{
 }
 
 #Preview {
-    SelfReport(studentid: 0)
+    SelfReport(studentid: 0,sessionid: 0)
 }

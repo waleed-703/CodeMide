@@ -130,10 +130,10 @@ struct EndReadingScreen: View {
                             .fontWeight(.semibold)
    
                         Button{
-                            stopqrecording()
+//                            stopqrecording()
 //                            streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
 //                            streammodel.stopstream()
-//                            openreport.toggle()
+                            openreport.toggle()
                         }label: {
                             if recordingstop{
                                 ProgressView()
@@ -161,11 +161,11 @@ struct EndReadingScreen: View {
                     
                 }else{
                     Button{
-                        stopqrecording()
-//                        streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
-//                        answer = ""
-//                        chatgpt = false
-//                        selectedtab = 1
+//                        stopqrecording()
+                        streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
+                        answer = ""
+                        chatgpt = false
+                        selectedtab = 1
                     }label: {
                         if recordingstop {
                             ProgressView()

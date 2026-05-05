@@ -69,7 +69,7 @@ struct SQReport : Codable {
 }
 
 struct selfreport : Decodable{
-    let sessionid : Int
+    let sessionId : Int
     let mentalLoad : Int
     let frustration : Int
     let effort : Int

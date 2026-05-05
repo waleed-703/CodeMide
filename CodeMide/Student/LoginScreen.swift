@@ -193,7 +193,7 @@ struct LoginScreen: View {
                 case .admin:
                     AdminScreen(studentId: UserDefaults.standard.integer(forKey: "studentId"))
                 case .student:
-                    MainContainerView(studentId: UserDefaults.standard.integer(forKey: "studentId"))
+                    MainContainerView(studentId: UserDefaults.standard.integer(forKey: "studentId"),sessionid: 0)
 //                    MainContainerView(studentId: authenticateSid)
                 case nil:
                     LoginScreen()

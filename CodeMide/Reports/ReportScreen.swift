@@ -97,6 +97,16 @@ struct ReportScreen: View {
                                             .foregroundStyle(teal)
                                     }
                                     
+                                    Text("Mid Question Blood Pressure:")
+                                        .foregroundStyle(teal)
+                                        .fontWeight(.semibold)
+                                        .font(.title3)
+                                    
+                                    HStack{
+                                        Text("Systolic / Diastolic:")
+                                        
+//                                        Text("\(viewModel.sessionReport?.average_bpm ?? "" ) mmHg")
+                                    }
                                     Text("After Question Blood Pressure:")
                                         .foregroundStyle(teal)
                                         .fontWeight(.semibold)
@@ -158,7 +168,8 @@ struct ReportScreen: View {
                             
                             VStack(alignment: .leading){
                                 Text("Physiological Signals During Session")
-                                    .fontWeight(.bold)
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
                                     .foregroundStyle(.teal)
                                 
                                 VStack{
@@ -249,7 +260,7 @@ struct ReportScreen: View {
                             .background(.white)
                             .cornerRadius(12)
 
-                            VStack(alignment: .leading, spacing: 10){
+                            VStack(alignment: .leading, spacing: 4){
                                 Text("Self Report:")
                                     .foregroundStyle(teal)
                                     .fontWeight(.bold)
@@ -353,11 +364,11 @@ struct ReportScreen: View {
                             viewModel.getstudentreport(sid: sid, sessionid: sessionid)
                             eegviewModel.getgraphdata(sessionid: String(sessionid), sid: String(sid))
                             ppgViewModel.getAllPPG(sessionID: String(sessionid), sid: String(sid))
-//                            viewModel.getselfreport(sessionid: sessionid)
-                        }
-                        .task {
                             viewModel.getselfreport(sessionid: sessionid)
                         }
+//                        .task {
+//                            viewModel.getselfreport(sessionid: sessionid)
+//                        }
                     }
 
                 }

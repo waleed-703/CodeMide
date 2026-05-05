@@ -260,7 +260,7 @@ struct QuestionReport: View {
                     .padding(20)
                     .background(.white)
                     .cornerRadius(12)
-                    .padding(.horizontal,25)
+//                    .padding(.horizontal,25)
                     
                     Spacer()
                 }
