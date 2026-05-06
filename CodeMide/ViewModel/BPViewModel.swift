@@ -10,6 +10,7 @@ class BPViewModel : ObservableObject{
     @Published var history : [(BPData,EndBP)] = []
     @Published var takebp : Bool = false
     @Published var takeendbp : Bool = false
+    @Published var isMidBPLoading : Bool = false
     
     
     func measurebaselinebp(){
@@ -51,6 +52,7 @@ class BPViewModel : ObservableObject{
     func midbp(){
         BPManager.measuremidbp(){result in
             DispatchQueue.main.async{
+                self.isMidBPLoading = false
                 switch result{
                 case .success(let data):
                     guard let baselineBP = self.baselineBP else{
