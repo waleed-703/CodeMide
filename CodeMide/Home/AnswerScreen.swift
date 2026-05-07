@@ -22,6 +22,9 @@ struct AnswerScreen: View {
     @State private var isMidBploading = false
     @State private var timeremaining : Int = 0
     @State private var timer : Timer?
+    @State private var showMidBPSheet = false
+    @State private var midBPResult: EndBP? = nil          // ← new
+
     
     var body: some View {
         ZStack{
@@ -109,7 +112,8 @@ struct AnswerScreen: View {
                             startTimer()
                             
                             DispatchQueue.main.asyncAfter(deadline: .now() + 300){
-                                showmidbpalert = true
+//                                showmidbpalert = true
+                                showMidBPSheet = true
                             }
 
                         }
@@ -158,9 +162,9 @@ struct AnswerScreen: View {
 //                            .foregroundColor(.white)
 //                            .cornerRadius(12)
                             Button{
-//                                recordingstop()
+                                recordingstop()
 //                                streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
-                                selectedtab += 1
+//                                selectedtab += 1
                             }label:{
                                 if stoprecording{
                                     ProgressView()
@@ -216,29 +220,42 @@ struct AnswerScreen: View {
                 showalert = true
             }
         }
-        .onChange(of: bpviewmodel.isMidBPLoading){loading in
-            if loading == false {
-                showmidbpalert = false
+//        .onChange(of: bpviewmodel.isMidBPLoading){loading in
+//            if loading == false {
+//                showmidbpalert = false
+//            }
+//        }
+//        .alert("Mid Question Blood Pressure",isPresented: $showmidbpalert){
+//            Button{
+//                bpviewmodel.midbp()}
+//            label:{
+//                if bpviewmodel.isMidBPLoading{
+//                    ProgressView()
+//                }else{
+//                    Text("Take Mid Bp")
+//                }
+//            }
+//            .disabled(bpviewmodel.isMidBPLoading)
+//            
+//            Button("Cancel",role: .cancel){}
+//            .foregroundStyle(.red)
+//        }message:{
+//                Text("Turn On The Device To Take Mid Question BP.")
+//            }
+        .onChange(of: bpviewmodel.isMidBPLoading) { loading in
+            if !loading, let last = bpviewmodel.history.last {
+                midBPResult = last.1                           // EndBP is the second tuple element
             }
         }
-        .alert("Mid Question Blood Pressure",isPresented: $showmidbpalert){
-            Button{
-                bpviewmodel.midbp()}
-            label:{
-                if bpviewmodel.isMidBPLoading{
-                    ProgressView()
-                }else{
-                    Text("Take Mid Bp")
-                }
-            }
-            .disabled(bpviewmodel.isMidBPLoading)
-            
-            Button("Cancel",role: .cancel){}
-            .foregroundStyle(.red)
-        }message:{
-                Text("Turn On The Device To Take Mid Question BP.")
-            }
-        
+        .sheet(isPresented: $showMidBPSheet) {
+            MidBPSheet(
+                viewModel: bpviewmodel,
+                result: $midBPResult,
+                isPresented: $showMidBPSheet
+            )
+            .presentationDetents([.height(320)])
+            .presentationDragIndicator(.visible)
+        }
 //        .toolbar{
 //            ToolbarItem(placement : .topBarLeading){
 //                Button(action : {

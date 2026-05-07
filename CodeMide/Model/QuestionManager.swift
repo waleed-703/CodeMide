@@ -5,7 +5,7 @@ struct Question : Decodable, Identifiable, Equatable{
     let description : String
     let duration : Int
     let questionlevel : String?
-    let count : Int
+    let count : Int?
     
     var id: Int{qid}
 }

@@ -12,6 +12,7 @@ struct ReadingScreen: View {
     @State private var recordingstart = false
     @State private var showalert = false
     @State private var alertmessage = ""
+    let studentId : Int
     @State private var bpalert = false
     var body: some View {
         ZStack{
@@ -119,8 +120,8 @@ struct ReadingScreen: View {
                 
                 Button{
                     //                        streammodel.startrecording(sessionID: "sessionid", questionID: "questionid")
-//                    startreading()
-                                            selectedtab += 1
+                    startreading()
+//                                            selectedtab += 1
                 }label: {
                     if recordingstart{
                         ProgressView()
@@ -187,20 +188,34 @@ struct ReadingScreen: View {
                 bpalert = true
             }
         }
+//        .onChange(of: viewModel.baselineBP){ baselinebp in
+//
+//            if baselinebp != nil {
+//
+//                takebp = false
+//            }
+//        }
         
     }
     func startbp(){
+
         takebp = true
+
         viewModel.measurebaselinebp()
-//        streamModel.startstream(sessionID: sessionID, name: studentName )
-        
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 30){
+
+            takebp = false
+        }
     }
     func startreading(){
+        print("SESSION ID:", studentId)
+        print("QUESTION ID:", questionid)
         recordingstart = true
-        streammodel.startrecording(sessionID: "sessionid", questionID: "questionid")
+        streammodel.startrecording(sessionID: "\(studentId)", questionID: "\(questionid)")
     }
 }
 
 #Preview {
-    ReadingScreen(selectedtab: .constant(0),sessionid: 0, questionid: 0)
+    ReadingScreen(selectedtab: .constant(0),sessionid: 0, questionid: 0,studentId: 0)
 }

@@ -75,8 +75,8 @@ struct StartTest: View {
 //                    .cornerRadius(12)
 //                    .frame(maxWidth: .infinity)
                     Button{
-//                        streamconnection()
-                        selectedtab += 1
+                        streamconnection()
+//                        selectedtab += 1
                     }label: {
                         if isloading{
                             ProgressView()

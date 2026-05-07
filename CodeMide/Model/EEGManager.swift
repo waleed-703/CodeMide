@@ -40,7 +40,7 @@ class EEGManager{
             "session_id" : sessionID,
             "name" : name
         ]
-        NetworkManager.shared.request(endpoint: "/api/devices/start_stream", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/start_stream", method: "POST",body: body){result in
             switch result{
             case .success(let data):
                 do{
@@ -77,7 +77,7 @@ class EEGManager{
             "sid": sessionID,
             "qid": questionID
         ]
-        NetworkManager.shared.request(endpoint: "/api/devices/start_recording", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/start_recording", method: "POST",body: body){result in
             switch result{
             case .success(let data):
                 do{

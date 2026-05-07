@@ -21,7 +21,7 @@ struct QuestionTabView: View {
                         StartTest(selectedtab: $selectedtab,studentName: studentName,studentId: studentId)
     //                        .scrollDisabled(true)
                             .tag(0)
-                        ReadingScreen(selectedtab: $selectedtab,sessionid: sessionid, questionid: questionid)
+                        ReadingScreen(selectedtab: $selectedtab,sessionid: sessionid, questionid: questionid,studentId: studentId)
 //                            .scrollDisabled(true)
                             .tag(1)
                         QuizScreen(selectedtab: $selectedtab,question: viewModel.question,sessionid: $sessionid,questionid: $questionid)
@@ -54,6 +54,12 @@ struct QuestionTabView: View {
 //                viewModel.getmediumquestion(studentId: studentId)
                     
                 
+            }
+            .onChange(of: viewModel.question) { question in
+
+                questionid = question.qid
+
+                print("UPDATED QUESTION ID:", questionid)
             }
             
         }
