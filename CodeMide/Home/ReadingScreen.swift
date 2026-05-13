@@ -120,8 +120,8 @@ struct ReadingScreen: View {
                 
                 Button{
                     //                        streammodel.startrecording(sessionID: "sessionid", questionID: "questionid")
-                    startreading()
-//                                            selectedtab += 1
+//                    startreading()
+                                            selectedtab += 1
                 }label: {
                     if recordingstart{
                         ProgressView()
@@ -163,19 +163,7 @@ struct ReadingScreen: View {
             Text(alertmessage)
         }
         
-        .onChange(of: streammodel.isRecording){recording in
-            if recording{
-                recordingstart = false
-                selectedtab += 1
-            }
-        }
-        .onChange(of: streammodel.errorMessage){error in
-            if let error = error {
-                recordingstart = false
-                alertmessage = error
-                showalert = true
-            }
-        }
+
 //        .onChange(of: viewModel.baselineBP){baselinebp in
 //            if baselinebp{
 //                takebp = false
@@ -208,12 +196,12 @@ struct ReadingScreen: View {
             takebp = false
         }
     }
-    func startreading(){
-        print("SESSION ID:", studentId)
-        print("QUESTION ID:", questionid)
-        recordingstart = true
-        streammodel.startrecording(sessionID: "\(studentId)", questionID: "\(questionid)")
-    }
+//    func startreading(){
+//        print("SESSION ID:", studentId)
+//        print("QUESTION ID:", questionid)
+//        recordingstart = true
+//        streammodel.startrecording(sessionID: "\(studentId)", questionID: "\(questionid)")
+//    }
 }
 
 #Preview {

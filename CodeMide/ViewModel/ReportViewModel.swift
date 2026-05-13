@@ -8,6 +8,8 @@ class ReportViewModel : ObservableObject{
     @Published var sessionReport : SReport?
     @Published var squestionReport : SQReport?
     @Published var selfReport: selfreport?
+    @Published var predictionReport: PredictionResponse?
+    @Published var predictionResults: [PredictionResult] = []
     
     func getreports(studentId : Int){
 //        let studentId = UserDefaults.standard.integer(forKey: "studentId")
@@ -85,6 +87,29 @@ class ReportViewModel : ObservableObject{
                 case.success(let data):
                     self.selfReport = data
                 case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+    
+    func predictSession(sessionId: Int){
+
+        ReportManager.predictSession(
+            sessionId: sessionId
+        ){ result in
+
+            DispatchQueue.main.async {
+
+                switch result {
+
+                case .success(let prediction):
+
+                    self.predictionReport = prediction
+                    self.predictionResults = prediction.results
+
+                case .failure(let error):
+
                     self.errorMessage = error.localizedDescription
                 }
             }

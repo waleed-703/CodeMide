@@ -86,6 +86,51 @@ struct EEGgraphpoint : Identifiable{
     let bandtype : String
 }
 
+struct CombinedQuestionGraph : Decodable {
+
+    let sessionid : String
+    let sid : String
+    let total_questions : Int
+    let questions : [CombinedQuestion]
+}
+
+struct CombinedQuestion : Decodable, Identifiable {
+
+    let id = UUID()
+
+    let qid : Int
+    let bp : [QuestionBP]
+    let eeg : QuestionEEG
+}
+
+struct QuestionBP : Decodable, Identifiable {
+
+    let id = UUID()
+
+    let type : String
+    let minute : Double
+    let SYS : Double
+    let DIA : Double
+}
+
+struct QuestionEEG : Decodable {
+
+    let time : [Double]
+    let delta : [Double]
+    let theta : [Double]
+    let alpha : [Double]
+    let beta : [Double]
+    let gamma : [Double]
+}
+
+struct CombinedQuestionPoint : Identifiable {
+
+    let id = UUID()
+
+    let x : Double
+    let y : Double
+    let bandtype : String
+}
 
 class GraphModel{
     
@@ -179,6 +224,40 @@ class GraphModel{
                 }catch{
                     completion(.failure(error))
                 }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    static func fetchCombinedQuestionData(
+        sessionid : String,
+        sid : String,
+        completion: @escaping(Result<CombinedQuestionGraph,Error>)->Void
+    ){
+        
+        NetworkManager.shared.request(
+            endpoint: "/api/devices/eeg/combined-question-report?sessionid=\(sessionid)&sid=\(sid)",
+            method: "GET"
+        ){ result in
+            
+            switch result{
+                
+            case .success(let data):
+                
+                do{
+                    
+                    let decoded = try JSONDecoder().decode(
+                        CombinedQuestionGraph.self,
+                        from: data
+                    )
+                    
+                    completion(.success(decoded))
+                    
+                }catch{
+                    completion(.failure(error))
+                }
+                
             case .failure(let error):
                 completion(.failure(error))
             }

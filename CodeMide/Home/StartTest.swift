@@ -35,66 +35,87 @@ struct StartTest: View {
                         .frame(width: 220, height: 220)
                 }
                 
-                
-                VStack(alignment: .leading){
-                    
+                ScrollView(){
+                    VStack(alignment: .leading){
+                        
                         Text("Question Statement:")
                             .foregroundStyle(teal)
                             .fontWeight(.semibold)
-//                    Text(viewModel.selectedQuestion?.description ?? "")
-                    Text(viewModel.question.description)
-                        .padding(.bottom,1)
-                    
-                    
+                        //                    Text(viewModel.selectedQuestion?.description ?? "")
+                        //                    Text(viewModel.question.description)
+                        //                        .padding(.bottom,1)
+                        VStack(alignment: .leading){
+                            Text("Question: 1")
+                                .fontWeight(.bold)
+                            Text(viewModel.easyQuestion.description)
+                        }
+                        
+                        VStack(alignment: .leading){
+                            Text("Question: 2")
+                                .fontWeight(.bold)
+                            Text(viewModel.mediumQuestion.description)
+                        }
+                        
+                        VStack(alignment: .leading){
+                            Text("Question: 3")
+                                .fontWeight(.bold)
+                            Text(viewModel.hardQuestion.description)
+                        }
                         
                         
-                    
-                    
-                    Text("Question 2, Question 3 remaining")
-                        .fontWeight(.semibold)
-                        .padding(.bottom,1)
-                    
-                    Text("Your focus level, stress and heart rate signals will be recorded during the test for performance analysis.Please remain calm and avoid unnecessary movement.")
-                        .padding(.bottom,1)
-                        .foregroundStyle(.gray)
-                        .font(.caption)
-                    
-                    Text("Please Turn On The Monitoring Device to capture Your EEG and PPG data before starting the test.")
-                        .foregroundStyle(teal)
-                        .fontWeight(.semibold)
-                    
-//                    NavigationLink(destination: ReadingScreen()
-//                                   , label:{
-//                        Text("Start Test")
-//                            .foregroundStyle(.white)
-//
-//                    })
-//                    .frame(maxWidth: 120)
-//                    .padding()
-//                    .background(teal)
-//                    .cornerRadius(12)
-//                    .frame(maxWidth: .infinity)
-                    Button{
-                        streamconnection()
-//                        selectedtab += 1
-                    }label: {
-                        if isloading{
-                            ProgressView()
-                                .tint(.white)
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+//                        Text("Question 2, Question 3 remaining")
+//                            .fontWeight(.semibold)
+//                            .padding(.bottom,1)
+                        
+                        Text("Your focus level, stress and heart rate signals will be recorded during the test for performance analysis.Please remain calm and avoid unnecessary movement.")
+                            .padding(.bottom,1)
+                            .foregroundStyle(.gray)
+                            .font(.caption)
+                        
+                        Text("Please Turn On The Monitoring Device to capture Your EEG and PPG data before starting the test.")
+                            .foregroundStyle(teal)
+                            .fontWeight(.semibold)
+                        
+                        //                    NavigationLink(destination: ReadingScreen()
+                        //                                   , label:{
+                        //                        Text("Start Test")
+                        //                            .foregroundStyle(.white)
+                        //
+                        //                    })
+                        //                    .frame(maxWidth: 120)
+                        //                    .padding()
+                        //                    .background(teal)
+                        //                    .cornerRadius(12)
+                        //                    .frame(maxWidth: .infinity)
+                        Button{
+                            streamconnection()
+                            //                        selectedtab += 1
+                        }label: {
+                            if isloading{
+                                ProgressView()
+                                    .tint(.white)
+                            }
+                            else{
+                                Text("StartTest")
+                                    .foregroundStyle(.white)
+                            }
                         }
-                        else{
-                            Text("StartTest")
-                                .foregroundStyle(.white)
-                        }
+                        .frame(maxWidth: 120)
+                        .padding()
+                        .background(teal)
+                        .cornerRadius(12)
+                        .frame(maxWidth: .infinity)
+                        .disabled(isloading)
+                        
+                        
                     }
-                    .frame(maxWidth: 120)
-                    .padding()
-                    .background(teal)
-                    .cornerRadius(12)
-                    .frame(maxWidth: .infinity)
-                    .disabled(isloading)
-                    
-                    
                 }
                 .padding(10)
                 .frame(maxWidth: .infinity)
@@ -105,6 +126,8 @@ struct StartTest: View {
                 
                 .onAppear(){
                     viewModel.geteasyquestion(studentId: studentId)
+                    viewModel.getmediumquestion(studentId: studentId)
+                    viewModel.gethardquestion(studentId: studentId)
                 }
                 Spacer()
                 
@@ -134,11 +157,81 @@ struct StartTest: View {
         }
     }
     
-    func streamconnection(){
+//    func streamconnection(){
+//        isloading = true
+//        
+//        streamModel.startstream(sessionID: sessionID, name: studentName )
+//        
+//    }
+    
+//    func streamconnection(){
+//
+//        isloading = true
+//
+//        streamModel.isstreamconnected = false
+//
+//        streamModel.errorMessage = nil
+//
+//        streamModel.startstream(
+//            sessionID: sessionID,
+//            name: studentName
+//        )
+//    }
+    func streamconnection() {
+
         isloading = true
-        
-        streamModel.startstream(sessionID: sessionID, name: studentName )
-        
+
+        streamModel.errorMessage = nil
+
+        EEGManager.startmuse(
+            sessionID: sessionID,
+            name: studentName
+        ) { result in
+
+            DispatchQueue.main.async {
+
+                isloading = false
+
+                switch result {
+
+                case .success(let response):
+
+                    print(
+                        "STREAM SUCCESS:",
+                        response.status
+                    )
+
+                    let status =
+                    response.status.lowercased()
+
+                    if status.contains("started") ||
+                        status.contains("already") {
+
+                        // ✅ MOVE TO NEXT SCREEN DIRECTLY
+                        selectedtab += 1
+
+                    } else {
+
+                        alertmessage =
+                        "Failed To Connect Device"
+
+                        showalert = true
+                    }
+
+                case .failure(let error):
+
+                    print(
+                        "STREAM ERROR:",
+                        error.localizedDescription
+                    )
+
+                    alertmessage =
+                    error.localizedDescription
+
+                    showalert = true
+                }
+            }
+        }
     }
 }
 

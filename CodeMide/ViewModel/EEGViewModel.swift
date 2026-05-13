@@ -8,27 +8,82 @@ class EEGViewModel : ObservableObject{
     @Published var SelfReport : String = ""
     @Published var selfReportSessionID : Int?
     @Published var isstreamconnected : Bool = false
+    @Published var isStoppingRecording = false
+    @Published var selfReportData: SelfResponce?
+    @Published var selfReportLoading = false
+    @Published var selfReportError: String?
+//    func startstream(sessionID: String, name: String){
+//        EEGManager.startmuse(sessionID: sessionID, name: name){result in
+//            DispatchQueue.main.async{
+//                switch result{
+//                case .success(let responce):
+//                    self.statusmessage = responce.status
+//                    if responce.status.lowercased().contains("started") || responce.status.lowercased().contains("already"){
+//                        self.isStreaming = true
+//                        self.isstreamconnected = true
+//                    }
+//                    else {
+//                        self.isstreamconnected = false
+//                        self.errorMessage = "Failed To Connect Device"
+//                    }
+//                case .failure(let error):
+//                    self.errorMessage = error.localizedDescription
+//                    self.isstreamconnected = false
+//                }
+//            }
+//            
+//        }
+//    }
     
     func startstream(sessionID: String, name: String){
-        EEGManager.startmuse(sessionID: sessionID, name: name){result in
-            DispatchQueue.main.async{
-                switch result{
+
+        DispatchQueue.main.async {
+
+            self.isstreamconnected = false
+            self.errorMessage = nil
+        }
+
+        EEGManager.startmuse(
+            sessionID: sessionID,
+            name: name
+        ){ result in
+
+            DispatchQueue.main.async {
+
+                switch result {
+
                 case .success(let responce):
+
                     self.statusmessage = responce.status
-                    if responce.status.lowercased().contains("started") || responce.status.lowercased().contains("already"){
+
+                    if responce.status.lowercased().contains("started") ||
+                        responce.status.lowercased().contains("already") {
+
                         self.isStreaming = true
-                        self.isstreamconnected = true
-                    }
-                    else {
+
+                        DispatchQueue.main.asyncAfter(
+                            deadline: .now() + 2
+                        ) {
+
+                            self.isstreamconnected = true
+                        }
+
+                    } else {
+
                         self.isstreamconnected = false
-                        self.errorMessage = "Failed To Connect Device"
+
+                        self.errorMessage =
+                        "Failed To Connect Device"
                     }
+
                 case .failure(let error):
-                    self.errorMessage = error.localizedDescription
+
+                    self.errorMessage =
+                    error.localizedDescription
+
                     self.isstreamconnected = false
                 }
             }
-            
         }
     }
     
@@ -47,43 +102,166 @@ class EEGViewModel : ObservableObject{
         }
     }
     
+//    func startrecording(sessionID: String, questionID: String){
+//        EEGManager.startrecording(sessionID: sessionID,questionID: questionID){result in
+//            DispatchQueue.main.async{
+//                switch result{
+//                case .success(let responce):
+//                    self.statusmessage = responce.status
+//                    self.isRecording = responce.status.lowercased().contains("started")
+//                case .failure(let error):
+//                    self.errorMessage = error.localizedDescription
+//                }
+//            }
+//        }
+//    }
+    
     func startrecording(sessionID: String, questionID: String){
-        EEGManager.startrecording(sessionID: sessionID,questionID: questionID){result in
-            DispatchQueue.main.async{
-                switch result{
-                case .success(let responce):
-                    self.statusmessage = responce.status
-                    self.isRecording = responce.status.lowercased().contains("started")
-                case .failure(let error):
-                    self.errorMessage = error.localizedDescription
-                }
-            }
-        }
-    }
-    
-    func stoprecording(answers: String, gptIndex: Int){
-        EEGManager.stoprecording(answers: answers,gptIndex: gptIndex){result in
+
+        EEGManager.startrecording(
+            sessionID: sessionID,
+            questionID: questionID
+        ) { result in
+
             DispatchQueue.main.async {
-                switch result{
-                case .success(let responce):
-                    self.statusmessage = responce.status
-                    self.isRecording = false
-                case .failure(let error):
-                    self.errorMessage = error.localizedDescription
-                }
-            }
-        }
-    }
-    
-    func sumbitselfreport(mental: Int, effort: Int , frustration: Int,comments: String){
-        EEGManager.selfresponcereport(mental: mental, effort: effort, frustration: frustration, comments: comments){result in
-            DispatchQueue.main.async {
-                switch result{
+
+                switch result {
+
                 case .success(let response):
-                    self.SelfReport = response.status
-                    self.selfReportSessionID = response.sessionid
+
+                    self.statusmessage = response.status
+
+                    let status = response.status.lowercased()
+
+                    self.isRecording =
+                        status.contains("started") ||
+                        status.contains("already")
+
+                    print("Recording Status:", response.status)
+
                 case .failure(let error):
+
+                    print("Start Recording Error:",
+                          error.localizedDescription)
+
                     self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+    
+//    func stoprecording(answers: String, gptIndex: Int){
+//        EEGManager.stoprecording(answers: answers,gptIndex: gptIndex){result in
+//            DispatchQueue.main.async {
+//                switch result{
+//                case .success(let responce):
+//                    self.statusmessage = responce.status
+//                    self.isRecording = false
+//                case .failure(let error):
+//                    self.errorMessage = error.localizedDescription
+//                }
+//            }
+//        }
+//    }
+  
+    func stoprecording(answers: String, gptIndex: Int) {
+
+        let trimmedAnswer =
+        answers.trimmingCharacters(
+            in: .whitespacesAndNewlines
+        )
+
+        print("Stopping recording...")
+        print("Answer:", trimmedAnswer)
+        print("GPT Index:", gptIndex)
+
+        EEGManager.stoprecording(
+            answers: trimmedAnswer,
+            gptIndex: gptIndex
+        ) { result in
+
+            DispatchQueue.main.async {
+
+                switch result {
+
+                case .success(let response):
+
+                    print(
+                        "Stop Recording Success:",
+                        response
+                    )
+
+                    self.statusmessage = response.status
+
+                    // directly stop locally
+                    self.isRecording = false
+
+                case .failure(let error):
+
+                    print(
+                        "Stop Recording Error:",
+                        error.localizedDescription
+                    )
+
+                    self.errorMessage =
+                    error.localizedDescription
+                }
+            }
+        }
+    }
+    
+//    func sumbitselfreport(mental: Int, effort: Int , frustration: Int,comments: String){
+//        EEGManager.selfresponcereport(mental: mental, effort: effort, frustration: frustration, comments: comments){result in
+//            DispatchQueue.main.async {
+//                switch result{
+//                case .success(let response):
+//                    self.SelfReport = response.status
+//                    self.selfReportSessionID = response.sessionid
+//                case .failure(let error):
+//                    self.errorMessage = error.localizedDescription
+//                }
+//            }
+//        }
+//    }
+    
+    func submitSelfReportData(
+        mental: Int,
+        effort: Int,
+        frustration: Int,
+        comments: String
+    ){
+
+        // Prevent multiple requests
+        guard !selfReportLoading else { return }
+
+        selfReportLoading = true
+        selfReportError = nil
+
+        EEGManager.selfresponcereport(
+            mental: mental,
+            effort: effort,
+            frustration: frustration,
+            comments: comments
+        ){ result in
+
+            DispatchQueue.main.async {
+
+                self.selfReportLoading = false
+
+                switch result {
+
+                case .success(let response):
+
+                    print("✅ Self Report Submitted")
+
+                    self.selfReportData = response
+
+                case .failure(let error):
+
+                    print("❌ Self Report Error:", error)
+
+                    self.selfReportError =
+                    error.localizedDescription
                 }
             }
         }

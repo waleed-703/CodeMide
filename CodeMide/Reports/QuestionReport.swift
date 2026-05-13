@@ -56,7 +56,7 @@ struct QuestionReport: View {
                             .foregroundStyle(teal)
                             .font(.title2)
                             .fontWeight(.semibold)
-                    
+                        
                         HStack{
                             Text("Final Stress Level:")
                                 .foregroundStyle(teal)
@@ -67,7 +67,7 @@ struct QuestionReport: View {
                             Text("Complete Time:")
                                 .foregroundStyle(teal)
                             Text(viewModel.squestionReport?.time_taken ??
-                            "")
+                                 "")
                         }
                         
                         HStack {
@@ -89,6 +89,18 @@ struct QuestionReport: View {
                             Text("Systolic / Diastolic :")
                             
                             Text(viewModel.squestionReport?.bpb ?? "")
+                                .foregroundStyle(teal)
+                        }
+                        
+                        Text("Mid Question Blood Pressure:")
+                            .foregroundStyle(teal)
+                            .fontWeight(.semibold)
+                            .font(.title3)
+                        
+                        HStack{
+                            Text("Systolic / Diastolic :")
+                            
+                            Text(viewModel.squestionReport?.bpm ?? "")
                                 .foregroundStyle(teal)
                         }
                         
@@ -140,83 +152,85 @@ struct QuestionReport: View {
                     .frame(maxWidth: /*@START_MENU_TOKEN@*/.infinity/*@END_MENU_TOKEN@*/,alignment: .leading)
                     .background(.white)
                     .cornerRadius(12)
-//                    .padding(.vertical,5)
+                    //                    .padding(.vertical,5)
                     .padding(.horizontal,25)
                     
-                    VStack(alignment: .leading){
-                        VStack(alignment: .leading){
-                            Text("EEG Individual Bands:")
-                                .foregroundStyle(teal)
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                            
-                            Text("Alpha")
-    //                            .foregroundStyle(teal)
-                                .fontWeight(.semibold)
-                            Chart(graphModel.alphapoints){point in
-                                LineMark(x: .value("Time", point.x), y: .value("Alpha", point.y))
-                            }
-                            .foregroundStyle(.orange)
-                            
-                            Divider()
-                            
-                            Text("Beta")
-    //                            .foregroundStyle(teal)
-                                .fontWeight(.semibold)
-                            Chart(graphModel.betapoints){point in
-                                LineMark(x: .value("Time", point.x), y: .value("Beta", point.y))
-                            }
-                            .foregroundStyle(.purple)
-                            
-                            Divider()
-                            
-                            Text("Theta")
-    //                            .foregroundStyle(teal)
-                                .fontWeight(.semibold)
-                            Chart(graphModel.thetapoints){point in
-                                LineMark(x: .value("Time", point.x), y: .value("Theta", point.y))
-                            }
-                            .foregroundStyle(.green)
-                            
-                            Divider()
-                            
-                            Text("Delta")
-    //                            .foregroundStyle(teal)
-                                .fontWeight(.semibold)
-                            Chart(graphModel.deltapoints){point in
-                                LineMark(x: .value("Time", point.x), y: .value("Delta", point.y))
-                            }
-                            .foregroundStyle(.blue)
-                            
-                            Divider()
-                            
-                            Text("Gamma")
-    //                            .foregroundStyle(teal)
-                                .fontWeight(.semibold)
-                            Chart(graphModel.gammapoints){point in
-                                LineMark(x: .value("Time", point.x), y: .value("Gamma", point.y))
-                            }
-                            .foregroundStyle(.red)
-                        }
-                        .padding(20)
-                        .background(.gray.opacity(0.1))
-                        .cornerRadius(12)
+                                        VStack(alignment: .leading){
+                                            VStack(alignment: .leading){
+                                                Text("EEG Individual Bands:")
+                                                    .foregroundStyle(teal)
+                                                    .font(.title2)
+                                                    .fontWeight(.semibold)
+                    
+                                                Text("Alpha")
+                        //                            .foregroundStyle(teal)
+                                                    .fontWeight(.semibold)
+                                                Chart(graphModel.alphapoints){point in
+                                                    LineMark(x: .value("Time", point.x), y: .value("Alpha", point.y))
+                                                }
+                                                .foregroundStyle(.orange)
+                    
+                                                Divider()
+                    
+                                                Text("Beta")
+                        //                            .foregroundStyle(teal)
+                                                    .fontWeight(.semibold)
+                                                Chart(graphModel.betapoints){point in
+                                                    LineMark(x: .value("Time", point.x), y: .value("Beta", point.y))
+                                                }
+                                                .foregroundStyle(.purple)
+                    
+                                                Divider()
+                    
+                                                Text("Theta")
+                        //                            .foregroundStyle(teal)
+                                                    .fontWeight(.semibold)
+                                                Chart(graphModel.thetapoints){point in
+                                                    LineMark(x: .value("Time", point.x), y: .value("Theta", point.y))
+                                                }
+                                                .foregroundStyle(.green)
+                    
+                                                Divider()
+                    
+                                                Text("Delta")
+                        //                            .foregroundStyle(teal)
+                                                    .fontWeight(.semibold)
+                                                Chart(graphModel.deltapoints){point in
+                                                    LineMark(x: .value("Time", point.x), y: .value("Delta", point.y))
+                                                }
+                                                .foregroundStyle(.blue)
+                    
+                                                Divider()
+                    
+                                                Text("Gamma")
+                        //                            .foregroundStyle(teal)
+                                                    .fontWeight(.semibold)
+                                                Chart(graphModel.gammapoints){point in
+                                                    LineMark(x: .value("Time", point.x), y: .value("Gamma", point.y))
+                                                }
+                                                .foregroundStyle(.red)
+                                            }
+                                            .padding(20)
+                                            .background(.gray.opacity(0.1))
+                                            .cornerRadius(12)
+                    
+                                        }
+                                        .padding(20)
+                                        .frame(maxWidth: .infinity,alignment: .leading)
+                                        .background(.white)
+                                        .cornerRadius(12)
+                    //                    .padding(.vertical,5)
+                                        .padding(.horizontal,25)
+                    
+                   
+                    
+                    VStack() {
                         
-                    }
-                    .padding(20)
-                    .frame(maxWidth: .infinity,alignment: .leading)
-                    .background(.white)
-                    .cornerRadius(12)
-//                    .padding(.vertical,5)
-                    .padding(.horizontal,25)
-                    
-                    VStack(alignment: .leading) {
-
                         Text("PPG (Heart Rate Variability)")
                             .foregroundStyle(teal)
                             .font(.title2)
                             .fontWeight(.semibold)
-
+                        
                         Chart(ppgViewModel.questionPPGPoints) { point in
                             LineMark(
                                 x: .value("Time", point.x),
@@ -235,32 +249,34 @@ struct QuestionReport: View {
                         }
                         .frame(height: 200)
                         .padding(.leading)
-
+                        
                         Text("Time (index)")
                             .font(.caption)
-
+                        
                         VStack(alignment: .leading, spacing: 5) {
                             Text("PPG Metrics:")
                                 .foregroundStyle(teal)
                                 .fontWeight(.semibold)
-
+                            
                             Text("HR -> Heart Rate")
                                 .foregroundStyle(.gray)
-
+                            
                             Text("SDNN -> Variability")
                                 .foregroundStyle(.gray)
-
+                            
                             Text("RMSSD -> Recovery")
                                 .foregroundStyle(.gray)
-
+                            
                             Text("pNN50 -> Parasympathetic")
                                 .foregroundStyle(.gray)
                         }
                     }
                     .padding(20)
+                    .frame(maxWidth: .infinity,alignment: .leading)
                     .background(.white)
                     .cornerRadius(12)
-//                    .padding(.horizontal,25)
+                    //                    .padding(.vertical,5)
+                    .padding(.horizontal,25)
                     
                     Spacer()
                 }
@@ -277,10 +293,19 @@ struct QuestionReport: View {
                         sid: String(sid),
                         qid: String(qid)
                     )
+                    
+                    
+                    graphModel.getCombinedQuestionData(
+                        sessionid: String(sessionid),
+                        sid: String(sid)
+                    )
                 }
+                
             }
-
+            
         }
+        
+
     }
 }
 

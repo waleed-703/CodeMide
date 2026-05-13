@@ -21,6 +21,16 @@ struct ReportScreen: View {
     @StateObject private var viewModel = ReportViewModel()
     @StateObject private var eegviewModel = GraphViewModel()
     @StateObject private var ppgViewModel = PPGViewModel()
+    @State private var selectedBand = "All Bands"
+
+    let bandOptions = [
+        "All Bands",
+        "Alpha",
+        "Beta",
+        "Theta",
+        "Gamma",
+        "Delta"
+    ]
     let sid : Int
     let sessionid : Int
     var body: some View {
@@ -74,7 +84,7 @@ struct ReportScreen: View {
                                 HStack{
                                     Text("Complete Time:")
                                         .foregroundStyle(.teal)
-                                    Text("\(viewModel.sessionReport?.total_minutes ?? 0) sec")
+                                    Text("\(viewModel.sessionReport?.total_minutes ?? 0) min")
                                 }
                                 HStack{
                                     Text("Stress Index:")
@@ -105,7 +115,8 @@ struct ReportScreen: View {
                                     HStack{
                                         Text("Systolic / Diastolic:")
                                         
-//                                        Text("\(viewModel.sessionReport?.average_bpm ?? "" ) mmHg")
+                                        Text("\(viewModel.sessionReport?.average_bpm ?? "" ) mmHg")
+                                            .foregroundStyle(teal)
                                     }
                                     Text("After Question Blood Pressure:")
                                         .foregroundStyle(teal)
@@ -120,7 +131,7 @@ struct ReportScreen: View {
                                     }
                                     
                                     Divider()
-                                        .frame(width: 250)
+//                                        .frame(width: 250)
                 //                    Spacer()
                                     Text("Heart Rate Variability(PPG):")
                                         .foregroundStyle(teal)
@@ -166,52 +177,54 @@ struct ReportScreen: View {
 //                            .padding(.horizontal,10)
                             
                             
-                            VStack(alignment: .leading){
-                                Text("Physiological Signals During Session")
-                                    .font(.title3)
-                                    .fontWeight(.semibold)
-                                    .foregroundStyle(.teal)
-                                
-                                VStack{
-                                    Text("EEG Bands Power Across Time")
-                                        .font(.caption)
-                                    Chart(eegviewModel.points){point in
-                                        LineMark(x: .value("Time",point.x),
-                                                 y: .value("Value",point.y)
-                                        )
-                                        .foregroundStyle(by: .value("Band", point.bandtype))
-                                    }
-                                    .chartYAxis {
-                                        AxisMarks(position: .leading)
-                                    }
-                                    .overlay(alignment: .leading) {
-                                        Text("Power")
-                                            .font(.caption)
-//                                            .foregroundColor(.gray)
-                                            .rotationEffect(.degrees(-90))
-                                            .offset(x: -35)
-                                    }
-                                    .frame(height: 200)
-                                    .padding(.leading)
-                                    Text("Time(seconds)")
-                                        .font(.caption)
-                                    
-                                    VStack(alignment: .leading ,spacing: 5){
-                                        Text("EEG Power Bands Summary:")
-                                            .foregroundStyle(teal)
-                                            .fontWeight(.semibold)
-                                        Text("Alpha Power -> Relxation")
-                                            .foregroundStyle(.gray)
-                                        Text("Beta Power -> Focus / Stress")
-                                            .foregroundStyle(.gray)
-                                        Text("Theta -> Mental Workload")
-                                            .foregroundStyle(.gray)
-                                    }
-                                }
-                            }
-                            .padding(20)
-                            .background(.white)
-                            .cornerRadius(12)
+//                            VStack(alignment: .leading){
+//                                Text("Physiological Signals During Session")
+//                                    .font(.title3)
+//                                    .fontWeight(.semibold)
+//                                    .foregroundStyle(.teal)
+//                                
+//                                VStack{
+//                                    Text("EEG Bands Power Across Time")
+//                                        .font(.caption)
+//                                    Chart(eegviewModel.points){point in
+//                                        LineMark(x: .value("Time",point.x),
+//                                                 y: .value("Value",point.y)
+//                                        )
+//                                        .foregroundStyle(by: .value("Band", point.bandtype))
+//                                    }
+//                                    .chartYAxis {
+//                                        AxisMarks(position: .leading)
+//                                    }
+//                                    .overlay(alignment: .leading) {
+//                                        Text("Power")
+//                                            .font(.caption)
+////                                            .foregroundColor(.gray)
+//                                            .rotationEffect(.degrees(-90))
+//                                            .offset(x: -35)
+//                                    }
+//                                    .frame(height: 200)
+//                                    .padding(.leading)
+//                                    Text("Time(seconds)")
+//                                        .font(.caption)
+//                                    
+//                                    VStack(alignment: .leading ,spacing: 5){
+//                                        Text("EEG Power Bands Summary:")
+//                                            .foregroundStyle(teal)
+//                                            .fontWeight(.semibold)
+//                                        Text("Alpha Power -> Relxation")
+//                                            .foregroundStyle(.gray)
+//                                        Text("Beta Power -> Focus / Stress")
+//                                            .foregroundStyle(.gray)
+//                                        Text("Theta -> Mental Workload")
+//                                            .foregroundStyle(.gray)
+//                                    }
+//                                }
+//                            }
+//                            .padding(20)
+//                            .background(.white)
+//                            .cornerRadius(12)
+                            
+                            
                             
                             VStack {
                                 Text("PPG (Heart Rate Variability) Over Time")
@@ -260,37 +273,37 @@ struct ReportScreen: View {
                             .background(.white)
                             .cornerRadius(12)
 
-                            VStack(alignment: .leading, spacing: 4){
-                                Text("Self Report:")
-                                    .foregroundStyle(teal)
-                                    .fontWeight(.bold)
-                                    .font(.title3)
-                                
-                                HStack{
-                                    Text("Mental Load:")
-                                    Text("\(viewModel.selfReport?.mentalLoad ?? 0)")
-                                        .foregroundStyle(teal)
-                                }
-                                HStack{
-                                    Text("Frustration:")
-                                    Text("\(viewModel.selfReport?.frustration ?? 0)")
-                                        .foregroundStyle(teal)
-                                }
-                                HStack{
-                                    Text("Effort:")
-                                    Text("\(viewModel.selfReport?.effort ?? 0)")
-                                        .foregroundStyle(teal)
-                                }
-                                HStack{
-                                    Text("Comments:")
-                                    Text("\(viewModel.selfReport?.comment ?? "")")
-                                        .foregroundStyle(teal)
-                                }
-                            }
-                            .padding(10)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .background(.white)
-                            .cornerRadius(12)
+//                            VStack(alignment: .leading, spacing: 4){
+//                                Text("Self Report:")
+//                                    .foregroundStyle(teal)
+//                                    .fontWeight(.bold)
+//                                    .font(.title3)
+//                                
+//                                HStack{
+//                                    Text("Mental Load:")
+//                                    Text("\(viewModel.selfReport?.mentalLoad ?? 0)")
+//                                        .foregroundStyle(teal)
+//                                }
+//                                HStack{
+//                                    Text("Frustration:")
+//                                    Text("\(viewModel.selfReport?.frustration ?? 0)")
+//                                        .foregroundStyle(teal)
+//                                }
+//                                HStack{
+//                                    Text("Effort:")
+//                                    Text("\(viewModel.selfReport?.effort ?? 0)")
+//                                        .foregroundStyle(teal)
+//                                }
+//                                HStack{
+//                                    Text("Comments:")
+//                                    Text("\(viewModel.selfReport?.comment ?? "")")
+//                                        .foregroundStyle(teal)
+//                                }
+//                            }
+//                            .padding(10)
+//                            .frame(maxWidth: .infinity, alignment: .leading)
+//                            .background(.white)
+//                            .cornerRadius(12)
                             
                             VStack(alignment: .leading){
                                 Text("Reports Of Each Question")
@@ -362,9 +375,18 @@ struct ReportScreen: View {
                         
                         .onAppear{
                             viewModel.getstudentreport(sid: sid, sessionid: sessionid)
-                            eegviewModel.getgraphdata(sessionid: String(sessionid), sid: String(sid))
+//                            eegviewModel.getgraphdata(sessionid: String(sessionid), sid: String(sid))
                             ppgViewModel.getAllPPG(sessionID: String(sessionid), sid: String(sid))
                             viewModel.getselfreport(sessionid: sessionid)
+                            eegviewModel.getgraphdata(
+                                sessionid: String(sessionid),
+                                sid: String(sid)
+                            )
+
+                            eegviewModel.getCombinedQuestionData(
+                                sessionid: String(sessionid),
+                                sid: String(sid)
+                            )
                         }
 //                        .task {
 //                            viewModel.getselfreport(sessionid: sessionid)

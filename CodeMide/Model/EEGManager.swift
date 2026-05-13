@@ -23,6 +23,18 @@ struct SelfResponceReport : Encodable{
     let comments : String
 }
 
+struct SelfReportResponse: Codable {
+
+    let status: String
+    let sessionId: Int
+
+    enum CodingKeys: String, CodingKey {
+
+        case status
+        case sessionId = "sessionid"
+    }
+}
+
 struct ResetAllResponce : Decodable{
     let status : String?
     let error : String?
@@ -97,7 +109,7 @@ class EEGManager{
             "answers" : answers,
             "gptindex" : gptIndex
         ]
-        NetworkManager.shared.request(endpoint: "/api/devices/stop_recording", method: "POST"){result in
+        NetworkManager.shared.request(endpoint: "/api/devices/stop_recording", method: "POST",body: body){result in
             switch result{
             case .success(let data):
                 do{
@@ -113,8 +125,14 @@ class EEGManager{
     }
     
     static func selfresponcereport(mental: Int, effort: Int, frustration: Int,comments: String, completion: @escaping(Result<SelfResponce,Error>)->Void){
-        let body = SelfResponceReport(mental: mental, effort: effort, frustration: frustration, comments: comments)
-        NetworkManager.shared.request(endpoint: "/api/devices/selfreport", method: "POST"){result in
+        let body: [String: Any] = [
+
+                "MentalLoad": mental,
+                "Effort": effort,
+                "Frustration": frustration,
+                "Comment": comments
+            ]
+        NetworkManager.shared.request(endpoint: "/api/devices/selfreport", method: "POST",body: body){result in
             switch result{
             case .success(let data):
                 do{

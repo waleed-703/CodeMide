@@ -130,9 +130,9 @@ struct EndReadingScreen: View {
                             .fontWeight(.semibold)
    
                         Button{
-                            stopqrecording()
+//                            stopqrecording()
 //                            streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
-//                            streammodel.stopstream()
+                            streammodel.stopstream()
                             openreport.toggle()
                         }label: {
                             if recordingstop{
@@ -162,10 +162,10 @@ struct EndReadingScreen: View {
                 }else{
                     Button{
 //                        stopqrecording()
-                        streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
+//                        streammodel.stoprecording(answers: answer, gptIndex: chatgpt ? 1 : 0)
                         answer = ""
                         chatgpt = false
-//                        selectedtab = 1
+                        selectedtab = 2
                     }label: {
                         if recordingstop {
                             ProgressView()
@@ -197,6 +197,15 @@ struct EndReadingScreen: View {
             
             
         }
+        .onAppear {
+
+            // Clear old BP values when screen opens again
+            viewModel.endBP = nil
+
+            // Reset loading states
+            takeendbp = false
+        }
+        
         .alert("Connection Error!",isPresented: $showalert){
             Button("OK",role: .cancel){
             }
@@ -210,12 +219,12 @@ struct EndReadingScreen: View {
             Text(alertmessage)
         }
         
-        .onChange(of: streammodel.isRecording){recording in
-            if recording{
-                recordingstop = false
-                selectedtab = 1
-            }
-        }
+//        .onChange(of: streammodel.isRecording){recording in
+//            if recording{
+//                recordingstop = false
+//                selectedtab = 2
+//            }
+//        }
         .onChange(of: streammodel.errorMessage){error in
             if let error = error {
                 recordingstop = false
@@ -235,12 +244,24 @@ struct EndReadingScreen: View {
                 bpalert = true
             }
         }
+        
+        .onChange(of: viewModel.endBP) { newBP in
+
+            // BP reading completed successfully
+            if newBP != nil {
+
+                takeendbp = false
+            }
+        }
     }
     func endbp(){
+
+        // reset old result
+        viewModel.endBP = nil
+
         takeendbp = true
+
         viewModel.measureendbp()
-//        streamModel.startstream(sessionID: sessionID, name: studentName )
-        
     }
     func stopqrecording(){
         recordingstop = true

@@ -7,6 +7,8 @@ class GraphViewModel : ObservableObject{
     @Published var betapoints : [EEGgraphpoint] = []
     @Published var deltapoints : [EEGgraphpoint] = []
     @Published var gammapoints : [EEGgraphpoint] = []
+    @Published var combinedQuestions : [CombinedQuestion] = []
+    @Published var combinedPoints : [CombinedQuestionPoint] = []
     @Published var errorMessage : String?
     
     func getgraphdata(sessionid: String, sid: String){
@@ -110,6 +112,80 @@ class GraphViewModel : ObservableObject{
                         guard let x = Double("\(t)"), let y = Double("\(v)") else { return nil }
                         return EEGgraphpoint(x: x, y: y, bandtype: response.band)
                     }
+                case .failure(let error):
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+    
+    func getCombinedQuestionData(sessionid: String, sid: String){
+        
+        GraphModel.fetchCombinedQuestionData(
+            sessionid: sessionid,
+            sid: sid
+        ){ result in
+            
+            DispatchQueue.main.async {
+                
+                switch result{
+                    
+                case .success(let response):
+                    
+                    self.combinedQuestions = response.questions
+                    
+                    var graphPoints : [CombinedQuestionPoint] = []
+                    
+                    for question in response.questions{
+                        
+                        let eeg = question.eeg
+                        
+                        for i in 0..<eeg.time.count{
+                            
+                            graphPoints.append(
+                                CombinedQuestionPoint(
+                                    x: eeg.time[i],
+                                    y: eeg.delta[i],
+                                    bandtype: "delta"
+                                )
+                            )
+                            
+                            graphPoints.append(
+                                CombinedQuestionPoint(
+                                    x: eeg.time[i],
+                                    y: eeg.theta[i],
+                                    bandtype: "theta"
+                                )
+                            )
+                            
+                            graphPoints.append(
+                                CombinedQuestionPoint(
+                                    x: eeg.time[i],
+                                    y: eeg.alpha[i],
+                                    bandtype: "alpha"
+                                )
+                            )
+                            
+                            graphPoints.append(
+                                CombinedQuestionPoint(
+                                    x: eeg.time[i],
+                                    y: eeg.beta[i],
+                                    bandtype: "beta"
+                                )
+                            )
+                            
+                            graphPoints.append(
+                                CombinedQuestionPoint(
+                                    x: eeg.time[i],
+                                    y: eeg.gamma[i],
+                                    bandtype: "gamma"
+                                )
+                            )
+                        }
+                    }
+                    
+                    self.combinedPoints = graphPoints
+                    
                 case .failure(let error):
                     self.errorMessage = error.localizedDescription
                 }

@@ -5,9 +5,32 @@ class QuestionViewModel: ObservableObject{
     @Published var selectedQuestion : Question?
     @Published var isLoading = false
     @Published var errorMessage : String?
-    @Published var question: Question = .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0)
+//    @Published var question: Question = .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0)
 //    @Published var mediumquestion: MediumQuestion?
 //    @Published var hardquestion: HardQuestion?
+    @Published var easyQuestion: Question = .init(
+        qid: 0,
+        description: "",
+        duration: 0,
+        questionlevel: "",
+        count: 0
+    )
+
+    @Published var mediumQuestion: Question = .init(
+        qid: 0,
+        description: "",
+        duration: 0,
+        questionlevel: "",
+        count: 0
+    )
+
+    @Published var hardQuestion: Question = .init(
+        qid: 0,
+        description: "",
+        duration: 0,
+        questionlevel: "",
+        count: 0
+    )
     
     func fetchQuestion(){
         QuestionManager.fetchAllQuestions{result in
@@ -97,7 +120,8 @@ class QuestionViewModel: ObservableObject{
             DispatchQueue.main.async{
                 switch result{
                 case .success(let fetchedQuestion):
-                    self.question = fetchedQuestion
+//                    self.question = fetchedQuestion
+                    self.easyQuestion = fetchedQuestion
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -110,7 +134,8 @@ class QuestionViewModel: ObservableObject{
             DispatchQueue.main.async{
                 switch result{
                 case .success(let fetchedQuestion):
-                    self.question = fetchedQuestion
+//                    self.question = fetchedQuestion
+                    self.mediumQuestion = fetchedQuestion
                 case .failure(let error):
                     print(error.localizedDescription)
                 }
@@ -123,7 +148,8 @@ class QuestionViewModel: ObservableObject{
             DispatchQueue.main.async{
                 switch result{
                 case .success(let fetchedQuestion):
-                    self.question = fetchedQuestion
+//                    self.question = fetchedQuestion
+                    self.hardQuestion = fetchedQuestion
                 case .failure(let error):
                     print(error.localizedDescription)
                 }

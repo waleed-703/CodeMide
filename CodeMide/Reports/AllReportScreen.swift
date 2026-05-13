@@ -80,7 +80,7 @@ struct AllReportsScreen: View {
     func reportCard(report: Report) -> some View{
         VStack(spacing: 2){
             HStack{
-                Text("Date: \(report.date)")
+                Text("Date: \(report.date ?? "--")")
                     .font(.subheadline)
                     .foregroundStyle(Color.black)
 
@@ -97,13 +97,13 @@ struct AllReportsScreen: View {
 
             }
             HStack(spacing: 10){
-                metrichip(title: "\(report.afterQuestionBP)\nmmHg", icon: "cuff")
+                metrichip(title: "\(report.afterQuestionBP ?? "--")\nmmHg",icon: "cuff")
 //                    .frame(width: 125, height: 120)
                 metrichip(
-                    title: String(format: "%.2f\nbpm", report.heartRate),
+                    title: String(format: "%.2f\nbpm", report.heartRate ?? 0),
                     icon: "ppg")
 //                .frame(width: 110, height: 150)
-                metrichip(title: "\(Int(report.sdnn))\nms", icon: "heart")
+                metrichip(title: "\(Int(report.sdnn ?? 0))\nms", icon: "heart")
                     .frame(width: 100, height: 90)
 
 

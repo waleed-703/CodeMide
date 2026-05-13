@@ -15,6 +15,10 @@ struct QuizScreen: View {
     let question : Question
     @Binding var sessionid : Int
     @Binding var questionid : Int
+    let studentId : Int
+    @State private var recordingstart = false
+    @State private var showalert = false
+    @State private var alertmessage = ""
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -93,7 +97,8 @@ struct QuizScreen: View {
                             
                             Button{
 //                                streammodel.startrecording(sessionID: String(sessionid), questionID: String(questionid))
-                                selectedtab += 1
+                                startreading()
+//                                selectedtab += 1
                             }label:{
                                 Text("Start Test")
                             }
@@ -102,6 +107,7 @@ struct QuizScreen: View {
                             .background(teal)
                             .foregroundColor(.white)
                             .cornerRadius(12)
+                            .disabled(recordingstart)
                             
                         }
                         .padding(78)
@@ -123,12 +129,51 @@ struct QuizScreen: View {
             }
             
         }
+        
+        .onChange(of: streammodel.isRecording){recording in
+            if recording{
+                recordingstart = false
+                selectedtab += 1
+            }
+        }
+        .onChange(of: streammodel.errorMessage){error in
+            if let error = error {
+                recordingstart = false
+                alertmessage = error
+                showalert = true
+            }
+        }
 
+    }
+//    func startreading(){
+//        print("Student ID:", studentId)
+//        print("QUESTION ID:", questionid)
+//        recordingstart = true
+//        streammodel.startrecording(sessionID: "\(studentId)", questionID: "\(questionid)")
+//    }
+    
+    func startreading(){
+
+        print("Student ID:", studentId)
+        print("QUESTION ID:", questionid)
+
+        recordingstart = true
+
+        // RESET OLD STATE
+        streammodel.isRecording = false
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2){
+
+            streammodel.startrecording(
+                sessionID: "\(studentId)",
+                questionID: "\(questionid)"
+            )
+        }
     }
 
 }
 #Preview {
     NavigationStack{
-        QuizScreen(selectedtab : .constant(0),question : .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0),sessionid: .constant(0),questionid: .constant(0))
+        QuizScreen(selectedtab : .constant(0),question : .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0),sessionid: .constant(0),questionid: .constant(0),studentId: 0)
     }
 }

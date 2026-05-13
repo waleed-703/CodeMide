@@ -7,7 +7,7 @@ struct BPData : Decodable{
     let PULSE : Int
 }
 
-struct EndBP : Decodable {
+struct EndBP : Decodable,Equatable {
     let status : String
     let SYS : Int
     let DIA : Int

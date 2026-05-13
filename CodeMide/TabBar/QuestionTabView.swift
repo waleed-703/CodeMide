@@ -11,37 +11,72 @@ struct QuestionTabView: View {
     @State var questionid : Int
     @State var answer : String
     @State var chatgpt : Bool
+    var currentQuestion: Question {
+
+        if questioncount == 0 {
+            return viewModel.easyQuestion
+        }
+        else if questioncount == 1 {
+            return viewModel.mediumQuestion
+        }
+        else {
+            return viewModel.hardQuestion
+        }
+    }
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
             VStack{
                 TabView(selection: $selectedtab){
-                    Group{
-                        let studentName = UserDefaults.standard.string(forKey: "studentName") ?? "Unknown"
-                        StartTest(selectedtab: $selectedtab,studentName: studentName,studentId: studentId)
-    //                        .scrollDisabled(true)
-                            .tag(0)
-                        ReadingScreen(selectedtab: $selectedtab,sessionid: sessionid, questionid: questionid,studentId: studentId)
-//                            .scrollDisabled(true)
-                            .tag(1)
-                        QuizScreen(selectedtab: $selectedtab,question: viewModel.question,sessionid: $sessionid,questionid: $questionid)
-//                            .scrollDisabled(true)
-                            .tag(2)
-                        AnswerScreen(selectedtab: $selectedtab,question: viewModel.question,answer: $answer,chatgpt:$chatgpt,sessionid: sessionid,questioncount: questioncount)
-                            .tag(3)
-                        EndReadingScreen(selectedtab: $selectedtab,questioncount: questioncount,openreport: $openreport,answer: $answer ,chatgpt: $chatgpt,sessionid: sessionid)
-                            .tag(4)
-                            .onAppear{
-                                questioncount += 1
-                                if questioncount == 1 {
-                                    viewModel.getmediumquestion(studentId: studentId)
-                                }else if questioncount == 2 {
-                                    viewModel.gethardquestion(studentId: studentId)
-                                }else{
-                                    
-                                }
-                            }
-                        
+                    Group {
+                        let studentName =
+                        UserDefaults.standard.string(
+                            forKey: "studentName"
+                        ) ?? "Unknown"
+
+                        StartTest(
+                            selectedtab: $selectedtab,
+                            studentName: studentName,
+                            studentId: studentId
+                        )
+                        .tag(0)
+
+                        ReadingScreen(
+                            selectedtab: $selectedtab,
+                            sessionid: sessionid,
+                            questionid: currentQuestion.qid,
+                            studentId: studentId
+                        )
+                        .tag(1)
+
+                        QuizScreen(
+                            selectedtab: $selectedtab,
+                            question: currentQuestion,
+                            sessionid: $sessionid,
+                            questionid: $questionid,
+                            studentId: studentId
+                        )
+                        .tag(2)
+
+                        AnswerScreen(
+                            selectedtab: $selectedtab,
+                            question: currentQuestion,
+                            answer: $answer,
+                            chatgpt: $chatgpt,
+                            sessionid: sessionid,
+                            questioncount: questioncount
+                        )
+                        .tag(3)
+
+                        EndReadingScreen(
+                            selectedtab: $selectedtab,
+                            questioncount: questioncount,
+                            openreport: $openreport,
+                            answer: $answer,
+                            chatgpt: $chatgpt,
+                            sessionid: sessionid
+                        )
+                        .tag(4)
                     }
                     .simultaneousGesture(DragGesture())
                 }
@@ -49,18 +84,18 @@ struct QuestionTabView: View {
             }
             .onAppear{
                 
-                viewModel.geteasyquestion(studentId: studentId)
+//                viewModel.geteasyquestion(studentId: studentId)
                 
 //                viewModel.getmediumquestion(studentId: studentId)
                     
                 
             }
-            .onChange(of: viewModel.question) { question in
-
-                questionid = question.qid
-
-                print("UPDATED QUESTION ID:", questionid)
-            }
+//            .onChange(of: viewModel.question) { question in
+//
+//                questionid = question.qid
+//
+//                print("UPDATED QUESTION ID:", questionid)
+//            }
             
         }
 

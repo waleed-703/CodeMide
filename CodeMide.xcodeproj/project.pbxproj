@@ -176,9 +176,9 @@
 				378FB7752F57587B0076F85B /* StudentViewModel.swift */,
 				378FB7772F5758870076F85B /* QuestionViewModel.swift */,
 				378FB7792F5758990076F85B /* ReportViewModel.swift */,
+				68B2D3512F8621F60097A55E /* GraphViewModel.swift */,
 				68B2D34D2F8621C90097A55E /* BPViewModel.swift */,
 				68B2D34F2F8621E50097A55E /* EEGViewModel.swift */,
-				68B2D3512F8621F60097A55E /* GraphViewModel.swift */,
 				37A0953C2FA60A6F0085682F /* PPGViewModel.swift */,
 			);
 			path = ViewModel;

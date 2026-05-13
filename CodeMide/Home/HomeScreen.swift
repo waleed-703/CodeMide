@@ -175,19 +175,51 @@ struct HomeScreen: View {
 
 
     
+//    func loadreports(){
+////        let studentId = UserDefaults.standard.integer(forKey: "studentId")
+//        print("Fetching reports for ID: \(studentId)")
+//        ReportManager.fetchtopreports(studentId: studentId){result in
+//            switch result{
+//            case .success(let data):
+////                print("report")
+//                self.reports = data
+//                
+//            case .failure(let error):
+////                print("error",error)
+//                self.errormessage = error.localizedDescription
+//                self.showerror = true
+//            }
+//        }
+//    }
     func loadreports(){
-//        let studentId = UserDefaults.standard.integer(forKey: "studentId")
+
         print("Fetching reports for ID: \(studentId)")
-        ReportManager.fetchtopreports(studentId: studentId){result in
-            switch result{
-            case .success(let data):
-//                print("report")
-                self.reports = data
-                
-            case .failure(let error):
-//                print("error",error)
-                self.errormessage = error.localizedDescription
-                self.showerror = true
+
+        ReportManager.fetchtopreports(
+            studentId: studentId
+        ){ result in
+
+            DispatchQueue.main.async {
+
+                switch result {
+
+                case .success(let data):
+
+                    print("✅ Reports Received")
+                    print(data)
+
+                    self.reports = data
+
+                case .failure(let error):
+
+                    print("❌ Report Error")
+                    print(error)
+
+                    self.errormessage =
+                    error.localizedDescription
+
+                    self.showerror = true
+                }
             }
         }
     }
@@ -220,7 +252,7 @@ struct HomeScreen: View {
     func stressCard(report: Report) -> some View{
             VStack(spacing: 14){
                 HStack{
-                    Text("Date: \(report.date)")
+                    Text("Date: \(report.date ?? "--")")
                         .font(.subheadline)
                         .foregroundStyle(Color.black)
                     
@@ -236,13 +268,13 @@ struct HomeScreen: View {
                 }
                 
                 HStack(spacing: 10){
-                    metrichip(title: "\(report.afterQuestionBP)\nmmHg", icon: "cuff")
+                    metrichip(title: "\(report.afterQuestionBP ?? "--")\nmmHg",icon: "cuff")
 //                        .frame(width: 125, height: 120)
                     metrichip(
-                        title: String(format: "%.2f\nbpm", report.heartRate),
+                        title: String(format: "%.2f\nbpm", report.heartRate ?? 0),
                         icon: "ppg")
 //                        .frame(width: 110, height: 150)
-                    metrichip(title: "\(Int(report.sdnn))\nms", icon: "heart")
+                    metrichip(title: "\(Int(report.sdnn ?? 0))\nms", icon: "heart")
                         .frame(width: 100, height: 90)
 
 
