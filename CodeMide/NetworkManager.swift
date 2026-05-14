@@ -5,7 +5,7 @@ class NetworkManager: ObservableObject{
     static let shared = NetworkManager()
     private init() {}
     
-    private let baseURL = "http://192.168.18.30:5000"
+    private let baseURL = "http://192.168.18.33:5000"
 //    private let baseURL = "http://127.0.0.1:5000"
 //    private let baseURL = "http://172.16.14.84:5000"
 //      private let baseURL = "http://10.84.84.91:5000"
