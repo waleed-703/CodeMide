@@ -157,21 +157,33 @@ struct FilterQuestionReport: Codable, Identifiable {
     var id: Int { sid }
 
     let sid: Int
+
     let student_name: String
+
     let gender: String
-    let cgpa: Double
-    let semester: String
+
+    // FIXED
+
+    let cgpa: String
+
+    // FIXED
+
+    let semester: Int
 
     let gptindex: Int
 
     let qid: Int
+
     let question: String
 
     let bp: String?
 
     let heartRate: Double?
+
     let sdnn: Double?
+
     let rmssd: Double?
+
     let si: Double?
 
     let stressLevel: String?
@@ -346,32 +358,49 @@ class ReportManager{
 
         var queryItems: [String] = []
 
-        // Gender
-        if let gender = gender, !gender.isEmpty {
+        // MARK: Gender
+
+        if let gender = gender,
+           !gender.isEmpty {
+
             queryItems.append("gender=\(gender)")
         }
 
-        // Min CGPA
+        // MARK: Min CGPA
+
         if let minCGPA = minCGPA {
+
             queryItems.append("min_cgpa=\(minCGPA)")
         }
 
-        // Max CGPA
+        // MARK: Max CGPA
+
         if let maxCGPA = maxCGPA {
+
             queryItems.append("max_cgpa=\(maxCGPA)")
         }
 
-        // Semester
-        if let semester = semester, !semester.isEmpty {
+        // MARK: Semester
+
+        if let semester = semester,
+           !semester.isEmpty {
+
             queryItems.append("semester=\(semester)")
         }
 
-        // GPT Index
+        // MARK: GPT
+
         if let gptindex = gptindex {
+
             queryItems.append("gptindex=\(gptindex)")
         }
 
         endpoint += queryItems.joined(separator: "&")
+
+        print("==============")
+        print("FILTER ENDPOINT")
+        print("==============")
+        print(endpoint)
 
         NetworkManager.shared.request(
             endpoint: endpoint,
@@ -382,23 +411,59 @@ class ReportManager{
 
             case .success(let data):
 
+                // MARK: PRINT RAW RESPONSE
+
+                print("==============")
+                print("RAW FILTER RESPONSE")
+                print("==============")
+
+                if let jsonString = String(
+                    data: data,
+                    encoding: .utf8
+                ) {
+
+                    print(jsonString)
+                }
+
                 do {
 
+                    // MARK: TRY ARRAY DECODING
+
                     let decoded = try JSONDecoder()
-                        .decode([FilterQuestionReport].self, from: data)
+                        .decode(
+                            [FilterQuestionReport].self,
+                            from: data
+                        )
+
+                    print("==============")
+                    print("DECODE SUCCESS")
+                    print("==============")
+
+                    print(decoded.count)
 
                     completion(.success(decoded))
 
                 } catch {
+
+                    print("==============")
+                    print("DECODING ERROR")
+                    print("==============")
+
+                    print(error)
 
                     completion(.failure(error))
                 }
 
             case .failure(let error):
 
+                print("==============")
+                print("API ERROR")
+                print("==============")
+
+                print(error)
+
                 completion(.failure(error))
             }
         }
     }
-
 }

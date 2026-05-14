@@ -216,38 +216,38 @@ struct AdminReport: View {
 
     @StateObject private var viewModel = ReportViewModel()
 
-    let questionId : Int
+    let questionId: Int
 
-    // MARK: - FILTER STATES
+    // MARK: FILTER STATES
 
-    @State private var selectedGender = ""
-    @State private var selectedSemester = ""
-    @State private var selectedGPT = ""
+    @State private var selectedGender: String? = nil
+    @State private var selectedSemester: String? = nil
+    @State private var selectedGPT: String? = nil
 
     @State private var minCGPA = ""
     @State private var maxCGPA = ""
 
-    let genders = ["", "Male", "Female"]
-    let semesters = ["", "1", "2", "3", "4", "5", "6", "7", "8"]
-    let gptOptions = ["", "0", "1"]
+    let genders = ["Male", "Female"]
+    let semesters = ["1","2","3","4","5","6","7","8"]
 
     var body: some View {
 
         ZStack {
 
-            teal.ignoresSafeArea()
+            teal
+                .ignoresSafeArea()
 
             ScrollView {
 
-                VStack {
+                VStack(spacing: 20) {
 
                     // MARK: HEADER
 
-                    VStack {
+                    VStack(spacing: 10) {
 
                         Image("codemide")
                             .resizable()
-                            .frame(width: 100,height: 100)
+                            .frame(width: 100, height: 100)
 
                         Text("Question Report")
                             .foregroundStyle(.white)
@@ -276,19 +276,19 @@ struct AdminReport: View {
 
                     // MARK: QUESTION
 
-                    VStack(alignment: .leading){
+                    VStack(alignment: .leading, spacing: 10) {
 
-                        Text("QuestionStatement:")
+                        Text("Question Statement:")
                             .foregroundStyle(teal)
+                            .fontWeight(.bold)
 
-                        Text("\(viewModel.report?.description ?? "")")
-
+                        Text(viewModel.report?.description ?? "No Description")
                     }
                     .padding(25)
-                    .frame(maxWidth: .infinity,alignment: .leading)
+                    .frame(maxWidth: .infinity, alignment: .leading)
                     .background(.white)
                     .cornerRadius(12)
-                    .padding(.horizontal,25)
+                    .padding(.horizontal, 25)
 
                     // MARK: FILTER SECTION
 
@@ -299,45 +299,52 @@ struct AdminReport: View {
                             .fontWeight(.bold)
                             .foregroundStyle(teal)
 
-                        // Gender Picker
+                        // MARK: GENDER PICKER
 
                         Picker("Gender", selection: $selectedGender) {
 
-                            Text("All").tag("")
+                            Text("Nil")
+                                .tag(String?.none)
 
-                            ForEach(genders.dropFirst(), id: \.self) { gender in
+                            ForEach(genders, id: \.self) { gender in
 
-                                Text(gender).tag(gender)
+                                Text(gender)
+                                    .tag(Optional(gender))
                             }
                         }
                         .pickerStyle(.menu)
 
-                        // Semester Picker
+                        // MARK: SEMESTER PICKER
 
                         Picker("Semester", selection: $selectedSemester) {
 
-                            Text("All").tag("")
+                            Text("Nil")
+                                .tag(String?.none)
 
-                            ForEach(semesters.dropFirst(), id: \.self) { sem in
+                            ForEach(semesters, id: \.self) { sem in
 
-                                Text("Semester \(sem)").tag(sem)
+                                Text("Semester \(sem)")
+                                    .tag(Optional(sem))
                             }
                         }
                         .pickerStyle(.menu)
 
-                        // GPT Picker
+                        // MARK: GPT PICKER
 
                         Picker("GPT Usage", selection: $selectedGPT) {
 
-                            Text("All").tag("")
+                            Text("Nil")
+                                .tag(String?.none)
 
-                            Text("Without GPT").tag("0")
+                            Text("Without GPT")
+                                .tag(Optional("0"))
 
-                            Text("With GPT").tag("1")
+                            Text("With GPT")
+                                .tag(Optional("1"))
                         }
                         .pickerStyle(.menu)
 
-                        // CGPA
+                        // MARK: CGPA
 
                         HStack {
 
@@ -350,7 +357,7 @@ struct AdminReport: View {
                                 .keyboardType(.decimalPad)
                         }
 
-                        // FILTER BUTTON
+                        // MARK: BUTTON
 
                         Button {
 
@@ -358,15 +365,15 @@ struct AdminReport: View {
 
                                 qid: questionId,
 
-                                gender: selectedGender.isEmpty ? nil : selectedGender,
+                                gender: selectedGender,
 
-                                minCGPA: Double(minCGPA),
+                                minCGPA: minCGPA.isEmpty ? nil : Double(minCGPA),
 
-                                maxCGPA: Double(maxCGPA),
+                                maxCGPA: maxCGPA.isEmpty ? nil : Double(maxCGPA),
 
-                                semester: selectedSemester.isEmpty ? nil : selectedSemester,
+                                semester: selectedSemester,
 
-                                gptindex: Int(selectedGPT)
+                                gptindex: selectedGPT == nil ? nil : Int(selectedGPT!)
                             )
 
                         } label: {
@@ -395,13 +402,29 @@ struct AdminReport: View {
                             .foregroundStyle(.white)
                             .padding(.horizontal)
 
-                        if viewModel.filteredReports.isEmpty {
+                        // MARK: LOADING
 
-                            Text("No Filtered Reports")
+                        if viewModel.isLoading == true {
+
+                            ProgressView()
+                                .tint(.white)
+                                .padding()
+
+                        }
+
+                        // MARK: EMPTY
+
+                        else if viewModel.filteredReports.isEmpty {
+
+                            Text("No Reports Found")
                                 .foregroundStyle(.white)
                                 .padding(.horizontal)
 
-                        } else {
+                        }
+
+                        // MARK: DATA
+
+                        else {
 
                             ForEach(viewModel.filteredReports) { report in
 
@@ -410,77 +433,43 @@ struct AdminReport: View {
                                     Text(report.student_name)
                                         .font(.headline)
 
-                                    HStack {
+                                    infoRow(title: "Gender", value: report.gender)
 
-                                        Text("Gender:")
-                                            .foregroundStyle(teal)
+                                    infoRow(title: "CGPA", value: "\(report.cgpa)")
 
-                                        Text(report.gender)
-                                    }
+                                    infoRow(title: "Semester", value: "\(report.semester)")
 
-                                    HStack {
+                                    infoRow(
+                                        title: "GPT",
+                                        value: report.gptindex == 1
+                                        ? "With GPT"
+                                        : "Without GPT"
+                                    )
 
-                                        Text("CGPA:")
-                                            .foregroundStyle(teal)
+                                    infoRow(
+                                        title: "BP",
+                                        value: report.bp ?? "N/A"
+                                    )
 
-                                        Text("\(report.cgpa)")
-                                    }
+                                    infoRow(
+                                        title: "Heart Rate",
+                                        value: "\(report.heartRate ?? 0)"
+                                    )
 
-                                    HStack {
+                                    infoRow(
+                                        title: "SDNN",
+                                        value: "\(report.sdnn ?? 0)"
+                                    )
 
-                                        Text("Semester:")
-                                            .foregroundStyle(teal)
+                                    infoRow(
+                                        title: "RMSSD",
+                                        value: "\(report.rmssd ?? 0)"
+                                    )
 
-                                        Text(report.semester)
-                                    }
-
-                                    HStack {
-
-                                        Text("GPT:")
-                                            .foregroundStyle(teal)
-
-                                        Text(report.gptindex == 1 ? "With GPT" : "Without GPT")
-                                    }
-
-                                    HStack {
-
-                                        Text("BP:")
-                                            .foregroundStyle(teal)
-
-                                        Text(report.bp ?? "N/A")
-                                    }
-
-                                    HStack {
-
-                                        Text("Heart Rate:")
-                                            .foregroundStyle(teal)
-
-                                        Text("\(report.heartRate ?? 0)")
-                                    }
-
-                                    HStack {
-
-                                        Text("SDNN:")
-                                            .foregroundStyle(teal)
-
-                                        Text("\(report.sdnn ?? 0)")
-                                    }
-
-                                    HStack {
-
-                                        Text("RMSSD:")
-                                            .foregroundStyle(teal)
-
-                                        Text("\(report.rmssd ?? 0)")
-                                    }
-
-                                    HStack {
-
-                                        Text("Stress Level:")
-                                            .foregroundStyle(teal)
-
-                                        Text(report.stressLevel ?? "N/A")
-                                    }
+                                    infoRow(
+                                        title: "Stress Level",
+                                        value: report.stressLevel ?? "N/A"
+                                    )
 
                                 }
                                 .padding()
@@ -493,11 +482,26 @@ struct AdminReport: View {
 
                     Spacer()
                 }
+                .padding(.vertical)
                 .onAppear {
 
                     viewModel.fetchadminreport(questionId: questionId)
                 }
             }
+        }
+    }
+
+    // MARK: REUSABLE ROW
+
+    func infoRow(title: String, value: String) -> some View {
+
+        HStack {
+
+            Text("\(title):")
+                .foregroundStyle(teal)
+                .fontWeight(.semibold)
+
+            Text(value)
         }
     }
 }
