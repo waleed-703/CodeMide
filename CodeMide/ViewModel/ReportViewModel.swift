@@ -10,6 +10,8 @@ class ReportViewModel : ObservableObject{
     @Published var selfReport: selfreport?
     @Published var predictionReport: PredictionResponse?
     @Published var predictionResults: [PredictionResult] = []
+    @Published var filteredReports: [FilterQuestionReport] = []
+    @Published var filterMessage: String?
     
     func getreports(studentId : Int){
 //        let studentId = UserDefaults.standard.integer(forKey: "studentId")
@@ -107,6 +109,41 @@ class ReportViewModel : ObservableObject{
 
                     self.predictionReport = prediction
                     self.predictionResults = prediction.results
+
+                case .failure(let error):
+
+                    self.errorMessage = error.localizedDescription
+                }
+            }
+        }
+    }
+    
+    func filterQuestionReports(
+        qid: Int,
+        gender: String? = nil,
+        minCGPA: Double? = nil,
+        maxCGPA: Double? = nil,
+        semester: String? = nil,
+        gptindex: Int? = nil
+    ){
+
+        ReportManager.filterQuestionReports(
+            qid: qid,
+            gender: gender,
+            minCGPA: minCGPA,
+            maxCGPA: maxCGPA,
+            semester: semester,
+            gptindex: gptindex
+        ){ result in
+
+            DispatchQueue.main.async {
+
+                switch result {
+
+                case .success(let reports):
+
+                    self.filteredReports = reports
+                    self.filterMessage = nil
 
                 case .failure(let error):
 

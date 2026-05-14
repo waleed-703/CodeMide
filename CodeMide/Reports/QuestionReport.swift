@@ -16,6 +16,27 @@ struct QuestionReport: View {
     let sessionid : Int
     let sid : Int
     let qid : Int
+    func bpView(
+        title: String,
+        value: String,
+        color: Color
+    ) -> some View {
+
+        VStack(spacing: 4){
+
+            Text(title)
+                .font(.caption2)
+                .bold()
+
+            Text(value)
+                .font(.caption2)
+        }
+        .padding(8)
+        .background(color)
+        .foregroundStyle(.white)
+        .cornerRadius(10)
+    }
+
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -156,59 +177,546 @@ struct QuestionReport: View {
                     .padding(.horizontal,25)
                     
                                         VStack(alignment: .leading){
+//                                            VStack(alignment: .leading){
+//                                                Text("EEG Individual Bands:")
+//                                                    .foregroundStyle(teal)
+//                                                    .font(.title2)
+//                                                    .fontWeight(.semibold)
+//                    
+//                                                Text("Alpha")
+//                        //                            .foregroundStyle(teal)
+//                                                    .fontWeight(.semibold)
+//                                                Chart(graphModel.alphapoints){point in
+//                                                    LineMark(x: .value("Time", point.x), y: .value("Alpha", point.y))
+//                                                }
+//                                                .foregroundStyle(.orange)
+//                    
+//                                                Divider()
+//                    
+//                                                Text("Beta")
+//                        //                            .foregroundStyle(teal)
+//                                                    .fontWeight(.semibold)
+//                                                Chart(graphModel.betapoints){point in
+//                                                    LineMark(x: .value("Time", point.x), y: .value("Beta", point.y))
+//                                                }
+//                                                .foregroundStyle(.purple)
+//                    
+//                                                Divider()
+//                    
+//                                                Text("Theta")
+//                        //                            .foregroundStyle(teal)
+//                                                    .fontWeight(.semibold)
+//                                                Chart(graphModel.thetapoints){point in
+//                                                    LineMark(x: .value("Time", point.x), y: .value("Theta", point.y))
+//                                                }
+//                                                .foregroundStyle(.green)
+//                    
+//                                                Divider()
+//                    
+//                                                Text("Delta")
+//                        //                            .foregroundStyle(teal)
+//                                                    .fontWeight(.semibold)
+//                                                Chart(graphModel.deltapoints){point in
+//                                                    LineMark(x: .value("Time", point.x), y: .value("Delta", point.y))
+//                                                }
+//                                                .foregroundStyle(.blue)
+//                    
+//                                                Divider()
+//                    
+//                                                Text("Gamma")
+//                        //                            .foregroundStyle(teal)
+//                                                    .fontWeight(.semibold)
+//                                                Chart(graphModel.gammapoints){point in
+//                                                    LineMark(x: .value("Time", point.x), y: .value("Gamma", point.y))
+//                                                }
+//                                                .foregroundStyle(.red)
+//                                            }
+//                                            .padding(20)
+//                                            .background(.gray.opacity(0.1))
+//                                            .cornerRadius(12)
+                                            
                                             VStack(alignment: .leading){
+
                                                 Text("EEG Individual Bands:")
                                                     .foregroundStyle(teal)
                                                     .font(.title2)
                                                     .fontWeight(.semibold)
-                    
+
+                                                // =====================================================
+                                                // COMMON BP VIEW
+                                                // =====================================================
+
+                                            
+                                                // =====================================================
+                                                // ALPHA
+                                                // =====================================================
+
                                                 Text("Alpha")
-                        //                            .foregroundStyle(teal)
                                                     .fontWeight(.semibold)
-                                                Chart(graphModel.alphapoints){point in
-                                                    LineMark(x: .value("Time", point.x), y: .value("Alpha", point.y))
+
+                                                Chart {
+
+                                                    ForEach(graphModel.alphapoints){ point in
+
+                                                        LineMark(
+                                                            x: .value("Time", point.x),
+                                                            y: .value("Alpha", point.y)
+                                                        )
+                                                        .foregroundStyle(.orange)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 4)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+
+                                                    // START
+                                                    if let first = graphModel.alphapoints.first {
+
+                                                        PointMark(
+                                                            x: .value("Time", first.x),
+                                                            y: .value("Alpha", first.y)
+                                                        )
+                                                        .foregroundStyle(.blue)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top) {
+
+                                                            bpView(
+                                                                title: "START",
+                                                                value: viewModel.squestionReport?.bpb ?? "",
+                                                                color: .blue
+                                                            )
+                                                        }
+                                                    }
+
+                                                    // MID
+                                                    if !graphModel.alphapoints.isEmpty {
+
+                                                        let midIndex =
+                                                        graphModel.alphapoints.count / 2
+
+                                                        PointMark(
+                                                            x: .value(
+                                                                "Time",
+                                                                graphModel.alphapoints[midIndex].x
+                                                            ),
+                                                            y: .value(
+                                                                "Alpha",
+                                                                graphModel.alphapoints[midIndex].y
+                                                            )
+                                                        )
+                                                        .foregroundStyle(.purple)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "MID",
+                                                                value: viewModel.squestionReport?.bpm ?? "",
+                                                                color: .purple
+                                                            )
+                                                        }
+                                                    }
+
+                                                    // END
+                                                    if let last = graphModel.alphapoints.last {
+
+                                                        PointMark(
+                                                            x: .value("Time", last.x),
+                                                            y: .value("Alpha", last.y)
+                                                        )
+                                                        .foregroundStyle(.green)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "END",
+                                                                value: viewModel.squestionReport?.bpa ?? "",
+                                                                color: .green
+                                                            )
+                                                        }
+                                                    }
                                                 }
-                                                .foregroundStyle(.orange)
-                    
+                                                .chartXScale(domain: -5...140)
+                                                .chartYScale(domain: 0...6)
+                                                .frame(height: 300)
+
                                                 Divider()
-                    
+
+                                                // =====================================================
+                                                // BETA
+                                                // =====================================================
+
                                                 Text("Beta")
-                        //                            .foregroundStyle(teal)
                                                     .fontWeight(.semibold)
-                                                Chart(graphModel.betapoints){point in
-                                                    LineMark(x: .value("Time", point.x), y: .value("Beta", point.y))
+
+                                                Chart {
+
+                                                    ForEach(graphModel.betapoints){ point in
+
+                                                        LineMark(
+                                                            x: .value("Time", point.x),
+                                                            y: .value("Beta", point.y)
+                                                        )
+                                                        .foregroundStyle(.purple)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 4)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+
+                                                    if let first = graphModel.betapoints.first {
+
+                                                        PointMark(
+                                                            x: .value("Time", first.x),
+                                                            y: .value("Beta", first.y)
+                                                        )
+                                                        .foregroundStyle(.blue)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "START",
+                                                                value: viewModel.squestionReport?.bpb ?? "",
+                                                                color: .blue
+                                                            )
+                                                        }
+                                                    }
+
+                                                    if !graphModel.betapoints.isEmpty {
+
+                                                        let midIndex =
+                                                        graphModel.betapoints.count / 2
+
+                                                        PointMark(
+                                                            x: .value(
+                                                                "Time",
+                                                                graphModel.betapoints[midIndex].x
+                                                            ),
+                                                            y: .value(
+                                                                "Beta",
+                                                                graphModel.betapoints[midIndex].y
+                                                            )
+                                                        )
+                                                        .foregroundStyle(.purple)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "MID",
+                                                                value: viewModel.squestionReport?.bpm ?? "",
+                                                                color: .purple
+                                                            )
+                                                        }
+                                                    }
+
+                                                    if let last = graphModel.betapoints.last {
+
+                                                        PointMark(
+                                                            x: .value("Time", last.x),
+                                                            y: .value("Beta", last.y)
+                                                        )
+                                                        .foregroundStyle(.green)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "END",
+                                                                value: viewModel.squestionReport?.bpa ?? "",
+                                                                color: .green
+                                                            )
+                                                        }
+                                                    }
                                                 }
-                                                .foregroundStyle(.purple)
-                    
+                                                .chartXScale(domain: -5...140)
+                                                .chartYScale(domain: 0...6)
+                                                .frame(height: 300)
+
                                                 Divider()
-                    
+
+                                                // =====================================================
+                                                // THETA
+                                                // =====================================================
+
                                                 Text("Theta")
-                        //                            .foregroundStyle(teal)
                                                     .fontWeight(.semibold)
-                                                Chart(graphModel.thetapoints){point in
-                                                    LineMark(x: .value("Time", point.x), y: .value("Theta", point.y))
+
+                                                Chart {
+
+                                                    ForEach(graphModel.thetapoints){ point in
+
+                                                        LineMark(
+                                                            x: .value("Time", point.x),
+                                                            y: .value("Theta", point.y)
+                                                        )
+                                                        .foregroundStyle(.green)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 4)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+
+                                                    if let first = graphModel.thetapoints.first {
+
+                                                        PointMark(
+                                                            x: .value("Time", first.x),
+                                                            y: .value("Theta", first.y)
+                                                        )
+                                                        .foregroundStyle(.blue)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "START",
+                                                                value: viewModel.squestionReport?.bpb ?? "",
+                                                                color: .blue
+                                                            )
+                                                        }
+                                                    }
+
+                                                    if !graphModel.thetapoints.isEmpty {
+
+                                                        let midIndex =
+                                                        graphModel.thetapoints.count / 2
+
+                                                        PointMark(
+                                                            x: .value(
+                                                                "Time",
+                                                                graphModel.thetapoints[midIndex].x
+                                                            ),
+                                                            y: .value(
+                                                                "Theta",
+                                                                graphModel.thetapoints[midIndex].y
+                                                            )
+                                                        )
+                                                        .foregroundStyle(.purple)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "MID",
+                                                                value: viewModel.squestionReport?.bpm ?? "",
+                                                                color: .purple
+                                                            )
+                                                        }
+                                                    }
+
+                                                    if let last = graphModel.thetapoints.last {
+
+                                                        PointMark(
+                                                            x: .value("Time", last.x),
+                                                            y: .value("Theta", last.y)
+                                                        )
+                                                        .foregroundStyle(.green)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "END",
+                                                                value: viewModel.squestionReport?.bpa ?? "",
+                                                                color: .green
+                                                            )
+                                                        }
+                                                    }
                                                 }
-                                                .foregroundStyle(.green)
-                    
+                                                .chartXScale(domain: -5...140)
+                                                .chartYScale(domain: 0...6)
+                                                .frame(height: 300)
+
                                                 Divider()
-                    
+
+                                                // =====================================================
+                                                // DELTA
+                                                // =====================================================
+
                                                 Text("Delta")
-                        //                            .foregroundStyle(teal)
                                                     .fontWeight(.semibold)
-                                                Chart(graphModel.deltapoints){point in
-                                                    LineMark(x: .value("Time", point.x), y: .value("Delta", point.y))
+
+                                                Chart {
+
+                                                    ForEach(graphModel.deltapoints){ point in
+
+                                                        LineMark(
+                                                            x: .value("Time", point.x),
+                                                            y: .value("Delta", point.y)
+                                                        )
+                                                        .foregroundStyle(.blue)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 4)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+
+                                                    if let first = graphModel.deltapoints.first {
+
+                                                        PointMark(
+                                                            x: .value("Time", first.x),
+                                                            y: .value("Delta", first.y)
+                                                        )
+                                                        .foregroundStyle(.blue)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "START",
+                                                                value: viewModel.squestionReport?.bpb ?? "",
+                                                                color: .blue
+                                                            )
+                                                        }
+                                                    }
+
+                                                    if !graphModel.deltapoints.isEmpty {
+
+                                                        let midIndex =
+                                                        graphModel.deltapoints.count / 2
+
+                                                        PointMark(
+                                                            x: .value(
+                                                                "Time",
+                                                                graphModel.deltapoints[midIndex].x
+                                                            ),
+                                                            y: .value(
+                                                                "Delta",
+                                                                graphModel.deltapoints[midIndex].y
+                                                            )
+                                                        )
+                                                        .foregroundStyle(.purple)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "MID",
+                                                                value: viewModel.squestionReport?.bpm ?? "",
+                                                                color: .purple
+                                                            )
+                                                        }
+                                                    }
+
+                                                    if let last = graphModel.deltapoints.last {
+
+                                                        PointMark(
+                                                            x: .value("Time", last.x),
+                                                            y: .value("Delta", last.y)
+                                                        )
+                                                        .foregroundStyle(.green)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "END",
+                                                                value: viewModel.squestionReport?.bpa ?? "",
+                                                                color: .green
+                                                            )
+                                                        }
+                                                    }
                                                 }
-                                                .foregroundStyle(.blue)
-                    
+                                                .chartXScale(domain: -5...140)
+                                                .chartYScale(domain: 0...6)
+                                                .frame(height: 300)
+
                                                 Divider()
-                    
+
+                                                // =====================================================
+                                                // GAMMA
+                                                // =====================================================
+
                                                 Text("Gamma")
-                        //                            .foregroundStyle(teal)
                                                     .fontWeight(.semibold)
-                                                Chart(graphModel.gammapoints){point in
-                                                    LineMark(x: .value("Time", point.x), y: .value("Gamma", point.y))
+
+                                                Chart {
+
+                                                    ForEach(graphModel.gammapoints){ point in
+
+                                                        LineMark(
+                                                            x: .value("Time", point.x),
+                                                            y: .value("Gamma", point.y)
+                                                        )
+                                                        .foregroundStyle(.red)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 4)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+
+                                                    if let first = graphModel.gammapoints.first {
+
+                                                        PointMark(
+                                                            x: .value("Time", first.x),
+                                                            y: .value("Gamma", first.y)
+                                                        )
+                                                        .foregroundStyle(.blue)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "START",
+                                                                value: viewModel.squestionReport?.bpb ?? "",
+                                                                color: .blue
+                                                            )
+                                                        }
+                                                    }
+
+                                                    if !graphModel.gammapoints.isEmpty {
+
+                                                        let midIndex =
+                                                        graphModel.gammapoints.count / 2
+
+                                                        PointMark(
+                                                            x: .value(
+                                                                "Time",
+                                                                graphModel.gammapoints[midIndex].x
+                                                            ),
+                                                            y: .value(
+                                                                "Gamma",
+                                                                graphModel.gammapoints[midIndex].y
+                                                            )
+                                                        )
+                                                        .foregroundStyle(.purple)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "MID",
+                                                                value: viewModel.squestionReport?.bpm ?? "",
+                                                                color: .purple
+                                                            )
+                                                        }
+                                                    }
+
+                                                    if let last = graphModel.gammapoints.last {
+
+                                                        PointMark(
+                                                            x: .value("Time", last.x),
+                                                            y: .value("Gamma", last.y)
+                                                        )
+                                                        .foregroundStyle(.green)
+                                                        .symbolSize(90)
+
+                                                        .annotation(position: .top){
+
+                                                            bpView(
+                                                                title: "END",
+                                                                value: viewModel.squestionReport?.bpa ?? "",
+                                                                color: .green
+                                                            )
+                                                        }
+                                                    }
                                                 }
-                                                .foregroundStyle(.red)
+                                                .chartXScale(domain: -5...140)
+                                                .chartYScale(domain: 0...6)
+                                                .frame(height: 300)
                                             }
                                             .padding(20)
                                             .background(.gray.opacity(0.1))

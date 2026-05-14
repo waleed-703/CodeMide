@@ -150,6 +150,32 @@ struct WindowBreakdown: Codable, Identifiable {
     let confidence: Double
 }
 
+// MARK: - Filter Question Report Model
+
+struct FilterQuestionReport: Codable, Identifiable {
+
+    var id: Int { sid }
+
+    let sid: Int
+    let student_name: String
+    let gender: String
+    let cgpa: Double
+    let semester: String
+
+    let gptindex: Int
+
+    let qid: Int
+    let question: String
+
+    let bp: String?
+
+    let heartRate: Double?
+    let sdnn: Double?
+    let rmssd: Double?
+    let si: Double?
+
+    let stressLevel: String?
+}
 
 class ReportManager{
     static func fetchtopreports(
@@ -289,6 +315,77 @@ class ReportManager{
 
                     let decoded = try JSONDecoder()
                         .decode(PredictionResponse.self, from: data)
+
+                    completion(.success(decoded))
+
+                } catch {
+
+                    completion(.failure(error))
+                }
+
+            case .failure(let error):
+
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    // MARK: - Filter Question Reports
+
+    static func filterQuestionReports(
+        qid: Int,
+        gender: String? = nil,
+        minCGPA: Double? = nil,
+        maxCGPA: Double? = nil,
+        semester: String? = nil,
+        gptindex: Int? = nil,
+        completion: @escaping(Result<[FilterQuestionReport], Error>) -> Void
+    ){
+
+        var endpoint = "/api/report/filter_question_reports/\(qid)?"
+
+        var queryItems: [String] = []
+
+        // Gender
+        if let gender = gender, !gender.isEmpty {
+            queryItems.append("gender=\(gender)")
+        }
+
+        // Min CGPA
+        if let minCGPA = minCGPA {
+            queryItems.append("min_cgpa=\(minCGPA)")
+        }
+
+        // Max CGPA
+        if let maxCGPA = maxCGPA {
+            queryItems.append("max_cgpa=\(maxCGPA)")
+        }
+
+        // Semester
+        if let semester = semester, !semester.isEmpty {
+            queryItems.append("semester=\(semester)")
+        }
+
+        // GPT Index
+        if let gptindex = gptindex {
+            queryItems.append("gptindex=\(gptindex)")
+        }
+
+        endpoint += queryItems.joined(separator: "&")
+
+        NetworkManager.shared.request(
+            endpoint: endpoint,
+            method: "GET"
+        ){ result in
+
+            switch result {
+
+            case .success(let data):
+
+                do {
+
+                    let decoded = try JSONDecoder()
+                        .decode([FilterQuestionReport].self, from: data)
 
                     completion(.success(decoded))
 

@@ -31,6 +31,25 @@ struct ReportScreen: View {
         "Gamma",
         "Delta"
     ]
+
+    let bandColors: [String: Color] = [
+
+        "Alpha": .orange,
+        "Beta": .purple,
+        "Theta": .green,
+        "Gamma": .red,
+        "Delta": .blue
+    ]
+    
+    @State private var selectedPPGBand = "All"
+
+    let ppgOptions = [
+        "All",
+        "HR",
+        "SDNN",
+        "RMSSD",
+        "PNN50"
+    ]
     let sid : Int
     let sessionid : Int
     var body: some View {
@@ -224,35 +243,696 @@ struct ReportScreen: View {
 //                            .background(.white)
 //                            .cornerRadius(12)
                             
+                            // =====================================================
+                            // EEG SECTION
+                            // =====================================================
+
+                            VStack(alignment: .leading){
+
+                                // =====================================================
+                                // ORIGINAL EEG GRAPH
+                                // =====================================================
+
+                                Text("Physiological Signals During Session")
+                                    .font(.title3)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(.teal)
+
+                                VStack{
+
+                                    Text("EEG Bands Power Across Time")
+                                        .font(.caption)
+
+                                    Chart(eegviewModel.points){ point in
+
+                                        LineMark(
+                                            x: .value("Time", point.x),
+                                            y: .value("Value", point.y)
+                                        )
+                                        .foregroundStyle(
+                                            by: .value(
+                                                "Band",
+                                                point.bandtype
+                                            )
+                                        )
+                                    }
+
+                                    .chartForegroundStyleScale([
+                                        "delta": .blue,
+                                        "theta": .green,
+                                        "alpha": .orange,
+                                        "beta": .purple,
+                                        "gamma": .red
+                                    ])
+
+                                    .chartYAxis {
+                                        AxisMarks(position: .leading)
+                                    }
+
+                                    .overlay(alignment: .leading) {
+
+                                        Text("Power")
+                                            .font(.caption)
+                                            .rotationEffect(.degrees(-90))
+                                            .offset(x: -35)
+                                    }
+
+                                    .frame(height: 220)
+                                    .padding(.leading)
+
+                                    Text("Time(seconds)")
+                                        .font(.caption)
+
+                                    VStack(alignment: .leading ,spacing: 5){
+
+                                        Text("EEG Power Bands Summary:")
+                                            .foregroundStyle(teal)
+                                            .fontWeight(.semibold)
+
+                                        Text("Alpha Power -> Relaxation")
+                                            .foregroundStyle(.gray)
+
+                                        Text("Beta Power -> Focus / Stress")
+                                            .foregroundStyle(.gray)
+
+                                        Text("Theta -> Mental Workload")
+                                            .foregroundStyle(.gray)
+                                    }
+                                }
+
+                                Divider()
+                                    .padding(.vertical)
+
+                                // =====================================================
+                                // QUESTION WISE GRAPH
+                                // =====================================================
+
+                                Text("Question Wise Graphs with Blood Pressure")
+                                    .font(.title3)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(teal)
+
+                                if eegviewModel.combinedQuestions.isEmpty {
+
+                                    Text("No Question Graph Data")
+                                        .foregroundStyle(.gray)
+
+                                } else {
+
+                                    ForEach(
+                                        Array(
+                                            eegviewModel.combinedQuestions.enumerated()
+                                        ),
+                                        id: \.offset
+                                    ) { idx, question in
+
+                                        VStack(alignment: .leading, spacing: 16){
+
+                                            Text("Question \(idx + 1)")
+                                                .font(.title2)
+                                                .fontWeight(.bold)
+
+                                            // =================================================
+                                            // PICKER
+                                            // =================================================
+
+                                            Picker(
+                                                "Band",
+                                                selection: $selectedBand
+                                            ) {
+
+                                                Text("All Bands")
+                                                    .tag("All Bands")
+
+                                                Text("Alpha")
+                                                    .tag("Alpha")
+
+                                                Text("Beta")
+                                                    .tag("Beta")
+
+                                                Text("Theta")
+                                                    .tag("Theta")
+
+                                                Text("Gamma")
+                                                    .tag("Gamma")
+
+                                                Text("Delta")
+                                                    .tag("Delta")
+                                            }
+                                            .pickerStyle(.menu)
+
+                                            // =================================================
+                                            // LEGEND
+                                            // =================================================
+
+                                            HStack(spacing: 12){
+
+                                                Label("Alpha", systemImage: "circle.fill")
+                                                    .foregroundStyle(.orange)
+
+                                                Label("Beta", systemImage: "circle.fill")
+                                                    .foregroundStyle(.purple)
+
+                                                Label("Theta", systemImage: "circle.fill")
+                                                    .foregroundStyle(.green)
+
+                                                Label("Gamma", systemImage: "circle.fill")
+                                                    .foregroundStyle(.red)
+
+                                                Label("Delta", systemImage: "circle.fill")
+                                                    .foregroundStyle(.blue)
+                                            }
+                                            .font(.caption)
+
+                                            // =================================================
+                                            // GRAPH
+                                            // =================================================
+
+                                            Chart {
+
+                                                // =================================================
+                                                // DELTA = BLUE
+                                                // =================================================
+
+                                                if selectedBand == "All Bands"
+                                                    || selectedBand == "Delta" {
+
+                                                    ForEach(
+                                                        Array(
+                                                            zip(
+                                                                question.eeg.time,
+                                                                question.eeg.delta
+                                                            )
+                                                        ),
+                                                        id: \.0
+                                                    ) { time, value in
+
+                                                        LineMark(
+                                                            x: .value("Time", time),
+                                                            y: .value("Value", value)
+                                                        )
+                                                        .foregroundStyle(.blue)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 3)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+                                                }
+
+                                                // =================================================
+                                                // THETA = GREEN
+                                                // =================================================
+
+                                                if selectedBand == "All Bands"
+                                                    || selectedBand == "Theta" {
+
+                                                    ForEach(
+                                                        Array(
+                                                            zip(
+                                                                question.eeg.time,
+                                                                question.eeg.theta
+                                                            )
+                                                        ),
+                                                        id: \.0
+                                                    ) { time, value in
+
+                                                        LineMark(
+                                                            x: .value("Time", time),
+                                                            y: .value("Value", value)
+                                                        )
+                                                        .foregroundStyle(.green)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 3)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+                                                }
+
+                                                // =================================================
+                                                // ALPHA = ORANGE
+                                                // =================================================
+
+                                                if selectedBand == "All Bands"
+                                                    || selectedBand == "Alpha" {
+
+                                                    ForEach(
+                                                        Array(
+                                                            zip(
+                                                                question.eeg.time,
+                                                                question.eeg.alpha
+                                                            )
+                                                        ),
+                                                        id: \.0
+                                                    ) { time, value in
+
+                                                        LineMark(
+                                                            x: .value("Time", time),
+                                                            y: .value("Value", value)
+                                                        )
+                                                        .foregroundStyle(.orange)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 3)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+                                                }
+
+                                                // =================================================
+                                                // BETA = PURPLE
+                                                // =================================================
+
+                                                if selectedBand == "All Bands"
+                                                    || selectedBand == "Beta" {
+
+                                                    ForEach(
+                                                        Array(
+                                                            zip(
+                                                                question.eeg.time,
+                                                                question.eeg.beta
+                                                            )
+                                                        ),
+                                                        id: \.0
+                                                    ) { time, value in
+
+                                                        LineMark(
+                                                            x: .value("Time", time),
+                                                            y: .value("Value", value)
+                                                        )
+                                                        .foregroundStyle(.purple)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 3)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+                                                }
+
+                                                // =================================================
+                                                // GAMMA = RED
+                                                // =================================================
+
+                                                if selectedBand == "All Bands"
+                                                    || selectedBand == "Gamma" {
+
+                                                    ForEach(
+                                                        Array(
+                                                            zip(
+                                                                question.eeg.time,
+                                                                question.eeg.gamma
+                                                            )
+                                                        ),
+                                                        id: \.0
+                                                    ) { time, value in
+
+                                                        LineMark(
+                                                            x: .value("Time", time),
+                                                            y: .value("Value", value)
+                                                        )
+                                                        .foregroundStyle(.red)
+                                                        .lineStyle(
+                                                            StrokeStyle(lineWidth: 3)
+                                                        )
+                                                        .interpolationMethod(.catmullRom)
+                                                    }
+                                                }
+
+                                                // =================================================
+                                                // START BP
+                                                // =================================================
+
+                                                if question.bp.count > 0 {
+
+                                                    PointMark(
+                                                        x: .value("Time", 10),
+                                                        y: .value(
+                                                            "Value",
+                                                            question.eeg.alpha.first ?? 0
+                                                        )
+                                                    )
+                                                    .foregroundStyle(.blue)
+
+                                                    .annotation(position: .topLeading){
+
+                                                        VStack(spacing: 2){
+
+                                                            Text("START")
+                                                                .bold()
+
+                                                            Text(
+                                                                "\(Int(question.bp[0].SYS))/\(Int(question.bp[0].DIA))"
+                                                            )
+                                                        }
+                                                        .font(.caption2)
+                                                        .padding(8)
+                                                        .background(.blue)
+                                                        .foregroundStyle(.white)
+                                                        .cornerRadius(10)
+                                                    }
+                                                }
+
+                                                // =================================================
+                                                // MID BP
+                                                // =================================================
+
+                                                if question.bp.count > 1 {
+
+                                                    let midIndex =
+                                                    question.eeg.time.count / 2
+
+                                                    PointMark(
+                                                        x: .value(
+                                                            "Time",
+                                                            question.eeg.time[midIndex]
+                                                        ),
+                                                        y: .value(
+                                                            "Value",
+                                                            question.eeg.alpha[midIndex]
+                                                        )
+                                                    )
+                                                    .foregroundStyle(.purple)
+
+                                                    .annotation(position: .top){
+
+                                                        VStack(spacing: 2){
+
+                                                            Text("MID")
+                                                                .bold()
+
+                                                            Text(
+                                                                "\(Int(question.bp[1].SYS))/\(Int(question.bp[1].DIA))"
+                                                            )
+                                                        }
+                                                        .font(.caption2)
+                                                        .padding(8)
+                                                        .background(.purple)
+                                                        .foregroundStyle(.white)
+                                                        .cornerRadius(10)
+                                                    }
+                                                }
+
+                                                // =================================================
+                                                // END BP
+                                                // =================================================
+
+                                                if question.bp.count > 2 {
+
+                                                    let endIndex =
+                                                    max(
+                                                        question.eeg.time.count - 10,
+                                                        0
+                                                    )
+
+                                                    PointMark(
+                                                        x: .value(
+                                                            "Time",
+                                                            question.eeg.time[endIndex]
+                                                        ),
+                                                        y: .value(
+                                                            "Value",
+                                                            question.eeg.alpha[endIndex]
+                                                        )
+                                                    )
+                                                    .foregroundStyle(.green)
+
+                                                    .annotation(position: .topTrailing){
+
+                                                        VStack(spacing: 2){
+
+                                                            Text("END")
+                                                                .bold()
+
+                                                            Text(
+                                                                "\(Int(question.bp[2].SYS))/\(Int(question.bp[2].DIA))"
+                                                            )
+                                                        }
+                                                        .font(.caption2)
+                                                        .padding(8)
+                                                        .background(.green)
+                                                        .foregroundStyle(.white)
+                                                        .cornerRadius(10)
+                                                    }
+                                                }
+                                            }
+
+                                            .chartYAxis {
+                                                AxisMarks(position: .leading)
+                                            }
+
+                                            .chartXScale(domain: -5...135)
+
+                                            .overlay(alignment: .leading) {
+
+                                                Text("Power")
+                                                    .font(.caption)
+                                                    .rotationEffect(.degrees(-90))
+                                                    .offset(x: -35)
+                                            }
+
+                                            .frame(height: 320)
+
+                                            Text("Time(seconds)")
+                                                .font(.caption)
+                                        }
+                                        .padding()
+                                        .background(.gray.opacity(0.05))
+                                        .cornerRadius(12)
+                                    }
+                                }
+                            }
+                            .padding(20)
+                            .background(.white)
+                            .cornerRadius(12)
                             
+//                            VStack {
+//                                Text("PPG (Heart Rate Variability) Over Time")
+//                                    .font(.caption)
+//
+//                                Chart(ppgViewModel.ppgPoints) { point in
+//                                    LineMark(
+//                                        x: .value("Time", point.x),
+//                                        y: .value("Value", point.y)
+//                                    )
+//                                    .foregroundStyle(by: .value("Type", point.type))
+//                                }
+//                                .chartYAxis {
+//                                    AxisMarks(position: .leading)
+//                                }
+//                                .overlay(alignment: .leading) {
+//                                    Text("Value")
+//                                        .font(.caption)
+//                                        .rotationEffect(.degrees(-90))
+//                                        .offset(x: -35)
+//                                }
+//                                .frame(height: 200)
+//                                .padding(.leading)
+//
+//                                Text("Time(seconds)")
+//                                    .font(.caption)
+//
+//                                VStack(alignment: .leading, spacing: 5) {
+//                                    Text("PPG Metrics:")
+//                                        .foregroundStyle(teal)
+//                                        .fontWeight(.semibold)
+//
+//                                    Text("HR -> Heart Rate")
+//                                        .foregroundStyle(.gray)
+//
+//                                    Text("SDNN -> HR Variability")
+//                                        .foregroundStyle(.gray)
+//
+//                                    Text("RMSSD -> Parasympathetic Activity")
+//                                        .foregroundStyle(.gray)
+//                                    Text("pNN50 -> Parasympathetic Balance")
+//                                        .foregroundStyle(.gray)
+//                                }
+//                            }
+//                            .padding(20)
+//                            .background(.white)
+//                            .cornerRadius(12)
                             
+                            // =====================================================
+                            // PPG GRAPH
+                            // =====================================================
+
+                  
+
                             VStack {
+
                                 Text("PPG (Heart Rate Variability) Over Time")
                                     .font(.caption)
 
-                                Chart(ppgViewModel.ppgPoints) { point in
-                                    LineMark(
-                                        x: .value("Time", point.x),
-                                        y: .value("Value", point.y)
-                                    )
-                                    .foregroundStyle(by: .value("Type", point.type))
+                                // =================================================
+                                // DROPDOWN
+                                // =================================================
+
+                                Picker(
+                                    "PPG Type",
+                                    selection: $selectedPPGBand
+                                ) {
+
+                                    Text("All")
+                                        .tag("All")
+
+                                    Text("HR")
+                                        .tag("HR")
+
+                                    Text("SDNN")
+                                        .tag("SDNN")
+
+                                    Text("RMSSD")
+                                        .tag("RMSSD")
+
+                                    Text("PNN50")
+                                        .tag("PNN50")
                                 }
+                                .pickerStyle(.menu)
+
+                                // =================================================
+                                // LEGEND
+                                // =================================================
+
+                                HStack(spacing: 12){
+
+                                    Label("HR", systemImage: "circle.fill")
+                                        .foregroundStyle(.blue)
+
+                                    Label("SDNN", systemImage: "circle.fill")
+                                        .foregroundStyle(.green)
+
+                                    Label("RMSSD", systemImage: "circle.fill")
+                                        .foregroundStyle(.orange)
+
+                                    Label("PNN50", systemImage: "circle.fill")
+                                        .foregroundStyle(.purple)
+                                }
+                                .font(.caption)
+
+                                // =================================================
+                                // CHART
+                                // =================================================
+
+                                Chart(ppgViewModel.ppgPoints) { point in
+
+                                    // =================================================
+                                    // ALL BANDS
+                                    // =================================================
+
+                                    if selectedPPGBand == "All" {
+
+                                        LineMark(
+                                            x: .value("Time", point.x),
+                                            y: .value("Value", point.y)
+                                        )
+                                        .foregroundStyle(
+                                            by: .value(
+                                                "Type",
+                                                point.type.uppercased()
+                                            )
+                                        )
+                                        .lineStyle(
+                                            StrokeStyle(lineWidth: 3)
+                                        )
+                                        .interpolationMethod(.catmullRom)
+                                    }
+
+                                    // =================================================
+                                    // HR
+                                    // =================================================
+
+                                    else if selectedPPGBand == "HR"
+                                                && point.type.lowercased() == "hr" {
+
+                                        LineMark(
+                                            x: .value("Time", point.x),
+                                            y: .value("Value", point.y)
+                                        )
+                                        .foregroundStyle(.blue)
+                                        .lineStyle(
+                                            StrokeStyle(lineWidth: 3)
+                                        )
+                                        .interpolationMethod(.catmullRom)
+                                    }
+
+                                    // =================================================
+                                    // SDNN
+                                    // =================================================
+
+                                    else if selectedPPGBand == "SDNN"
+                                                && point.type.lowercased() == "sdnn" {
+
+                                        LineMark(
+                                            x: .value("Time", point.x),
+                                            y: .value("Value", point.y)
+                                        )
+                                        .foregroundStyle(.green)
+                                        .lineStyle(
+                                            StrokeStyle(lineWidth: 3)
+                                        )
+                                        .interpolationMethod(.catmullRom)
+                                    }
+
+                                    // =================================================
+                                    // RMSSD
+                                    // =================================================
+
+                                    else if selectedPPGBand == "RMSSD"
+                                                && point.type.lowercased() == "rmssd" {
+
+                                        LineMark(
+                                            x: .value("Time", point.x),
+                                            y: .value("Value", point.y)
+                                        )
+                                        .foregroundStyle(.orange)
+                                        .lineStyle(
+                                            StrokeStyle(lineWidth: 3)
+                                        )
+                                        .interpolationMethod(.catmullRom)
+                                    }
+
+                                    // =================================================
+                                    // PNN50
+                                    // =================================================
+
+                                    else if selectedPPGBand == "PNN50"
+                                                && point.type.lowercased() == "pnn50" {
+
+                                        LineMark(
+                                            x: .value("Time", point.x),
+                                            y: .value("Value", point.y)
+                                        )
+                                        .foregroundStyle(.purple)
+                                        .lineStyle(
+                                            StrokeStyle(lineWidth: 3)
+                                        )
+                                        .interpolationMethod(.catmullRom)
+                                    }
+                                }
+
+                                .chartForegroundStyleScale([
+                                    "HR": .blue,
+                                    "SDNN": .green,
+                                    "RMSSD": .orange,
+                                    "PNN50": .purple
+                                ])
+
                                 .chartYAxis {
                                     AxisMarks(position: .leading)
                                 }
+
                                 .overlay(alignment: .leading) {
+
                                     Text("Value")
                                         .font(.caption)
                                         .rotationEffect(.degrees(-90))
                                         .offset(x: -35)
                                 }
+
                                 .frame(height: 200)
                                 .padding(.leading)
-
                                 Text("Time(seconds)")
                                     .font(.caption)
 
                                 VStack(alignment: .leading, spacing: 5) {
+
                                     Text("PPG Metrics:")
                                         .foregroundStyle(teal)
                                         .fontWeight(.semibold)
@@ -265,6 +945,7 @@ struct ReportScreen: View {
 
                                     Text("RMSSD -> Parasympathetic Activity")
                                         .foregroundStyle(.gray)
+
                                     Text("pNN50 -> Parasympathetic Balance")
                                         .foregroundStyle(.gray)
                                 }
