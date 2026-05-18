@@ -155,38 +155,40 @@ struct WindowBreakdown: Codable, Identifiable {
 struct FilterQuestionReport: Codable, Identifiable {
 
     var id: Int { sid }
-
     let sid: Int
-
     let student_name: String
-
     let gender: String
-
-    // FIXED
-
-    let cgpa: String
-
-    // FIXED
-
-    let semester: Int
-
-    let gptindex: Int
-
-    let qid: Int
-
-    let question: String
-
-    let bp: String?
-
-    let heartRate: Double?
-
+    let cgpa: String?
+    let bpb: String?
+    let bpm: String?
+    let bpa: String?
+    let hr: Double?
     let sdnn: Double?
-
     let rmssd: Double?
-
+    let pnn50: Double?
     let si: Double?
-
     let stressLevel: String?
+    let sessionId : Int
+    let date : String?
+}
+
+struct filterstreport : Codable, Identifiable{
+    let sid : Int
+    let student_name : String
+    let gender : String
+    let cgpa : String
+    let sessionid : Int
+    let date : String
+    let bpb : String
+    let bpm : String
+    let bpa : String
+    let hr : Double?
+    let pnn50 : Double?
+    let rmssd : Double?
+    let sdnn : Double?
+    let stressLevel : String
+    let si : Double
+    var id: Int { sid }
 }
 
 class ReportManager{
@@ -345,16 +347,16 @@ class ReportManager{
     // MARK: - Filter Question Reports
 
     static func filterQuestionReports(
-        qid: Int,
+//        qid: Int,
         gender: String? = nil,
-        minCGPA: Double? = nil,
-        maxCGPA: Double? = nil,
-        semester: String? = nil,
-        gptindex: Int? = nil,
+//        minCGPA: Double? = nil,
+//        maxCGPA: Double? = nil,
+//        semester: String? = nil,
+//        gptindex: Int? = nil,
         completion: @escaping(Result<[FilterQuestionReport], Error>) -> Void
     ){
 
-        var endpoint = "/api/report/filter_question_reports/\(qid)?"
+        var endpoint = "/api/report/filter_reportss"
 
         var queryItems: [String] = []
 
@@ -363,37 +365,37 @@ class ReportManager{
         if let gender = gender,
            !gender.isEmpty {
 
-            queryItems.append("gender=\(gender)")
+            queryItems.append("?gender")
         }
 
-        // MARK: Min CGPA
-
-        if let minCGPA = minCGPA {
-
-            queryItems.append("min_cgpa=\(minCGPA)")
-        }
-
-        // MARK: Max CGPA
-
-        if let maxCGPA = maxCGPA {
-
-            queryItems.append("max_cgpa=\(maxCGPA)")
-        }
-
-        // MARK: Semester
-
-        if let semester = semester,
-           !semester.isEmpty {
-
-            queryItems.append("semester=\(semester)")
-        }
-
-        // MARK: GPT
-
-        if let gptindex = gptindex {
-
-            queryItems.append("gptindex=\(gptindex)")
-        }
+//        // MARK: Min CGPA
+//
+//        if let minCGPA = minCGPA {
+//
+//            queryItems.append("min_cgpa=\(minCGPA)")
+//        }
+//
+//        // MARK: Max CGPA
+//
+//        if let maxCGPA = maxCGPA {
+//
+//            queryItems.append("max_cgpa=\(maxCGPA)")
+//        }
+//
+//        // MARK: Semester
+//
+//        if let semester = semester,
+//           !semester.isEmpty {
+//
+//            queryItems.append("semester=\(semester)")
+//        }
+//
+//        // MARK: GPT
+//
+//        if let gptindex = gptindex {
+//
+//            queryItems.append("gptindex=\(gptindex)")
+//        }
 
         endpoint += queryItems.joined(separator: "&")
 
@@ -462,6 +464,25 @@ class ReportManager{
 
                 print(error)
 
+                completion(.failure(error))
+            }
+        }
+    }
+    
+    static func filterstudent(completion: @escaping(Result<[filterstreport],Error>)-> Void){
+        let endpoint = "/api/report/filter_reportss"
+        
+        NetworkManager.shared.request(endpoint: endpoint, method: "GET"){result in
+            switch result{
+            case .success(let data):
+                do{
+                    let decoded = try JSONDecoder().decode([filterstreport].self, from: data)
+                    
+                    completion(.success(decoded))
+                }catch{
+                    completion(.failure(error))
+                }
+            case .failure(let error):
                 completion(.failure(error))
             }
         }

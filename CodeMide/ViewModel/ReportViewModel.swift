@@ -178,6 +178,9 @@ class ReportViewModel : ObservableObject {
     @Published var predictionResults: [PredictionResult] = []
 
     @Published var filteredReports: [FilterQuestionReport] = []
+    
+    @Published var filteredStudentReports: [filterstreport] = []
+    
 
     @Published var filterMessage: String?
 
@@ -219,7 +222,7 @@ class ReportViewModel : ObservableObject {
 
                 case .success(let report):
 
-                    print("report", report)
+//                    print("report", report)
 
                     self.report = report
 
@@ -356,12 +359,7 @@ class ReportViewModel : ObservableObject {
     // MARK: FILTER QUESTION REPORTS
 
     func filterQuestionReports(
-        qid: Int,
-        gender: String? = nil,
-        minCGPA: Double? = nil,
-        maxCGPA: Double? = nil,
-        semester: String? = nil,
-        gptindex: Int? = nil
+        gender: String? = "cgpa"
     ) {
 
         // START LOADING
@@ -369,12 +367,7 @@ class ReportViewModel : ObservableObject {
         self.isLoading = true
 
         ReportManager.filterQuestionReports(
-            qid: qid,
-            gender: gender,
-            minCGPA: minCGPA,
-            maxCGPA: maxCGPA,
-            semester: semester,
-            gptindex: gptindex
+            gender: gender
         ) { result in
 
             DispatchQueue.main.async {
@@ -401,6 +394,28 @@ class ReportViewModel : ObservableObject {
 
                     self.errorMessage = error.localizedDescription
                 }
+            }
+        }
+    }
+    
+    func filterstudentqreport(){
+        ReportManager.filterstudent(){result in
+            DispatchQueue.main.async{
+//                self.isLoading = false
+                switch result{
+                case .success(let reports):
+
+                    
+
+                    self.filteredStudentReports = reports
+                    print("FILTERED REPORTS:", reports)
+
+                    self.filterMessage = nil
+                case .failure(let error):
+                    self.filteredStudentReports = []
+                    self.errorMessage = error.localizedDescription
+                }
+            
             }
         }
     }

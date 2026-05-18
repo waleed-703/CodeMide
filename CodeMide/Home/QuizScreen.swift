@@ -14,7 +14,7 @@ struct QuizScreen: View {
     @Binding var selectedtab : Int
     let question : Question
     @Binding var sessionid : Int
-    @Binding var questionid : Int
+    let questionid : Int
     let studentId : Int
     @State private var recordingstart = false
     @State private var showalert = false
@@ -174,6 +174,6 @@ struct QuizScreen: View {
 }
 #Preview {
     NavigationStack{
-        QuizScreen(selectedtab : .constant(0),question : .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0),sessionid: .constant(0),questionid: .constant(0),studentId: 0)
+        QuizScreen(selectedtab : .constant(0),question : .init(qid: 0, description: "", duration: 0, questionlevel: "", count: 0),sessionid: .constant(0),questionid: 0,studentId: 0)
     }
 }

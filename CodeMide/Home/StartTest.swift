@@ -11,6 +11,7 @@ struct StartTest: View {
     @State private var isloading = false
     @State private var showalert = false
     @State private var alertmessage = ""
+    @State  var report = false
     var body: some View {
         ZStack{
             teal.ignoresSafeArea()
@@ -42,8 +43,9 @@ struct StartTest: View {
                             .foregroundStyle(teal)
                             .fontWeight(.semibold)
                         //                    Text(viewModel.selectedQuestion?.description ?? "")
-                        //                    Text(viewModel.question.description)
-                        //                        .padding(.bottom,1)
+//                        Text(viewModel.easyQuestion.description)
+//                            .padding(.bottom,1)
+                                                
                         VStack(alignment: .leading){
                             Text("Question: 1")
                                 .fontWeight(.bold)
@@ -114,6 +116,27 @@ struct StartTest: View {
                         .frame(maxWidth: .infinity)
                         .disabled(isloading)
                         
+//                        Button{
+//                            report = true
+//                        }label: {
+////                            if isloading{
+////                                ProgressView()
+////                                    .tint(.white)
+////                            }
+////                            else{
+////                                Text("See Report")
+////                                    .foregroundStyle(.white)
+////                            }
+//                            Text("See Report")
+//                                .foregroundStyle(.white)
+//                        }
+//                        .frame(maxWidth: 120)
+//                        .padding()
+//                        .background(teal)
+//                        .cornerRadius(12)
+//                        .frame(maxWidth: .infinity)
+//                        .disabled(isloading)
+                        
                         
                     }
                 }
@@ -133,6 +156,7 @@ struct StartTest: View {
                 
                 
             }
+//            .navigationDestination(isPresented: $report, destination: {ComparisonReport()})
         }
         .onChange(of: streamModel.isstreamconnected){connected in
             if connected{
@@ -157,11 +181,17 @@ struct StartTest: View {
         }
     }
     
+//        .navigationDestination(
+//            isPresented: $report,
+//            destination: {ComparisonReport()
+//            }
+//        )
+            
 //    func streamconnection(){
 //        isloading = true
-//        
+//
 //        streamModel.startstream(sessionID: sessionID, name: studentName )
-//        
+//
 //    }
     
 //    func streamconnection(){

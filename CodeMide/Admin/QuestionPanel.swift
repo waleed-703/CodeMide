@@ -33,7 +33,7 @@ struct QuestionPanel: View {
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                     .foregroundStyle(Color.white)
-                                Text("Count: \(question.count)")
+                                Text("Count: \(question.count ?? 0)")
                                     .font(.subheadline)
                                     .fontWeight(.semibold)
                                     .foregroundStyle(Color.white)

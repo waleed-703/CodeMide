@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3751E0062FB5FE14007D5895 /* CombinedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3751E0052FB5FE14007D5895 /* CombinedViewModel.swift */; };
 		378FB7542F5754CD0076F85B /* CodeMideApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7532F5754CD0076F85B /* CodeMideApp.swift */; };
 		378FB7562F5754CD0076F85B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7552F5754CD0076F85B /* ContentView.swift */; };
 		378FB7582F5754D10076F85B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 378FB7572F5754D10076F85B /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 		378FB7862F5759CA0076F85B /* ReportScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7852F5759CA0076F85B /* ReportScreen.swift */; };
 		378FB7882F5759D50076F85B /* AdminReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7872F5759D50076F85B /* AdminReport.swift */; };
 		378FB78A2F575A230076F85B /* QuestionReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 378FB7892F575A230076F85B /* QuestionReport.swift */; };
+		379F8D002FB5B82E00BD30FE /* ComparisonReport.swift in Sources */ = {isa = PBXBuildFile; fileRef = 379F8CFF2FB5B82E00BD30FE /* ComparisonReport.swift */; };
 		37A0953B2FA607FD0085682F /* PPGManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A0953A2FA607FD0085682F /* PPGManager.swift */; };
 		37A0953D2FA60A6F0085682F /* PPGViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37A0953C2FA60A6F0085682F /* PPGViewModel.swift */; };
 		37B51D732FACAC1D009FDB6E /* MidBPSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37B51D722FACAC1D009FDB6E /* MidBPSheet.swift */; };
@@ -53,6 +55,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3751E0052FB5FE14007D5895 /* CombinedViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CombinedViewModel.swift; sourceTree = "<group>"; };
 		378FB7502F5754CD0076F85B /* CodeMide.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CodeMide.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		378FB7532F5754CD0076F85B /* CodeMideApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CodeMideApp.swift; sourceTree = "<group>"; };
 		378FB7552F5754CD0076F85B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -76,6 +79,7 @@
 		378FB7852F5759CA0076F85B /* ReportScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportScreen.swift; sourceTree = "<group>"; };
 		378FB7872F5759D50076F85B /* AdminReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdminReport.swift; sourceTree = "<group>"; };
 		378FB7892F575A230076F85B /* QuestionReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionReport.swift; sourceTree = "<group>"; };
+		379F8CFF2FB5B82E00BD30FE /* ComparisonReport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComparisonReport.swift; sourceTree = "<group>"; };
 		37A0953A2FA607FD0085682F /* PPGManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPGManager.swift; sourceTree = "<group>"; };
 		37A0953C2FA60A6F0085682F /* PPGViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PPGViewModel.swift; sourceTree = "<group>"; };
 		37B51D722FACAC1D009FDB6E /* MidBPSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MidBPSheet.swift; sourceTree = "<group>"; };
@@ -180,6 +184,7 @@
 				68B2D34D2F8621C90097A55E /* BPViewModel.swift */,
 				68B2D34F2F8621E50097A55E /* EEGViewModel.swift */,
 				37A0953C2FA60A6F0085682F /* PPGViewModel.swift */,
+				3751E0052FB5FE14007D5895 /* CombinedViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -202,6 +207,7 @@
 				378FB7872F5759D50076F85B /* AdminReport.swift */,
 				68B2D3422F8620AD0097A55E /* SelfReport.swift */,
 				378FB7892F575A230076F85B /* QuestionReport.swift */,
+				379F8CFF2FB5B82E00BD30FE /* ComparisonReport.swift */,
 			);
 			path = Reports;
 			sourceTree = "<group>";
@@ -322,6 +328,7 @@
 				68B2D3462F8620F40097A55E /* MainContainerView.swift in Sources */,
 				68B2D33B2F861FDC0097A55E /* StartTest.swift in Sources */,
 				378FB7722F5757A60076F85B /* RegisterManager.swift in Sources */,
+				3751E0062FB5FE14007D5895 /* CombinedViewModel.swift in Sources */,
 				378FB7762F57587B0076F85B /* StudentViewModel.swift in Sources */,
 				68B2D34E2F8621C90097A55E /* BPViewModel.swift in Sources */,
 				378FB7822F57598B0076F85B /* QuestionPanel.swift in Sources */,
@@ -330,6 +337,7 @@
 				378FB76C2F57574E0076F85B /* RegisterScreen.swift in Sources */,
 				37B51D732FACAC1D009FDB6E /* MidBPSheet.swift in Sources */,
 				68B2D33F2F8620080097A55E /* EndReadingScreen.swift in Sources */,
+				379F8D002FB5B82E00BD30FE /* ComparisonReport.swift in Sources */,
 				378FB7862F5759CA0076F85B /* ReportScreen.swift in Sources */,
 				378FB78A2F575A230076F85B /* QuestionReport.swift in Sources */,
 				378FB77C2F5758D00076F85B /* StudentManager.swift in Sources */,

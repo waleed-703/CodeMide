@@ -13,7 +13,7 @@ struct MainContainerView: View {
                 ZStack{
                     switch selectedTab {
                     case .Home:
-                        HomeScreen(studentId : studentId)
+                        HomeScreen(studentId : studentId,sessionid: sessionid)
                     case .Quiz:
                         QuestionTabView(studentId : studentId,openreport : $openreport,sessionid: sessionid,questionid: 0,answer: "",chatgpt: false)
                             .navigationDestination(isPresented: $openreport, destination: {

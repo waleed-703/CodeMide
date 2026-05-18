@@ -17,7 +17,7 @@ struct HomeScreen: View {
     @State var reports: [Report] = []
     @State var errormessage = ""
     @State var showerror = false
-//    let sessionid : Int
+    let sessionid : Int
     var body: some View {
             ZStack{
                 teal.ignoresSafeArea()
@@ -92,10 +92,26 @@ struct HomeScreen: View {
                                             
                                             Spacer()
                                             
-                                            NavigationLink(destination: AllReportsScreen(studentId : studentId),
+//                                            NavigationLink(destination: AllReportsScreen(studentId : studentId),
+//                                                           label: {
+//                                                HStack{
+//                                                    Text("See All")
+//                                                        .font(.caption)
+//                                                    Image(systemName: "chevron.right")
+//                                                    
+//                                                }
+//                                                .foregroundStyle(Color.white)
+//                                                .padding(.horizontal,10)
+//                                                .padding(.vertical, 6)
+//                                                .background(teal)
+//                                                .clipShape(Capsule())
+//                                                
+//                                            })
+                                            
+                                            NavigationLink(destination: ComparisonReport(studentId: studentId, sessionid: sessionid),
                                                            label: {
                                                 HStack{
-                                                    Text("See All")
+                                                    Text("See Report")
                                                         .font(.caption)
                                                     Image(systemName: "chevron.right")
                                                     
@@ -343,6 +359,6 @@ struct HomeScreen: View {
 
 #Preview {
     NavigationStack{
-        HomeScreen(studentId: 0)
+        HomeScreen(studentId: 0,sessionid: 0)
     }
 }
